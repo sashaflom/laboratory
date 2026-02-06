@@ -3,21 +3,20 @@ public class Department {
     private final String uniqueCode;
     private String name;
     private Faculty faculty;
-    // here must be private Teacher headOfDepartment;
+    private Teacher headOfDepartment;
     private String location;
 
-    // DON'T FORGET TO ADD HEAD OF DEPARTMENT
-    public Department(String uniqueCode, String name, Faculty faculty, String location){
+    public Department(String uniqueCode, String name, Faculty faculty, Teacher headOfDepartment, String location){
         this.uniqueCode = uniqueCode;
         this.name = name;
         this.faculty = faculty;
+        this.headOfDepartment = headOfDepartment;
         this.location = location;
     }
 
-    // DON'T FORGET TO ADD HEAD OF DEPARTMENT
     @Override
     public String toString(){
-        return "\nКафедра: \nунікальний код: '%s', \nназва: '%s', \nфакультет: '%s', \nлокація: '%s'.".formatted(uniqueCode, name, faculty, location);
+        return "\nКафедра: \nунікальний код: '%s', \nназва: '%s', \nфакультет: '%s', \nзавідувач: '%s', \nлокація: '%s'.".formatted(uniqueCode, name, faculty, headOfDepartment, location);
     }
 
     public String getUniqueCode() {
@@ -38,6 +37,14 @@ public class Department {
 
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
+    }
+
+    public Teacher getHeadOfDepartment() {
+        return headOfDepartment;
+    }
+
+    public void setHeadOfDepartment(Teacher headOfDepartment) {
+        this.headOfDepartment = headOfDepartment;
     }
 
     public String getLocation() {
