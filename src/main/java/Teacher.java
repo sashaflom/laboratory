@@ -1,0 +1,54 @@
+public class Teacher extends Person {
+   private String position; //посада
+   private String academicDegree; //науковий ступінь
+   private AcademicTitle academicTitle; // enum, вчене звання
+   private String hireDate; //дата прийняття на роботу
+   private double workload; //ставка/навантаження
+   public Teacher(String lastName, String firstName,String patronymic,
+                  String birthDate, String email, String phoneNumber, String position,
+                  String academicDegree, AcademicTitle academicTitle,
+                  String hireDate, double workload ) {
+       super(lastName, firstName, patronymic, birthDate, email, phoneNumber);
+       this.position = position;
+       this.academicDegree = academicDegree;
+       this.academicTitle = academicTitle;
+       this.hireDate = hireDate;
+       this.workload = workload;
+   }
+   public String getPosition() {return position;}
+    public String getAcademicDegree() {return academicDegree;}
+    public AcademicTitle getAcademicTitle() {return academicTitle;}
+    public String getHireDate() {return hireDate;}
+    public double getWorkload() {return workload;}
+
+    public void setPosition(String position) {this.position = position;}
+    public void setWorkload(double workload) {this.workload = workload;}
+
+    @Override
+    public String getRole() {
+        return "Викладач";
+    }
+    @Override
+    public String toString() {
+        return super.toString() +
+                String.format(" Викладач: %s, Ступінь: %s",
+                        position, academicDegree);
+    }
+
+    public enum AcademicTitle {
+        NONE("Без звання"),
+        DOCENT("Доцент"),
+        PROFESSOR("Професор");
+
+        private final String displayName;
+
+        AcademicTitle(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+    }
+   }
+
