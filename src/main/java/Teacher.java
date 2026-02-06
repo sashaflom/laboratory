@@ -1,14 +1,14 @@
 public class Teacher extends Person {
    private String position; //посада
-   private String academicDegree; //науковий ступінь
+   private AcademicDegree academicDegree; //науковий ступінь
    private AcademicTitle academicTitle; // enum, вчене звання
    private String hireDate; //дата прийняття на роботу
    private double workload; //ставка/навантаження
-   public Teacher(String lastName, String firstName,String patronymic,
+   public Teacher(String id, String lastName, String firstName,String patronymic,
                   String birthDate, String email, String phoneNumber, String position,
-                  String academicDegree, AcademicTitle academicTitle,
+                  AcademicDegree academicDegree, AcademicTitle academicTitle,
                   String hireDate, double workload ) {
-       super(lastName, firstName, patronymic, birthDate, email, phoneNumber);
+       super(id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
        this.position = position;
        this.academicDegree = academicDegree;
        this.academicTitle = academicTitle;
@@ -16,14 +16,15 @@ public class Teacher extends Person {
        this.workload = workload;
    }
    public String getPosition() {return position;}
-    public String getAcademicDegree() {return academicDegree;}
+    public AcademicDegree getAcademicDegree() {return academicDegree;}
     public AcademicTitle getAcademicTitle() {return academicTitle;}
     public String getHireDate() {return hireDate;}
     public double getWorkload() {return workload;}
 
     public void setPosition(String position) {this.position = position;}
     public void setWorkload(double workload) {this.workload = workload;}
-
+    public void setAcademicDegree(AcademicDegree academicDegree) { this.academicDegree = academicDegree;}
+    public void setAcademicTitle(AcademicTitle academicTitle) { this.academicTitle = academicTitle;}
     @Override
     public String getRole() {
         return "Викладач";
@@ -31,8 +32,9 @@ public class Teacher extends Person {
     @Override
     public String toString() {
         return super.toString() +
-                String.format(" Викладач: %s, Ступінь: %s",
-                        position, academicDegree);
+                String.format(" Викладач, Посада: %s, Ступінь: %s,  Звання: %s, Дата прийняття: %s, Ставка: %d",
+                        position, academicDegree, academicTitle.getDisplayName(),
+                        hireDate, workload);
     }
 
     public enum AcademicTitle {
@@ -50,5 +52,21 @@ public class Teacher extends Person {
             return displayName;
         }
     }
+    public enum AcademicDegree {
+        NONE("Без ступеня"),
+        CANDIDATE("Кандидат наук"),
+        DOCTOR("Доктор наук");
+
+        private final String displayName;
+
+        AcademicDegree(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+    }
    }
+
 

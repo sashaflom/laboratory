@@ -5,12 +5,12 @@ public class Student extends Person {
     private int enrollmentYear;
     private EducationForm educationForm;  // enum
     private StudentStatus status;         // enum
-    public Student(String lastName, String firstName, String patronymic,
+    public Student(String id, String lastName, String firstName, String patronymic,
                    String birthDate, String email, String phone,
                    String studentId, int course, String group,
                    int enrollmentYear, EducationForm educationForm,
                    StudentStatus status) {
-        super(lastName, firstName, patronymic, birthDate, email, phone);
+        super(id, lastName, firstName, patronymic, birthDate, email, phone);
         this.studentId = studentId;
         this.course = course;
         this.group = group;
@@ -37,8 +37,10 @@ public class Student extends Person {
     @Override
     public String toString() {
         return super.toString() +
-                String.format(" Студент: %s, Курс: %d, Група: %s, Статус: %s",
-                        studentId, course, group, status);
+                String.format(" Студент: %s, Курс: %d, Група: %s, Рік вступу: %d, Форма: %s, Статус: %s",
+                        studentId, course, group, enrollmentYear,
+                        educationForm.getDisplayName(),
+                        status.getDisplayName());
     }
 
     public enum EducationForm {

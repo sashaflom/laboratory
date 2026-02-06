@@ -1,5 +1,5 @@
 public abstract class Person {
-    // add identifier!!!!!!!
+    private final String id;
     private String lastName;
     private String firstName;
     private String patronymic;
@@ -7,8 +7,9 @@ public abstract class Person {
     private String email;
     private String phoneNumber;
 
-    public Person(String lastname, String firstname, String patronymic,
+    public Person(String id, String lastname, String firstname, String patronymic,
                   String birthDate, String email, String phoneNumber) {
+        this.id = id;
         this.lastName = lastname;
         this.firstName = firstname;
         this.patronymic = patronymic;
@@ -17,6 +18,7 @@ public abstract class Person {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getId() {return id;}
     public String getLastname() { return lastName;}
     public String getFirstname() { return firstName;}
     public String getPatronymic() { return patronymic;}
@@ -38,8 +40,12 @@ public abstract class Person {
     public abstract String getRole();
     @Override
     public String toString() {
-        return String.format("%s %s %s (ID: %s)",
-                lastName, firstName, patronymic);
+        return String.format(
+                        "ID: %s" +
+                        " ПІБ: %s %s %s" +
+                        " Дата народження: %s " +
+                        "Email: %s " +
+                        "Телефон: %s",
+                id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
     }
-
 }
