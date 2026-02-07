@@ -1,3 +1,5 @@
+package domain;
+
 public class Student extends Person {
 
     private String studentId;
@@ -42,36 +44,6 @@ public class Student extends Person {
                         super.toString(), studentId, course, group, enrollmentYear,
                         educationForm.getDisplayName(),
                         status.getDisplayName());
-    }
-
-    public enum EducationForm {
-        BUDGET("Бюджет"),
-        CONTRACT("Контракт");
-
-        private final String displayName;
-
-        EducationForm(String displayName) {
-            this.displayName = displayName;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-    }
-
-    public enum StudentStatus {
-        STUDYING("Навчається"),
-        ACADEMIC_LEAVE("Академічна відпустка"),
-        EXPELLED("Відрахований");
-        private final String displayName;
-
-        StudentStatus(String displayName) {
-            this.displayName = displayName;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
     }
 
 }
