@@ -23,10 +23,18 @@ public class Main {
                     "\n2 - пошук" +
                     "\n3 - звіти" +
                     "\n0 - закінчити");
-            int whatToDo = scanner.nextInt();
-            //invalid input validation
+            int whatToDo;
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+            }
+            whatToDo = scanner.nextInt();
             while(whatToDo<0 || whatToDo>3){
                 System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                }
                 whatToDo = scanner.nextInt();
             }
 
@@ -39,10 +47,18 @@ public class Main {
                             "\n3 - студент" +
                             "\n4 - викладач" +
                             "\n0 - вийти на рівень вище");
-                    int whatToWorkWith = scanner.nextInt();
-                    //invalid input validation
+                    int whatToWorkWith;
+                    while (!scanner.hasNextInt()) {
+                        String input = scanner.next();
+                        System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                    }
+                    whatToWorkWith = scanner.nextInt();
                     while(whatToWorkWith<0 || whatToWorkWith>4){
                         System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                        while (!scanner.hasNextInt()) {
+                            String input = scanner.next();
+                            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                        }
                         whatToWorkWith = scanner.nextInt();
                     }
 
@@ -57,7 +73,7 @@ public class Main {
 
                         // teacher was chosen
                     }else if(whatToWorkWith==4){
-
+                        Teacher.selectOperation();
                         // exit was chosen
                     }else if(whatToWorkWith==0){
                         break;
