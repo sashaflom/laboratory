@@ -1,3 +1,5 @@
+package domain;
+
 public class Person {
 
     private final String id;

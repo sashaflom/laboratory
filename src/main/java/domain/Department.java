@@ -1,3 +1,5 @@
+package domain;
+
 public class Department {
 
     private final String uniqueCode;

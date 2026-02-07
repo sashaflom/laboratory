@@ -1,3 +1,5 @@
+package domain;
+
 public class Teacher extends Person {
 
     private String position; //посада
@@ -38,37 +40,6 @@ public class Teacher extends Person {
         return String.format("Викладач: %s, Посада: %s, Науковий ступінь: %s, Вчене звання: %s, Дата прийняття: %s, Ставка: %s",
                         super.toString(), position, academicDegree.getDisplayName(), academicTitle.getDisplayName(),
                         hireDate, workload);
-    }
-
-    public enum AcademicTitle {
-        NONE("Без звання"),
-        DOCENT("Доцент"),
-        PROFESSOR("Професор");
-
-        private final String displayName;
-
-        AcademicTitle(String displayName) {
-            this.displayName = displayName;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-    }
-    public enum AcademicDegree {
-        NONE("Без ступеня"),
-        CANDIDATE("Кандидат наук"),
-        DOCTOR("Доктор наук");
-
-        private final String displayName;
-
-        AcademicDegree(String displayName) {
-            this.displayName = displayName;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
     }
    }
 

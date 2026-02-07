@@ -1,3 +1,5 @@
+package domain;
+
 public class Faculty {
 
     private final String uniqueCode;
