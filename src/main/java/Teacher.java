@@ -35,9 +35,8 @@ public class Teacher extends Person {
 
     @Override
     public String toString() {
-        return super.toString() +
-                String.format(" Викладач, Посада: %s, Ступінь: %s,  Звання: %s, Дата прийняття: %s, Ставка: %d",
-                        position, academicDegree, academicTitle.getDisplayName(),
+        return String.format("Викладач: %s, Посада: %s, Науковий ступінь: %s, Вчене звання: %s, Дата прийняття: %s, Ставка: %s",
+                        super.toString(), position, academicDegree.getDisplayName(), academicTitle.getDisplayName(),
                         hireDate, workload);
     }
 

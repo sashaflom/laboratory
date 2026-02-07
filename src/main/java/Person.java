@@ -42,10 +42,10 @@ public class Person {
     @Override
     public String toString() {
         return String.format(
-                        "ID: %s" +
-                        " ПІБ: %s %s %s" +
-                        " Дата народження: %s " +
-                        "Email: %s " +
+                        "ID: %s, " +
+                        "ПІБ: %s %s %s, " +
+                        "Дата народження: %s, " +
+                        "Email: %s, " +
                         "Телефон: %s",
                 id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
     }
