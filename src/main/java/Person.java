@@ -1,4 +1,5 @@
-public abstract class Person {
+public class Person {
+
     private final String id;
     private String lastName;
     private String firstName;
@@ -37,7 +38,7 @@ public abstract class Person {
     public String getFullName() {
         return lastName + " " + firstName + " " + patronymic;
     }
-    public abstract String getRole();
+
     @Override
     public String toString() {
         return String.format(

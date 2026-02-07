@@ -1,10 +1,12 @@
 public class Teacher extends Person {
-   private String position; //посада
+
+    private String position; //посада
    private AcademicDegree academicDegree; //науковий ступінь
    private AcademicTitle academicTitle; // enum, вчене звання
    private String hireDate; //дата прийняття на роботу
    private double workload; //ставка/навантаження
-   public Teacher(String id, String lastName, String firstName,String patronymic,
+
+    public Teacher(String id, String lastName, String firstName,String patronymic,
                   String birthDate, String email, String phoneNumber, String position,
                   AcademicDegree academicDegree, AcademicTitle academicTitle,
                   String hireDate, double workload ) {
@@ -15,6 +17,7 @@ public class Teacher extends Person {
        this.hireDate = hireDate;
        this.workload = workload;
    }
+
    public String getPosition() {return position;}
     public AcademicDegree getAcademicDegree() {return academicDegree;}
     public AcademicTitle getAcademicTitle() {return academicTitle;}
@@ -25,10 +28,11 @@ public class Teacher extends Person {
     public void setWorkload(double workload) {this.workload = workload;}
     public void setAcademicDegree(AcademicDegree academicDegree) { this.academicDegree = academicDegree;}
     public void setAcademicTitle(AcademicTitle academicTitle) { this.academicTitle = academicTitle;}
-    @Override
+
     public String getRole() {
         return "Викладач";
     }
+
     @Override
     public String toString() {
         return super.toString() +

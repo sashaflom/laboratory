@@ -1,10 +1,12 @@
 public class Student extends Person {
+
     private String studentId;
     private int course;
     private String group;
     private int enrollmentYear;
     private EducationForm educationForm;  // enum
     private StudentStatus status;         // enum
+
     public Student(String id, String lastName, String firstName, String patronymic,
                    String birthDate, String email, String phone,
                    String studentId, int course, String group,
@@ -18,6 +20,7 @@ public class Student extends Person {
         this.educationForm = educationForm;
         this.status = status;
     }
+
     public String getStudentId() { return studentId; }
     public int getCourse() { return course; }
     public String getGroup() { return group; }
@@ -29,11 +32,10 @@ public class Student extends Person {
     public void setGroup(String group) { this.group = group; }
     public void setStatus(StudentStatus status) { this.status = status; }
 
-
-    @Override
     public String getRole() {
         return "Студент";
     }
+
     @Override
     public String toString() {
         return super.toString() +
