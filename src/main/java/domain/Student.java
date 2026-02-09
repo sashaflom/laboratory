@@ -1,7 +1,12 @@
 package domain;
 
-public class Student extends Person {
+import repository.Repository;
 
+import java.util.List;
+import java.util.Scanner;
+
+public class Student extends Person {
+    private static Scanner scanner = new Scanner(System.in);
     private String studentId;
     private int course;
     private String group;
@@ -33,6 +38,9 @@ public class Student extends Person {
     public void setCourse(int course) { this.course = course; }
     public void setGroup(String group) { this.group = group; }
     public void setStatus(StudentStatus status) { this.status = status; }
+    public void setStudentId(String studentId) { this.studentId = studentId; }
+    public void setEnrollmentYear(int enrollmentYear) { this.enrollmentYear = enrollmentYear; }
+    public void setEducationForm(EducationForm educationForm) { this.educationForm = educationForm; }
 
     public String getRole() {
         return "Студент";
@@ -45,5 +53,239 @@ public class Student extends Person {
                         educationForm.getDisplayName(),
                         status.getDisplayName());
     }
+    public static void selectStudentOperation() {
+        while (true) {
+            System.out.println("\nУПРАВЛІННЯ СТУДЕНТАМИ");
+            System.out.println("1 - Створити нового студента");
+            System.out.println("2 - Показати всіх студентів");
+            System.out.println("3 - Редагувати існуючого");
+            System.out.println("4 - Видалити існуючого");
+            System.out.println("0 - Повернутися в головне меню");
+            System.out.print("Ваш вибір: ");
+            if (!scanner.hasNextInt()) {
+                System.out.println("Помилка: введіть число від 0 до 4!");
+                scanner.next();
+                continue;
+            }
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1:
+                    createStudent();
+                    break;
+                case 2:
+                    System.out.println("Список всіх студентів:");
+                    Repository.getInstance().showAllStudents();
+                    break;
+                case 3:
+                    Repository.getInstance().changeStudent();
+                    break;
+                case 4:
+                    Repository.getInstance().deleteStudent();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Немає такої опції, спробуйте ще раз.");
+                    break;
+            }
+        }
+    }
 
+    private static void createStudent() {
+        System.out.println("Введіть 1, щоби розпочати створення студента, або 0, щоби повернутися назад: ");
+        int makingSure;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+        }
+        makingSure = scanner.nextInt();
+        scanner.nextLine();
+        while (makingSure != 0 && makingSure != 1) {
+            System.out.println("Немає такої опції, введіть 1 або 0: ");
+            if (scanner.hasNextInt()) {
+                makingSure = scanner.nextInt();
+            } else {
+                scanner.next();
+            }
+            scanner.nextLine();
+        }
+        if (makingSure == 1) {
+            scanner.nextLine();
+            Repository.getInstance().addStudents(new Student(
+                    idValidationForStudents(),
+                    Person.lastNameValidation(),
+                    Person.firstNameValidation(),
+                    Person.patronymicValidation(),
+                    Person.birthDateValidation(),
+                    Person.emailValidation(),
+                    Person.phoneNumberValidation(),
+                    studentIdValidation(),
+                    courseValidation(),
+                    groupValidation(),
+                    enrollmentYearValidation(),
+                    educationFormValidation(),
+                    statusValidation()));
+
+            System.out.println("Ви успішно додали студента: \n" + Repository.getInstance().lastAddedStudent());
+        }
+
+    }
+
+    private static StudentStatus statusValidation() {
+        System.out.println("Виберіть статус студента: " +
+                "\n1 - Навчається " +
+                "\n2 - Академвідпустка " +
+                "\n3 - Відрахований");
+        int choice;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Немає такої опції, введіть число (1, 2 або 3): ");
+        }
+        choice = scanner.nextInt();
+        while (choice < 1 || choice > 3) {
+            System.out.println("Немає такої опції, введіть число від 1 до 3: ");
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Немає такої опції, введіть число: ");
+            }
+            choice = scanner.nextInt();
+        }
+        scanner.nextLine();
+        if (choice == 1) return StudentStatus.STUDYING;
+        if (choice == 2) return StudentStatus.ACADEMIC_LEAVE;
+        return StudentStatus.EXPELLED;
+    }
+
+    private static EducationForm educationFormValidation() {
+        System.out.println("Виберіть форму навчання: " +
+                "\n1 - Бюджет " +
+                "\n2 - Контракт");
+        int choice;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Немає такої опції, введіть число (1 або 2): ");
+        }
+        choice = scanner.nextInt();
+        while (choice < 1 || choice > 2) {
+            System.out.println("Немає такої опції, введіть число (1 або 2): ");
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Немає такої опції, введіть число: ");
+            }
+            choice = scanner.nextInt();
+        }
+        scanner.nextLine();
+        if (choice == 1) {
+            return EducationForm.BUDGET;
+        } else {
+            return EducationForm.CONTRACT;
+        }
+    }
+
+    private static int enrollmentYearValidation() {
+        int enYear;
+        System.out.println("Введіть рік вступу: ");
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Помилка! Введіть правильний рік вступу цифрами:");
+        }
+        enYear = scanner.nextInt();
+        while (enYear < 2018 || enYear > 2026) {
+            System.out.println("Рік вступу має бути в межах від 2020 до 2025! ");
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Помилка! Введіть правильний рік вступу: ");
+            }
+            enYear = scanner.nextInt();
+        }
+        return enYear;
+    }
+
+    private static String groupValidation() {
+        scanner.nextLine();
+        System.out.println("Введіть назву групи: ");
+        String group = scanner.nextLine();
+        while (group.isEmpty() || group.length() > 7){
+            if (group.isEmpty()) {
+                System.out.println("Назва групи не може бути порожньою, введіть ще раз: ");
+            } else {
+                System.out.println("Назва групи занадто довга (максимально 7 знаків), введіть коротшу: ");
+            }
+            group = scanner.nextLine();
+            }
+        return group;
+        }
+
+
+    private static int courseValidation() {
+        System.out.println("Введіть курс студента (1-6): ");
+        int course;
+
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Не вірно! Введіть курс студента цифрами ");
+        }
+        course = scanner.nextInt();
+
+        while (course < 1 || course > 6) {
+            System.out.println("Не вірно! Введіть курс студента (від 1 до 6): ");
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Не вірно! Введіть номер курсу(від 1 до 6): ");
+            }
+            course = scanner.nextInt();
+        }
+        return course;
+    }
+
+    private static String studentIdValidation() {
+        System.out.println("Введіть номер залікової книжки (8 знаків): ");
+        String sId = scanner.nextLine();
+        while (sId.length() != 8) {
+            System.out.println("Невірна довжина! Номер залікової книжки має містити 8 знаків:");
+            sId = scanner.nextLine();
+        }
+        List<Student> students = Repository.getInstance().getStudents();
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getStudentId().equals(sId)) {
+                System.out.println("Студент з таким номером залікової книжки вже існує! Введіть інший номер:");
+                sId = scanner.nextLine();
+                while (sId.length() != 8) {
+                    System.out.println("Має бути 8 знаків:");
+                    sId = scanner.nextLine();
+                }
+            }
+        }
+        return sId;
+    }
+
+    private static String idValidationForStudents() {
+        scanner.nextLine();
+        System.out.println("Введіть унікальний ідентифікатор з 5 знаків: ");
+        String id = scanner.nextLine();
+        while(id.length() != 5){
+            System.out.println("Не може бути такої довжини, введіть 5 знаків: ");
+            id = scanner.nextLine();
+        }
+        List<Student> students = Repository.getInstance().getStudents();
+        if (students.size() != 0) {
+            for (int i = 0; i < students.size(); i++) {
+                while (students.get(i).getId().equals(id)) {
+                    System.out.println("Студент з таким id уже існує, введіть інший:");
+                    id = scanner.nextLine();
+                    while (id.length() != 5) {
+                        System.out.println("Не може бути такої довжини, введіть 5 знаків: ");
+                        id = scanner.nextLine();
+                    }
+                }
+            }
+        }
+        return id;
+    }
 }
+
+
+
+    
+

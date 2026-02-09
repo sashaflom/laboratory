@@ -70,7 +70,7 @@ public class Main {
 
                         // student was chosen
                     }else if (whatToWorkWith==3){
-
+                        Student.selectStudentOperation();
                         // teacher was chosen
                     }else if(whatToWorkWith==4){
                         Teacher.selectOperation();

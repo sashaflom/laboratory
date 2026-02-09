@@ -1,9 +1,6 @@
 package repository;
 
-import domain.Department;
-import domain.Faculty;
-import domain.Student;
-import domain.Teacher;
+import domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,22 +177,22 @@ public class Repository {
 
                         // last name to change
                         if (whatToChange==1){
-                            foundTeacher.setLastname(Teacher.lastNameValidation());
+                            foundTeacher.setLastname(Person.lastNameValidation());
                             // first name to change
                         }else if(whatToChange==2){
-                            foundTeacher.setFirstname(Teacher.firstNameValidation());
+                            foundTeacher.setFirstname(Person.firstNameValidation());
                             // patronymic name to change
                         }else if (whatToChange==3){
-                            foundTeacher.setPatronymic(Teacher.patronymicValidation());
-                            // birth date to change
+                            foundTeacher.setPatronymic(Person.patronymicValidation());
+                            // birthdate to change
                         }else if(whatToChange==4){
-                            foundTeacher.setBirthDate(Teacher.birthDateValidation());
+                            foundTeacher.setBirthDate(Person.birthDateValidation());
                             // email to change
                         }else if(whatToChange==5){
-                            foundTeacher.setEmail(Teacher.emailValidation());
+                            foundTeacher.setEmail(Person.emailValidation());
                             // phone number to change
                         }else if (whatToChange==6){
-                            foundTeacher.setPhoneNumber(Teacher.phoneNumberValidation());
+                            foundTeacher.setPhoneNumber(Person.phoneNumberValidation());
                             // position to change
                         }else if(whatToChange==7){
                             foundTeacher.setPosition(Teacher.positionValidation());
@@ -224,6 +221,247 @@ public class Repository {
                 System.out.println("Не створено жодного викладача, отже ви не можете змінити");
             }
 
+        }
+    }
+
+    public void addStudents(Student student){ students.add(student); }
+
+    public void showAllStudents(){
+        System.out.println("\n СПИСОК ВСІХ СТУДЕНТІВ:");
+        if(students.isEmpty()){
+            System.out.println("Не знайдено жодного студента");
+            return;
+        }
+        int count = 1; // Counter to display student numbers in the list
+        for(Student student : students){
+            System.out.print(count + ". ");
+            System.out.println(student);
+            count++;
+        }
+    }
+
+    public Optional <Student> findStudentByID(String id) {
+        Optional<Student> foundStudent = Optional.empty();
+        if (students.isEmpty()) {
+            System.out.println("Список студентів порожній. Пошук неможливий.");
+            return foundStudent;
+        }
+        for (Student student : students) {
+            if (student.getId().equals(id)) {
+                foundStudent = Optional.of(student);
+                break;
+            }
+        }
+        if (foundStudent.isEmpty()) {
+            System.out.println("Студента з ID"+ id +"не знайдено");
+        }
+        return foundStudent;
+    }
+
+    public void deleteStudent(){
+        System.out.println("Введіть 1, щоб видалити студента. Введіть 0 щоб повернутись назад");
+        int makingSure;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Немає такої опції, введіть число 1 або 0:");
+        }
+        makingSure = scanner.nextInt();
+            scanner.nextLine();
+            if (makingSure == 0) return;
+            if(students.isEmpty()){
+                System.out.println("Список студентів порожній");
+                return;
+            }
+        System.out.println("Список наявних студентів:");
+        showAllStudents();
+
+        System.out.println("Введіть ID студента, якого хочете видалити :");
+        String id = scanner.nextLine();
+        while(id.length()!=5){
+            System.out.println("Некоректний ID, введіть 5 знаків:");
+            id = scanner.nextLine();
+        }
+        Optional<Student> maybeStudent = findStudentByID(id);
+        if(maybeStudent.isPresent()){
+            Student foundStudent = maybeStudent.get();
+            students.remove(foundStudent);
+            System.out.println("Ви успішно видалили студента");
+            showAllStudents();
+        }else{
+            System.out.println("Студента з таким ID не знайдено.");
+        }
+    }
+
+    public Student lastAddedStudent(){
+        return students.get(students.size()-1);
+    }
+
+    public void changeStudent(){
+        System.out.println("Введіть 1, щоб розпочати редагування, або 0, щоб повернутися назад:");
+        int makingSure;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Немає такої опції, введіть число 0 або 1");
+        }
+        makingSure = scanner.nextInt();
+        if (makingSure == 0) return;
+        if(students.isEmpty()){
+            System.out.println("Список студентів порожній, нічого редагувати.");
+            return;
+        }
+        System.out.println("Список наявних студентів:");
+        showAllStudents();
+
+        System.out.println("Введіть Id студента, якого хочете редагувати: ");
+        scanner.nextLine();
+        String id = scanner.nextLine();
+        Optional<Student> maybeStudent = findStudentByID(id);
+        if (maybeStudent.isPresent()) {
+            Student foundStudent = maybeStudent.get();
+            while (true) {
+                System.out.println("\nВиберіть, що ви хочете змінити у " + foundStudent.getLastname() + ":");
+                System.out.println("1 - Прізвище\n2 - Ім'я\n3 - По батькові\n4 - Дату народження\n5 - Email\n6 - Телефон");
+                System.out.println("7 - Курс\n8 - Групу\n9 - Рік вступу\n10 - Форму навчання\n11 - Статус");
+                System.out.println("0 - Повернутися назад");
+                int whatToChange;
+                while (!scanner.hasNextInt()) {
+                    scanner.next();
+                    System.out.println("Введіть число!");
+                }
+                whatToChange = scanner.nextInt();
+                scanner.nextLine();
+                if (whatToChange == 0) break;
+                switch (whatToChange) {
+                    case 1:
+                        System.out.print("Нове прізвище: ");
+                        foundStudent.setLastname(scanner.nextLine());
+                        break;
+                    case 2:
+                        System.out.print("Нове ім'я: ");
+                        foundStudent.setFirstname(scanner.nextLine());
+                        break;
+                    case 3:
+                        System.out.print("Нове по батькові: ");
+                        foundStudent.setPatronymic(scanner.nextLine());
+                        break;
+                    case 4:
+                        System.out.print("Нова дата народження: ");
+                        foundStudent.setBirthDate(scanner.nextLine());
+                        break;
+                    case 5:
+                        System.out.print("Новий email: ");
+                        foundStudent.setEmail(scanner.nextLine());
+                        break;
+                    case 6:
+                        System.out.print("Новий номер телефону: ");
+                        foundStudent.setPhoneNumber(scanner.nextLine());
+                        break;
+                    case 7:
+                        System.out.print("Новий курс (1-6): ");
+                        foundStudent.setCourse(scanner.nextInt());
+                        break;
+                    case 8:
+                        System.out.print("Нова група: ");
+                        foundStudent.setGroup(scanner.nextLine());
+                        break;
+                    case 9:
+                        System.out.print("Новий рік вступу: ");
+                        foundStudent.setEnrollmentYear(scanner.nextInt());
+                        break;
+                    case 10:
+                        System.out.println("Форма навчання: 1 - Бюджет, 2 - Контракт");
+                        int f = scanner.nextInt();
+                        foundStudent.setEducationForm(f == 1 ? EducationForm.BUDGET : EducationForm.CONTRACT);
+                        break;
+                    case 11:
+                        System.out.println("Статус: 1 - Навчається, 2 - Академічна відпустка, 3 - Відрахований");
+                        int s = scanner.nextInt();
+                        if (s == 1) foundStudent.setStatus(StudentStatus.STUDYING);
+                        else if (s == 2) foundStudent.setStatus(StudentStatus.ACADEMIC_LEAVE);
+                        else foundStudent.setStatus(StudentStatus.EXPELLED);
+                        break;
+                    default:
+                        System.out.println("Невірна опція.");
+                }
+                System.out.println("Дані оновлено: " + foundStudent);
+            }
+        } else {
+            System.out.println("Студента з таким ID не знайдено.");
+        }
+    }
+    
+    public void addDepartment(Department department) {departments.add(department);}
+    public void deleteDepartment(Department department) {
+        System.out.println("Введіть 1, щоб видалити кафедру. Введіть 0 щоб повернутись назад");
+        int makingSure;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Немає такої опції, введіть число 1 або 0:");
+        }
+        makingSure = scanner.nextInt();
+        scanner.nextLine();
+        if (makingSure == 0) return;
+        if(departments.isEmpty()){
+            System.out.println("Список кафедр порожній");
+            return;
+        }
+        System.out.println("Список кафедр університету:");
+        showAllDepartments();
+
+        System.out.println("Введіть унікальний код кафедри,яку хочете видалити:");
+        String uniqueCode = scanner.nextLine();
+        while(uniqueCode.length()!=4){
+            System.out.println("Некоректний унікальний код, введіть 4 знаків:");
+            uniqueCode = scanner.nextLine();
+        }
+        Optional<Department> maybeDepartment = findDepartmentByUniqueCode(uniqueCode);
+        if(maybeDepartment.isPresent()){
+            Department foundDepartment =maybeDepartment.get();
+            departments.remove(foundDepartment);
+            System.out.println("Ви успішно видалили кафедру");
+            showAllDepartments();
+        }else{
+            System.out.println("Кафедру за таким унікальним кодом не знайдено.");
+        }
+    }
+
+    public Optional<Department> findDepartmentByUniqueCode(String uniqueCode ){
+        Optional<Department> foundDepartament = Optional.empty();
+        if (departments.size()!=0) {
+            for (Department department : departments) {
+                if (department.getUniqueCode().equals(uniqueCode)) {
+                    foundDepartament = Optional.of(department);
+                    break;
+                }
+            }
+        }else {
+            System.out.println("Не створено жодної кафедри, отже пошук неможливий.");
+        }
+        if (foundDepartament.isEmpty()) {
+            System.out.println("Кафедру з кодом " + uniqueCode + " не знайдено.");
+        }
+        return foundDepartament;
+    }
+
+    public Department lastAddedDepartment() {
+        if (departments.isEmpty()) {
+            System.out.println("Список кафедр порожній!");
+            return null;
+        }
+        return departments.get(departments.size() - 1);
+    }
+
+    private void showAllDepartments() {
+        System.out.println("\n СПИСОК ВСІХ КАФЕДР:");
+        if(students.isEmpty()){
+            System.out.println("Не знайдено жодного кафедри");
+            return;
+        }
+        int count = 1;
+        for(Department department : departments){
+            System.out.print(count + ". ");
+            System.out.println(department);
+            count++;
         }
     }
 
