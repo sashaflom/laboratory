@@ -1,8 +1,5 @@
-import domain.University;
-import domain.Department;
-import domain.Faculty;
-import domain.Student;
-import domain.Teacher;
+import domain.*;
+import repository.Repository;
 
 import java.util.Scanner;
 
@@ -81,7 +78,37 @@ public class Main {
                 }
                 // search was chosen
             }else if(whatToDo==2){
+                while(true){
+                    System.out.println("Виберіть, кого хочете знайти: " +
+                            "\n1 - студента" +
+                            "\n2 - викладача" +
+                            "\n0 - вийти на рівень вище");
+                    int whatToFind;
+                    while (!scanner.hasNextInt()) {
+                        String input = scanner.next();
+                        System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                    }
+                    whatToFind = scanner.nextInt();
+                    while(whatToFind<0 || whatToFind>2){
+                        System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                        while (!scanner.hasNextInt()) {
+                            String input = scanner.next();
+                            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                        }
+                        whatToFind = scanner.nextInt();
+                    }
 
+                    //find student was chosen
+                    if(whatToFind==1){
+
+                        // find teacher was chosen
+                    }else if(whatToFind==2){
+                        Teacher.find();
+                        //exit was chosen
+                    }else if(whatToFind==0){
+                        break;
+                    }
+                }
                 // reports was chosen
             }else if (whatToDo==3){
 

@@ -3,6 +3,7 @@ package domain;
 import repository.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Teacher extends Person {
@@ -274,6 +275,99 @@ public class Teacher extends Person {
             load = scanner.nextDouble();
         }
         return load;
+    }
+
+    public static void find(){
+        while(true){
+            System.out.println("Виберіть, за яким параметром проводити пошук: " +
+                    "\n1 - за унікальним ідентифікатором" +
+                    "\n2 - за ПІБ" +
+                    "\n0 - вийти на рівень вище");
+            int howToFind;
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+            }
+            howToFind = scanner.nextInt();
+            while(howToFind<0 || howToFind>2) {
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                }
+                howToFind = scanner.nextInt();
+            }
+
+            // ID
+            if(howToFind==1){
+                System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
+                int makingSure;
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                }
+                makingSure = scanner.nextInt();
+                while(makingSure!=0 && makingSure!=1){
+                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                    while (!scanner.hasNextInt()) {
+                        String input = scanner.next();
+                        System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                    }
+                    makingSure = scanner.nextInt();
+                }
+
+                if(makingSure==1){
+                    findById();
+                }
+
+                // last name, first name, patronymic
+            }else if(howToFind==2){
+                System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
+                int makingSure;
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                }
+                makingSure = scanner.nextInt();
+                while(makingSure!=0 && makingSure!=1){
+                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                    while (!scanner.hasNextInt()) {
+                        String input = scanner.next();
+                        System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                    }
+                    makingSure = scanner.nextInt();
+                }
+                if(makingSure==1){
+                    findByFullName();
+                }
+                // exit
+            }else if(howToFind==0){
+                break;
+            }
+        }
+    }
+
+    public static void findById(){
+        System.out.println("Введіть ID за яким хочете шукати: ");
+        scanner.nextLine();
+        String id = scanner.nextLine();
+        while (id.length() != 5) {
+            System.out.println("Не може бути такої довжини, введіть 5 знаків: ");
+            id = scanner.nextLine();
+        }
+
+        Optional<Teacher> maybeTeacher = Repository.getInstance().findTeacherByID(id);
+        if (maybeTeacher.isPresent()){
+            System.out.println(maybeTeacher.get());
+        }else{
+            System.out.println("Немає викладача з таким ID.");
+        }
+
+    }
+
+    public static void findByFullName(){
+        String fullName = lastNameValidation() + " " + firstNameValidation() + " " + patronymicValidation();
+        Repository.getInstance().findTeacherByFullName(fullName);
     }
 
    }

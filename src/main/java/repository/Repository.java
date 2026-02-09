@@ -116,6 +116,23 @@ public class Repository {
         return foundTeacher;
     }
 
+    public void findTeacherByFullName(String fullName){
+        boolean ifWasFound = false;
+        if(teachers.size()!=0){
+            for(Teacher teacher : teachers){
+                if(teacher.getFullName().equals(fullName)){
+                   System.out.println(teacher);
+                   ifWasFound = true;
+                }
+            }
+            if(!ifWasFound){
+                System.out.println("Немає такого викладача.");
+            }
+        }else{
+            System.out.println("Немає жодного створеного викладача");
+        }
+    }
+
     public void changeTeacher(){
         System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
         int makingSure;
