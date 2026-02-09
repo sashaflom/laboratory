@@ -391,9 +391,74 @@ public class Repository {
             System.out.println("Студента з таким ID не знайдено.");
         }
     }
+
+    public void findStudent() {
+        if (students.isEmpty()) {
+            System.out.println("Список студентів порожній.");
+            return;
+        }
+        System.out.println("\nОберіть критерій пошуку:");
+        System.out.println("1 - За ПІБ");
+        System.out.println("2 - За курсом");
+        System.out.println("3 - За групою");
+        System.out.println("0 - Скасувати");
+        int choice;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Введіть число від 0 до 3:");
+        }
+        choice = scanner.nextInt();
+        scanner.nextLine();
+        boolean found = false;
+        switch (choice) {
+            case 1:
+                scanner.nextLine();
+                System.out.println("Введіть ПІБ студента:");
+                String nameInput = scanner.nextLine().toLowerCase();
+                System.out.println("\nРезультати пошуку:"); // Заголовок
+                for (Student s : students) {
+                    if (s.getFullName().toLowerCase().equals(nameInput)) {
+                        System.out.println(s);
+                        found = true;
+                    }
+                }
+                break;
+            case 2:
+                int searchCourse = Student.courseValidation();
+                System.out.println("\nСписок студентів " + searchCourse + "-го курсу:");
+                for (Student s : students) {
+                    if (s.getCourse() == searchCourse) {
+                        System.out.println(s);
+                        found = true;
+                    }
+                }
+                break;
+            case 3:
+                String sg = Student.groupValidation();
+                System.out.println("\nСписок студентів групи " + sg + ":");
+                for (Student s : students) {
+                    if (s.getGroup().equalsIgnoreCase(sg)) {
+                        System.out.println(s);
+                        found = true;
+                    }
+                }
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Невірна опція.");
+                return;
+        }
+        if (!found && choice != 0) {
+            System.out.println("За вашим запитом нічого не знайдено.");
+        }
+    }
+
+
     
     public void addDepartment(Department department) {departments.add(department);}
-    public void deleteDepartment(Department department) {
+
+    public void deleteDepartment() {
         System.out.println("Введіть 1, щоб видалити кафедру. Введіть 0 щоб повернутись назад");
         int makingSure;
         while (!scanner.hasNextInt()) {
@@ -453,7 +518,7 @@ public class Repository {
         return departments.get(departments.size() - 1);
     }
 
-    private void showAllDepartments() {
+    public void showAllDepartments() {
         System.out.println("\n СПИСОК ВСІХ КАФЕДР:");
         if(students.isEmpty()){
             System.out.println("Не знайдено жодного кафедри");
@@ -465,6 +530,72 @@ public class Repository {
             System.out.println(department);
             count++;
         }
+    }
+
+    public void changeDepartment() {
+        System.out.println("Введіть 1, щоб розпочати редагування, або 0, щоб повернутися назад:");
+        int makingSure;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Немає такої опції, введіть число 0 або 1");
+        }
+        makingSure = scanner.nextInt();
+        if (makingSure == 0) return;
+        if(departments.isEmpty()){
+            System.out.println("Список кафедр порожній. Редагування неможливе");
+            return;
+        }
+        System.out.println("Список наявних кафедр:");
+        showAllDepartments();
+
+        System.out.println("Введіть унікальний код кафедри, яку хочете редагувати: ");
+        scanner.nextLine();
+        String uniqueCode = scanner.nextLine();
+        Optional<Department> maybeDepartment= findDepartmentByUniqueCode(uniqueCode);
+        if (maybeDepartment.isPresent()) {
+            Department dep = maybeDepartment.get();
+            System.out.println("Редагування кафедри: " + dep.getName());
+            System.out.println("1 - Змінити назву");
+            System.out.println("2 - Змінити факультет");
+            System.out.println("3 - Змінити завідувача");
+            System.out.println("4 - Змінити локацію");
+            System.out.println("0 - Завершити редагування");
+            System.out.print("Ваш вибір: ");
+
+            int editChoice;
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Введіть число від 0 до 4:");
+            }
+            editChoice = scanner.nextInt();
+            scanner.nextLine();
+            switch (editChoice) {
+                case 1:
+                    maybeDepartment.get().setName(Department.departmentNameValidation());
+                    break;
+                case 2:
+                    Faculty newFaculty = Department.facultyValidation();
+                    if (newFaculty != null) {
+                        maybeDepartment.get().setFaculty(newFaculty);
+                    }
+                    break;
+                case 3:
+                    Teacher newHead = Department.headOfDepartmentValidation();
+                    if (newHead != null) {
+                        maybeDepartment.get().setHeadOfDepartment(newHead);
+                    }
+                    break;
+                case 4:
+                    maybeDepartment.get().setLocation(Department.locationValidation());
+                    break;
+                default:
+                    System.out.println("Невірна опція.");
+                   break;
+            }
+            System.out.println("Дані оновлено: " + maybeDepartment.get());
+
+        }
+
     }
 
     public void showAllFaculties(){
@@ -622,7 +753,6 @@ public class Repository {
         }
         return foundFaculty;
     }
-
 
     public List<Faculty> getFaculties() {
         return new ArrayList<>(faculties);
