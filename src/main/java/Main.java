@@ -67,7 +67,7 @@ public class Main {
                         Faculty.selectOperation();
                         // department was chosen
                     }else if(whatToWorkWith==2){
-
+                        Department.selectDepartmentOperation();
                         // student was chosen
                     }else if (whatToWorkWith==3){
                         Student.selectStudentOperation();
@@ -91,7 +91,6 @@ public class Main {
                 break;
             }
         }
-
     }
 
 }

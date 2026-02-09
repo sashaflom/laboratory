@@ -1,14 +1,9 @@
-/*
-Have to finish:
-- createDepartment() -validation: facultyValidation(),
-                      headOfDepartmentValidation(),
-                      locationValidation()
-*/
 package domain;
 
 import repository.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Department {
@@ -88,12 +83,32 @@ public class Department {
             switch (choice) {
                 case 1:
                     createDepartment();
+                    break;
+                case 2:
+                    System.out.println("\nСПИСОК ВСІХ КАФЕДР:");
+                    if (Repository.getInstance().getDepartments().isEmpty()) {
+                        System.out.println("Кафедр поки що не створено.");
+                    } else {
+                        Repository.getInstance().showAllDepartments();
+                    }
+                    break;
+                case 3:
+                    Repository.getInstance().changeDepartment();
+                    break;
+                case 4:
+                    Repository.getInstance().deleteDepartment();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Помилка: опції '" + choice + "' не існує. Спробуйте ще раз.");
+                    break;
             }
         }
     }
 
-    private static void createDepartment() {
-        System.out.println("Введіть 1, щоби розпочати створення кафедри, або 0, щоби повернутися назад: ");
+   public static void createDepartment() {
+        System.out.println("Введіть 1, щоб розпочати створення кафедри, або 0, щоб повернутися назад: ");
         int makingSure;
         while (!scanner.hasNextInt()) {
             scanner.next();
@@ -110,32 +125,123 @@ public class Department {
             }
             scanner.nextLine();
         }
-       /* if (makingSure == 1) {
+
+        if (makingSure == 1) {
             scanner.nextLine();
+            Faculty selectedFaculty = facultyValidation();
+            if (selectedFaculty == null) {
+                System.out.println("Додавання кафедри скасовано.");
+                return;
+            }
+
             Repository.getInstance().addDepartment(new Department(
                     uniqueCodeValidation(),
                     departmentNameValidation(),
-                    facultyValidation(),
+                    selectedFaculty,
                     headOfDepartmentValidation(),
                     locationValidation()
             ));
 
             System.out.println("Ви успішно додали кафедру: \n" + Repository.getInstance().lastAddedDepartment());
         }
-        */
+
     }
 
-    /*private static String locationValidation() {
+    public static String locationValidation() {
+        System.out.println("Введіть локацію кафедри (номер корпусу чи аудиторії): ");
+        String location = scanner.nextLine();
+        while (location.isEmpty() || location.length() > 50) {
+            System.out.println("Локація не може бути порожньою або довшою за 50 символів! Спробуйте ще раз:");
+            location = scanner.nextLine();
+        }
+        return location;
     }
 
-    private static Teacher headOfDepartmentValidation() {
+    public static Teacher headOfDepartmentValidation() {
+        while (true) {
+            System.out.println("Виберіть, як хочете призначити завідувача кафедри: " +
+                    "\n1 - Вибрати з уже існуючих викладачів" +
+                    "\n2 - Створити нового викладача та призначити завідувачем");
+            int choice;
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції(1 чи 2): ");
+            }
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            while (choice != 1 && choice != 2) {
+                System.out.println("Немає такої опції, введіть 1 або 2: ");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                } else {
+                    scanner.next();
+                }
+                scanner.nextLine();
+            }
+            if (choice == 1) {
+                if (Repository.getInstance().getTeachers().isEmpty()) {
+                    System.out.println("Список викладачів порожній! Створіть нового викладача (оберіть опцію 2).");
+                    continue;
+                }
+                System.out.println("СПИСОК НАЯВНИХ ВИКЛАДАЧІВ: ");
+                Repository.getInstance().showAllTeachers();
+                System.out.println("Введіть ID викладача, якого хочете призначити завідувачем: ");
+                String id = scanner.nextLine();
+                while (id.length() != 5) {
+                    System.out.println("ID має містити рівно 5 знаків! Спробуйте ще раз: ");
+                    id = scanner.nextLine();
+                }
+                Optional<Teacher> maybeTeacher = Repository.getInstance().findTeacherByID(id);
+                if (maybeTeacher.isPresent()) {
+                    System.out.println("Викладача "+ maybeTeacher.get().getFullName()+ " призначено завідувачем" );//ADD THE NAME
+                    return maybeTeacher.get();
+                }else{
+                    System.out.println("Викладача з таким ID не знайдено.");
+                }
+            }
+            if (choice == 2) {
+                Teacher.createNew();
+                Teacher lastTeacher = Repository.getInstance().findLastAddedTeacher();
+                System.out.println("Нового викладача " + lastTeacher.getFullName() + " призначено завідувачем.");
+                return lastTeacher;
+            }
+        }
     }
 
-    private static Faculty facultyValidation() {
+    public static Faculty facultyValidation() {
+        System.out.println("Вибір факультету, для створення кафедри");
+        while (true) {
+            System.out.println("Введіть унікальний код факультету, до якого належить кафедра: ");
+            String code = scanner.nextLine();
+            java.util.Optional<Faculty> foundF = Repository.getInstance().findFacultyByUniqueCode(code);
+            if (foundF.isPresent()) {
+                return foundF.get();
+            }
+            System.out.println("Факультету з кодом '" + code + "' не існує в системі.");
+            System.out.println("Введіть 1, щоби спробувати ще раз, або 0, щоби повернутися до меню: ");
+            int makingSure;
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+            }
+            makingSure = scanner.nextInt();
+            scanner.nextLine();
+            while (makingSure != 0 && makingSure != 1) {
+                System.out.println("Немає такої опції, введіть 1 або 0: ");
+                if (scanner.hasNextInt()) {
+                    makingSure = scanner.nextInt();
+                } else {
+                    scanner.next();
+                }
+                scanner.nextLine();
+            }
+            if (makingSure == 0) {
+                return null;
+            }
+        }
     }
-    */
 
-    private static String departmentNameValidation() {
+    public static String departmentNameValidation() {
         System.out.println("Введіть назву кафедри: ");
         String name = scanner.nextLine();
         while (name.isEmpty()||name.length() > 20) {
@@ -145,7 +251,7 @@ public class Department {
         return name;
     }
 
-    private static String uniqueCodeValidation() {
+    public static String uniqueCodeValidation() {
         System.out.println("Введіть унікальний код кафедри: ");
         String code = scanner.nextLine();
         while (code.isEmpty() || code.length() > 4) {
