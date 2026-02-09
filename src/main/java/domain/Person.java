@@ -142,7 +142,6 @@ public class Person {
 
     public static String emailValidation(){
         scanner.nextLine();
-        scanner.nextLine();
         System.out.println("Введіть email: ");
         String email = scanner.nextLine();
         while(email.equals("") || email.equals(" ")){

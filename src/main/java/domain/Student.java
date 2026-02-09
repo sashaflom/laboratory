@@ -96,22 +96,19 @@ public class Student extends Person {
         System.out.println("Введіть 1, щоби розпочати створення студента, або 0, щоби повернутися назад: ");
         int makingSure;
         while (!scanner.hasNextInt()) {
-            scanner.next();
+            String input = scanner.next();
             System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
         }
         makingSure = scanner.nextInt();
-        scanner.nextLine();
         while (makingSure != 0 && makingSure != 1) {
             System.out.println("Немає такої опції, введіть 1 або 0: ");
-            if (scanner.hasNextInt()) {
-                makingSure = scanner.nextInt();
-            } else {
-                scanner.next();
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
             }
-            scanner.nextLine();
+            makingSure = scanner.nextInt();
         }
         if (makingSure == 1) {
-            scanner.nextLine();
             Repository.getInstance().addStudents(new Student(
                     idValidationForStudents(),
                     Person.lastNameValidation(),
@@ -132,7 +129,7 @@ public class Student extends Person {
 
     }
 
-    private static StudentStatus statusValidation() {
+    public static StudentStatus statusValidation() {
         System.out.println("Виберіть статус студента: " +
                 "\n1 - Навчається " +
                 "\n2 - Академвідпустка " +
@@ -157,7 +154,7 @@ public class Student extends Person {
         return StudentStatus.EXPELLED;
     }
 
-    private static EducationForm educationFormValidation() {
+    public static EducationForm educationFormValidation() {
         System.out.println("Виберіть форму навчання: " +
                 "\n1 - Бюджет " +
                 "\n2 - Контракт");
@@ -183,7 +180,7 @@ public class Student extends Person {
         }
     }
 
-    private static int enrollmentYearValidation() {
+    public static int enrollmentYearValidation() {
         int enYear;
         System.out.println("Введіть рік вступу: ");
         while (!scanner.hasNextInt()) {
@@ -202,7 +199,7 @@ public class Student extends Person {
         return enYear;
     }
 
-    private static String groupValidation() {
+    public static String groupValidation() {
         scanner.nextLine();
         System.out.println("Введіть назву групи: ");
         String group = scanner.nextLine();
@@ -218,7 +215,7 @@ public class Student extends Person {
         }
 
 
-    private static int courseValidation() {
+    public static int courseValidation() {
         System.out.println("Введіть курс студента (1-6): ");
         int course;
 

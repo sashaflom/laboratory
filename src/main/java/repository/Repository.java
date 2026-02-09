@@ -253,7 +253,7 @@ public class Repository {
             }
         }
         if (foundStudent.isEmpty()) {
-            System.out.println("Студента з ID"+ id +"не знайдено");
+            System.out.println("Студента з ID " + id + " не знайдено");
         }
         return foundStudent;
     }
@@ -333,52 +333,37 @@ public class Repository {
                 if (whatToChange == 0) break;
                 switch (whatToChange) {
                     case 1:
-                        System.out.print("Нове прізвище: ");
-                        foundStudent.setLastname(scanner.nextLine());
+                        foundStudent.setLastname(Person.lastNameValidation());
                         break;
                     case 2:
-                        System.out.print("Нове ім'я: ");
-                        foundStudent.setFirstname(scanner.nextLine());
+                        foundStudent.setFirstname(Person.firstNameValidation());
                         break;
                     case 3:
-                        System.out.print("Нове по батькові: ");
-                        foundStudent.setPatronymic(scanner.nextLine());
+                        foundStudent.setPatronymic(Person.patronymicValidation());
                         break;
                     case 4:
-                        System.out.print("Нова дата народження: ");
-                        foundStudent.setBirthDate(scanner.nextLine());
+                        foundStudent.setBirthDate(Person.birthDateValidation());
                         break;
                     case 5:
-                        System.out.print("Новий email: ");
-                        foundStudent.setEmail(scanner.nextLine());
+                        foundStudent.setEmail(Person.emailValidation());
                         break;
                     case 6:
-                        System.out.print("Новий номер телефону: ");
-                        foundStudent.setPhoneNumber(scanner.nextLine());
+                        foundStudent.setPhoneNumber(Person.phoneNumberValidation());
                         break;
                     case 7:
-                        System.out.print("Новий курс (1-6): ");
-                        foundStudent.setCourse(scanner.nextInt());
+                        foundStudent.setCourse(Student.courseValidation());
                         break;
                     case 8:
-                        System.out.print("Нова група: ");
-                        foundStudent.setGroup(scanner.nextLine());
+                        foundStudent.setGroup(Student.groupValidation());
                         break;
                     case 9:
-                        System.out.print("Новий рік вступу: ");
-                        foundStudent.setEnrollmentYear(scanner.nextInt());
+                        foundStudent.setEnrollmentYear(Student.enrollmentYearValidation());
                         break;
                     case 10:
-                        System.out.println("Форма навчання: 1 - Бюджет, 2 - Контракт");
-                        int f = scanner.nextInt();
-                        foundStudent.setEducationForm(f == 1 ? EducationForm.BUDGET : EducationForm.CONTRACT);
+                        foundStudent.setEducationForm(Student.educationFormValidation());
                         break;
                     case 11:
-                        System.out.println("Статус: 1 - Навчається, 2 - Академічна відпустка, 3 - Відрахований");
-                        int s = scanner.nextInt();
-                        if (s == 1) foundStudent.setStatus(StudentStatus.STUDYING);
-                        else if (s == 2) foundStudent.setStatus(StudentStatus.ACADEMIC_LEAVE);
-                        else foundStudent.setStatus(StudentStatus.EXPELLED);
+                       foundStudent.setStatus(Student.statusValidation());
                         break;
                     default:
                         System.out.println("Невірна опція.");
