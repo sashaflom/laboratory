@@ -95,7 +95,7 @@ public class Teacher extends Person {
         }
     }
 
-    private static void createNew(){
+    public static void createNew(){
         System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
         int makingSure;
         while (!scanner.hasNextInt()) {
@@ -145,10 +145,6 @@ public class Teacher extends Person {
         }
         return id;
     }
-
-
-
-
 
     public static String positionValidation(){
         scanner.nextLine();

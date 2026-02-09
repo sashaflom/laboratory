@@ -64,7 +64,7 @@ public class Main {
 
                     // faculty was chosen
                     if (whatToWorkWith==1){
-
+                        Faculty.selectOperation();
                         // department was chosen
                     }else if(whatToWorkWith==2){
 

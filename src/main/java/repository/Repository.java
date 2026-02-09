@@ -450,6 +450,163 @@ public class Repository {
         }
     }
 
+    public void showAllFaculties(){
+        if (faculties.size()!=0){
+            for (Faculty faculty : faculties) {
+                System.out.println(faculty);
+            }
+        }else{
+            System.out.println("Поки що немає жодного факультету");
+        }
+    }
+
+    public void changeFaculty(){
+        System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
+        int makingSure;
+        while (!scanner.hasNextInt()) {
+            String input = scanner.next();
+            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+        }
+        makingSure = scanner.nextInt();
+        while(makingSure!=0 && makingSure!=1){
+            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+            }
+            makingSure = scanner.nextInt();
+        }
+
+        if(makingSure==1){
+            System.out.println("СПИСОК НАЯВНИХ ФАКУЛЬТЕТІВ:");
+            showAllFaculties();
+            if(faculties.size()!=0){
+                System.out.println("Введіть унікальний код факультету, який хочете редагувати: ");
+                scanner.nextLine();
+                String uniqueCode = scanner.nextLine();
+                while (uniqueCode.length() != 7) {
+                    System.out.println("Не може бути такої довжини, введіть 7 знаків: ");
+                    uniqueCode = scanner.nextLine();
+                }
+                Optional<Faculty> maybeFaculty = findFacultyByUniqueCode(uniqueCode);
+                if (maybeFaculty.isPresent()){
+                    Faculty foundFaculty = maybeFaculty.get();
+                    while(true){
+                        System.out.println("Виберіть, що ви хочете змінити:" +
+                                "\n1 - повну назву" +
+                                "\n2 - скорочену назву" +
+                                "\n3 - декана" +
+                                "\n4 - контакти" +
+                                "\n0 - вийти на рівень вище");
+                        int whatToChange;
+                        while (!scanner.hasNextInt()) {
+                            String input = scanner.next();
+                            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                        }
+                        whatToChange = scanner.nextInt();
+                        while(whatToChange<0 || whatToChange>4){
+                            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                            while (!scanner.hasNextInt()) {
+                                String input = scanner.next();
+                                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                            }
+                            whatToChange = scanner.nextInt();
+                        }
+
+                        // full name to change
+                        if (whatToChange==1){
+                            foundFaculty.setFullName(Faculty.fullNameValidation());
+                            // short name to change
+                        }else if(whatToChange==2){
+                            foundFaculty.setShortName(Faculty.shortNameValidation());
+                            // dean to change
+                        }else if (whatToChange==3){
+                            foundFaculty.setDean(Faculty.deanValidation());
+                            // contacts for communicaiton to change
+                        }else if (whatToChange==4){
+                            foundFaculty.setContactForCommunication(Faculty.contactForCommunicationValidation());
+                            // exit
+                        }else if(whatToChange==0){
+                            break;
+                        }
+                        System.out.println("Ви успішно змінили факультет: " + foundFaculty);
+                    }
+                }else{
+                    System.out.println("Немає факультету з таким унікальним кодом.");
+                }
+            }else{
+                System.out.println("Не створено жодного факультету, отже ви не можете змінити");
+            }
+        }
+    }
+
+    public void deleteFaculty(){
+        System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
+        int makingSure;
+        while (!scanner.hasNextInt()) {
+            String input = scanner.next();
+            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+        }
+        makingSure = scanner.nextInt();
+        while(makingSure!=0 && makingSure!=1){
+            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+            }
+            makingSure = scanner.nextInt();
+        }
+        if(makingSure==1){
+            System.out.println("СПИСОК НАЯВНИХ ФАКУЛЬТЕТІВ:");
+            showAllFaculties();
+            if(faculties.size()!=0){
+                System.out.println("Введіть унікальний код факультета, який хочете видалити: ");
+                scanner.nextLine();
+                String uniqueCode = scanner.nextLine();
+                while(uniqueCode.length() != 7){
+                    System.out.println("Не може бути такої довжини, введіть 7 знаків: ");
+                    uniqueCode = scanner.nextLine();
+                }
+                Optional<Faculty> maybeFaculty = findFacultyByUniqueCode(uniqueCode);
+                if (maybeFaculty.isPresent()){
+                    Faculty foundFaculty = maybeFaculty.get();
+                    faculties.remove(foundFaculty);
+                    System.out.println("Ви успішно видалили факультет. Оновлений список наявних факультетів:");
+                    showAllFaculties();
+                }else{
+                    System.out.println("Немає факультету з таким ID.");
+                }
+            }else{
+                System.out.println("Не створено жодного факультету, отже ви не можете нічого видалити");
+            }
+
+        }
+    }
+
+    public void addFaculty(Faculty faculty){
+        faculties.add(faculty);
+    }
+
+    public Faculty findLastAddedFaculty(){
+        return faculties.get(faculties.size()-1);
+    }
+
+    public Optional<Faculty> findFacultyByUniqueCode(String uniqueCode){
+        Optional<Faculty> foundFaculty = Optional.empty();
+        if(faculties.size()!=0){
+            for (Faculty faculty : faculties) {
+                if(faculty.getUniqueCode().equals(uniqueCode)){
+                    foundFaculty = Optional.of(faculty);
+                    break;
+                }
+            }
+        }else{
+            System.out.println("Не створено жодного факультету, отже ви не можете знайти");
+        }
+        return foundFaculty;
+    }
+
+
     public List<Faculty> getFaculties() {
         return new ArrayList<>(faculties);
     }
