@@ -385,6 +385,56 @@ public class Repository {
         System.out.println("2 - За курсом");
         System.out.println("3 - За групою");
         System.out.println("0 - Скасувати");
+        int choice;
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Введіть число від 0 до 3:");
+        }
+        choice = scanner.nextInt();
+        scanner.nextLine();
+        boolean found = false;
+        switch (choice) {
+            case 1:
+                scanner.nextLine();
+                System.out.println("Введіть ПІБ студента:");
+                String nameInput = scanner.nextLine().toLowerCase();
+                System.out.println("\nРезультати пошуку:"); // Заголовок
+                for (Student s : students) {
+                    if (s.getFullName().toLowerCase().equals(nameInput)) {
+                        System.out.println(s);
+                        found = true;
+                    }
+                }
+                break;
+            case 2:
+                int searchCourse = Student.courseValidation();
+                System.out.println("\nСписок студентів " + searchCourse + "-го курсу:");
+                for (Student s : students) {
+                    if (s.getCourse() == searchCourse) {
+                        System.out.println(s);
+                        found = true;
+                    }
+                }
+                break;
+            case 3:
+                String sg = Student.groupValidation();
+                System.out.println("\nСписок студентів групи " + sg + ":");
+                for (Student s : students) {
+                    if (s.getGroup().equalsIgnoreCase(sg)) {
+                        System.out.println(s);
+                        found = true;
+                    }
+                }
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Невірна опція.");
+                return;
+        }
+        if (!found && choice != 0) {
+            System.out.println("За вашим запитом нічого не знайдено.");
+        }
     }
 
 
