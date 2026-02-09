@@ -8,8 +8,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class Repository {
-
-    private Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     // static class variable that will store a reference to a single instance of the class
     private static Repository instance = null;
@@ -392,7 +391,8 @@ public class Repository {
         }
     }
 
-    public void findStudent() {
+    public static void findStudent() {
+        List<Student> students = repository.Repository.getInstance().getStudents();
         if (students.isEmpty()) {
             System.out.println("Список студентів порожній.");
             return;

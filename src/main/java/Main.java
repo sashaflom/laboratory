@@ -100,7 +100,7 @@ public class Main {
 
                     //find student was chosen
                     if(whatToFind==1){
-
+                        Repository.findStudent();
                         // find teacher was chosen
                     }else if(whatToFind==2){
                         Teacher.find();
