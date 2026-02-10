@@ -170,11 +170,10 @@ public class Repository {
                                 "\n4 - дату народження" +
                                 "\n5 - email" +
                                 "\n6 - номер телефону" +
-                                "\n7 - посаду" +
-                                "\n8 - науковий ступінь" +
-                                "\n9 - вчене звання" +
-                                "\n10 - дату прийняття на роботу" +
-                                "\n11 - ставку" +
+                                "\n7 - науковий ступінь" +
+                                "\n8 - вчене звання" +
+                                "\n9 - дату прийняття на роботу" +
+                                "\n10 - ставку" +
                                 "\n0 - вийти на рівень вище");
                         int whatToChange;
                         while (!scanner.hasNextInt()) {
@@ -182,7 +181,7 @@ public class Repository {
                             System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
                         }
                         whatToChange = scanner.nextInt();
-                        while(whatToChange<0 || whatToChange>11){
+                        while(whatToChange<0 || whatToChange>10){
                             System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
                             while (!scanner.hasNextInt()) {
                                 String input = scanner.next();
@@ -209,20 +208,17 @@ public class Repository {
                             // phone number to change
                         }else if (whatToChange==6){
                             foundTeacher.setPhoneNumber(Person.phoneNumberValidation());
-                            // position to change
-                        }else if(whatToChange==7){
-                            foundTeacher.setPosition(Teacher.positionValidation());
                             // academic degree was chosen
-                        }else if(whatToChange==8){
+                        }else if(whatToChange==7){
                             foundTeacher.setAcademicDegree(Teacher.academicDegreeValidation());
                             // academic title to change
-                        }else if (whatToChange==9){
+                        }else if (whatToChange==8){
                             foundTeacher.setAcademicTitle(Teacher.academicTitleValidation());
                             // hire date to change
-                        }else if(whatToChange==10){
+                        }else if(whatToChange==9){
                             foundTeacher.setHireDate(Teacher.hireDateValidation());
                             // workload to change
-                        }else if(whatToChange==11){
+                        }else if(whatToChange==10){
                             foundTeacher.setWorkload(Teacher.workloadValidation());
                             // exit
                         }else if(whatToChange==0){
@@ -580,6 +576,7 @@ public class Repository {
                     }
                     break;
                 case 3:
+                    dep.getHeadOfDepartment().setPosition(Position.TEACHER);
                     Teacher newHead = Department.headOfDepartmentValidation();
                     if (newHead != null) {
                         maybeDepartment.get().setHeadOfDepartment(newHead);
@@ -669,6 +666,7 @@ public class Repository {
                             foundFaculty.setShortName(Faculty.shortNameValidation());
                             // dean to change
                         }else if (whatToChange==3){
+                            foundFaculty.getDean().setPosition(Position.TEACHER);
                             foundFaculty.setDean(Faculty.deanValidation());
                             // contacts for communicaiton to change
                         }else if (whatToChange==4){

@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Person {
@@ -54,6 +55,7 @@ public class Person {
                         "Телефон: %s",
                 id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
     }
+
     public static String lastNameValidation(){
         scanner.nextLine();
         System.out.println("Введіть прізвище: ");

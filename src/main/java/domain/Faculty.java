@@ -241,8 +241,16 @@ public class Faculty {
                     }
                     Optional<Teacher> maybeTeacher = Repository.getInstance().findTeacherByID(id);
                     if(maybeTeacher.isPresent()){
-                        System.out.println("Цей викладач буде деканом");
-                        return maybeTeacher.get();
+                        Teacher foundTeacher = maybeTeacher.get();
+                        if(foundTeacher.getPosition()==Position.DEAN){
+                            System.out.println("Цей викладач уже є деканом, ви не можете його назначити.");
+                        }else if(foundTeacher.getPosition()==Position.HEAD){
+                            System.out.println("Цей викладач є завідувачем кафедри, ви не можете його назначити.");
+                        }else{
+                            System.out.println("Цей викладач буде деканом");
+                            foundTeacher.setPosition(Position.DEAN);
+                            return foundTeacher;
+                        }
                     }else{
                         System.out.println("Немає викладача з таким ID.");
                     }
