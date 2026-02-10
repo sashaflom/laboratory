@@ -25,7 +25,7 @@ public class Department {
 
     @Override
     public String toString(){
-        return "\nКафедра: \nунікальний код: '%s', \nназва: '%s', \nфакультет: '%s', \nзавідувач: '%s', \nлокація: '%s'.".formatted(uniqueCode, name,(faculty != null ? faculty.getUniqueCode() : "не призначено"),
+        return "\nКафедра: \nунікальний код: '%s', \nназва: '%s', \nфакультет: '%s', \nзавідувач: '%s', \nлокація: '%s'.".formatted(uniqueCode, name,(faculty != null ? faculty.getFullName() : "не призначено"),
                 (headOfDepartment != null ? headOfDepartment.getFullName() : "не призначено"), location);
     }
 
