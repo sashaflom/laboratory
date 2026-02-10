@@ -3,6 +3,7 @@ package domain;
 import repository.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Student extends Person {
@@ -12,14 +13,16 @@ public class Student extends Person {
     private String group;
     private int enrollmentYear;
     private EducationForm educationForm;  // enum
-    private StudentStatus status;         // enum
+    private StudentStatus status; // enum
+    private Department department;
 
     public Student(String id, String lastName, String firstName, String patronymic,
                    String birthDate, String email, String phone,
-                   String studentId, int course, String group,
+                   Department department, String studentId, int course, String group,
                    int enrollmentYear, EducationForm educationForm,
                    StudentStatus status) {
         super(id, lastName, firstName, patronymic, birthDate, email, phone);
+        this.department = department;
         this.studentId = studentId;
         this.course = course;
         this.group = group;
@@ -49,7 +52,9 @@ public class Student extends Person {
     @Override
     public String toString() {
         return String.format("Студент: %s, ID студента: %s, Курс: %d, Група: %s, Рік вступу: %d, Форма навчання: %s, Статус: %s",
-                        super.toString(), studentId, course, group, enrollmentYear,
+                        super.toString(),
+                        (department != null ? department.getName() : "не призначено"),
+                        studentId, course, group, enrollmentYear,
                         educationForm.getDisplayName(),
                         status.getDisplayName());
     }
@@ -109,6 +114,7 @@ public class Student extends Person {
             makingSure = scanner.nextInt();
         }
         if (makingSure == 1) {
+            Department dep = departmentValidation();
             Repository.getInstance().addStudents(new Student(
                     idValidationForStudents(),
                     Person.lastNameValidation(),
@@ -117,6 +123,7 @@ public class Student extends Person {
                     Person.birthDateValidation(),
                     Person.emailValidation(),
                     Person.phoneNumberValidation(),
+                    dep,
                     studentIdValidation(),
                     courseValidation(),
                     groupValidation(),
@@ -128,7 +135,39 @@ public class Student extends Person {
         }
 
     }
+    public static Department departmentValidation(){
+        while (true) {
+            System.out.println("Виберіть кафедру студента: " +
+                    "\n1 - вибрати з існуючих" +
+                    "\n2 - створити нову кафедру");
 
+            int choice;
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Введіть 1 або 2:");
+            }
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            if (choice == 1) {
+                Repository.getInstance().showAllDepartments();
+                if (!Repository.getInstance().getDepartments().isEmpty()) {
+                    System.out.println("Введіть унікальний код кафедри:");
+                    String code = scanner.nextLine();
+                    Optional<Department> maybeDep = Repository.getInstance().findDepartmentByUniqueCode(code);
+                    if (maybeDep.isPresent()) {
+                        return maybeDep.get();
+                    } else {
+                        System.out.println("Кафедру з таким кодом не знайдено!");
+                    }
+                } else {
+                    System.out.println("Кафедр ще немає. Створіть нову (опція 2).");
+                }
+            } else if (choice == 2) {
+                Department.createDepartment();
+                return Repository.getInstance().lastAddedDepartment();
+            }
+        }
+    }
     public static StudentStatus statusValidation() {
         System.out.println("Виберіть статус студента: " +
                 "\n1 - Навчається " +
@@ -280,6 +319,7 @@ public class Student extends Person {
         }
         return id;
     }
+
 }
 
 
