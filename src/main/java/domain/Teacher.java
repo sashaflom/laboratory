@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Teacher extends Person {
 
     private static Scanner scanner = new Scanner(System.in);
+    private Department department;
     private Position position; //посада
    private AcademicDegree academicDegree; //науковий ступінь
    private AcademicTitle academicTitle; // enum, вчене звання
@@ -17,10 +18,11 @@ public class Teacher extends Person {
    private double workload; //ставка/навантаження
 
     public Teacher(String id, String lastName, String firstName,String patronymic,
-                  String birthDate, String email, String phoneNumber, Position position,
+                  String birthDate, String email, String phoneNumber, Department department, Position position,
                   AcademicDegree academicDegree, AcademicTitle academicTitle,
                   String hireDate, double workload ) {
        super(id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
+       this.department = department;
        this.position = position;
        this.academicDegree = academicDegree;
        this.academicTitle = academicTitle;
@@ -33,6 +35,9 @@ public class Teacher extends Person {
     public AcademicTitle getAcademicTitle() {return academicTitle;}
     public String getHireDate() {return hireDate;}
     public double getWorkload() {return workload;}
+    public Department getDepartment() {
+        return department;
+    }
 
     public void setPosition(Position position) {this.position = position;}
     public void setWorkload(double workload) {this.workload = workload;}
@@ -41,6 +46,9 @@ public class Teacher extends Person {
     public void setHireDate(String hireDate) {
         this.hireDate = hireDate;
     }
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     public String getRole() {
         return "Викладач";
@@ -48,8 +56,8 @@ public class Teacher extends Person {
 
     @Override
     public String toString() {
-        return String.format("Викладач: %s, Посада: %s, Науковий ступінь: %s, Вчене звання: %s, Дата прийняття: %s, Ставка: %s",
-                        super.toString(), position.getDisplayName(), academicDegree.getDisplayName(), academicTitle.getDisplayName(),
+        return String.format("Викладач: %s, Кафедра: %s, Посада: %s, Науковий ступінь: %s, Вчене звання: %s, Дата прийняття: %s, Ставка: %s",
+                        super.toString(), department, position.getDisplayName(), academicDegree.getDisplayName(), academicTitle.getDisplayName(),
                         hireDate, workload);
     }
 
@@ -116,7 +124,7 @@ public class Teacher extends Person {
         if(makingSure==1){
             Repository.getInstance().addTeacher(new Teacher(idValidation(), lastNameValidation(),
                     firstNameValidation(), patronymicValidation(), birthDateValidation(),
-                    emailValidation(), phoneNumberValidation(), positionValidation(),
+                    emailValidation(), phoneNumberValidation(), null, positionValidation(),
                     academicDegreeValidation(), academicTitleValidation(), hireDateValidation(),
                     workloadValidation()));
             System.out.println("Ви успішно додали викладача: \n" + Repository.getInstance().findLastAddedTeacher());
@@ -145,6 +153,55 @@ public class Teacher extends Person {
             }
         }
         return id;
+    }
+
+    public static Department departmentValidation(){
+        while(true){
+            System.out.println("Виберіть, як хочете призначити кафедру викладачу: " +
+                    "\n1 - вибрати з уже існуючих кафедр" +
+                    "\n2 - створити нову кафедру та призначити");
+            int howToChooseDepartment;
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+            }
+            howToChooseDepartment = scanner.nextInt();
+            while(howToChooseDepartment!=1 && howToChooseDepartment!=2){
+                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
+                }
+                howToChooseDepartment = scanner.nextInt();
+            }
+
+            // chose from existing
+            if(howToChooseDepartment==1){
+                System.out.println("СПИСОК НАЯВНИХ КАФЕДР:");
+                Repository.getInstance().showAllDepartments();
+                if(Repository.getInstance().getDepartments().size()!=0){
+                    System.out.println("Введіть унікальний код кафедри, яку хочете призначити: ");
+                    scanner.nextLine();
+                    String uniqueCode = scanner.nextLine();
+                    while (uniqueCode.isEmpty() || uniqueCode.length() > 4) {
+                        System.out.println("Код не може бути порожнім або довшим за 4 символи. Спробуйте ще раз:");
+                        uniqueCode = scanner.nextLine();
+                    }
+
+                    Optional<Department> maybeDepartment = Repository.getInstance().findDepartmentByUniqueCode(uniqueCode);
+                    if(maybeDepartment.isPresent()){
+                        return maybeDepartment.get();
+                    }
+                }else{
+                    System.out.println("Не створено жодної кафедри, отже ви не можете вибрати");
+                }
+                //create new
+            }else if(howToChooseDepartment==2){
+                Department.createDepartment();
+                System.out.println("Ця кафедра буде призначена цьому викладачу.");
+                return Repository.getInstance().lastAddedDepartment();
+            }
+        }
     }
 
     public static Position positionValidation(){

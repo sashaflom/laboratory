@@ -170,10 +170,11 @@ public class Repository {
                                 "\n4 - дату народження" +
                                 "\n5 - email" +
                                 "\n6 - номер телефону" +
-                                "\n7 - науковий ступінь" +
-                                "\n8 - вчене звання" +
-                                "\n9 - дату прийняття на роботу" +
-                                "\n10 - ставку" +
+                                "\n7 - кафедру" +
+                                "\n8 - науковий ступінь" +
+                                "\n9 - вчене звання" +
+                                "\n10 - дату прийняття на роботу" +
+                                "\n11 - ставку" +
                                 "\n0 - вийти на рівень вище");
                         int whatToChange;
                         while (!scanner.hasNextInt()) {
@@ -181,7 +182,7 @@ public class Repository {
                             System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
                         }
                         whatToChange = scanner.nextInt();
-                        while(whatToChange<0 || whatToChange>10){
+                        while(whatToChange<0 || whatToChange>11){
                             System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
                             while (!scanner.hasNextInt()) {
                                 String input = scanner.next();
@@ -208,17 +209,20 @@ public class Repository {
                             // phone number to change
                         }else if (whatToChange==6){
                             foundTeacher.setPhoneNumber(Person.phoneNumberValidation());
+                            // department to change
+                        }else if (whatToChange==7){
+                            foundTeacher.setDepartment(Teacher.departmentValidation());
                             // academic degree was chosen
-                        }else if(whatToChange==7){
+                        }else if(whatToChange==8){
                             foundTeacher.setAcademicDegree(Teacher.academicDegreeValidation());
                             // academic title to change
-                        }else if (whatToChange==8){
+                        }else if (whatToChange==9){
                             foundTeacher.setAcademicTitle(Teacher.academicTitleValidation());
                             // hire date to change
-                        }else if(whatToChange==9){
+                        }else if(whatToChange==10){
                             foundTeacher.setHireDate(Teacher.hireDateValidation());
                             // workload to change
-                        }else if(whatToChange==10){
+                        }else if(whatToChange==11){
                             foundTeacher.setWorkload(Teacher.workloadValidation());
                             // exit
                         }else if(whatToChange==0){
