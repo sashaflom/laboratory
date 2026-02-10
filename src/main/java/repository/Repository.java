@@ -520,7 +520,7 @@ public class Repository {
 
     public void showAllDepartments() {
         System.out.println("\n СПИСОК ВСІХ КАФЕДР:");
-        if(students.isEmpty()){
+        if(departments.isEmpty()){
             System.out.println("Не знайдено жодного кафедри");
             return;
         }
