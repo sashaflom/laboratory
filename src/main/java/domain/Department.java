@@ -25,7 +25,8 @@ public class Department {
 
     @Override
     public String toString(){
-        return "\nКафедра: \nунікальний код: '%s', \nназва: '%s', \nфакультет: '%s', \nзавідувач: '%s', \nлокація: '%s'.".formatted(uniqueCode, name, faculty, headOfDepartment, location);
+        return "\nКафедра: \nунікальний код: '%s', \nназва: '%s', \nфакультет: '%s', \nзавідувач: '%s', \nлокація: '%s'.".formatted(uniqueCode, name,(faculty != null ? faculty.getUniqueCode() : "не призначено"),
+                (headOfDepartment != null ? headOfDepartment.getFullName() : "не призначено"), location);
     }
 
     public String getUniqueCode() {
@@ -127,7 +128,6 @@ public class Department {
         }
 
         if (makingSure == 1) {
-            scanner.nextLine();
             Faculty selectedFaculty = facultyValidation();
             if (selectedFaculty == null) {
                 System.out.println("Додавання кафедри скасовано.");
