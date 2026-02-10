@@ -26,7 +26,7 @@ public class Faculty {
 
     @Override
     public String toString(){
-        return "Факультет: унікальний код: '%s', повна назва: '%s', скорочена назва: '%s', декан: '%s', контакт: '%s'.".formatted(uniqueCode, fullName, shortName, dean, contactForCommunication);
+        return "Факультет: унікальний код: '%s', повна назва: '%s', скорочена назва: '%s', декан: '%s', контакт: '%s'.".formatted(uniqueCode, fullName, shortName, (dean != null ? dean.getFullName() : "не призначено"), contactForCommunication);
     }
 
     public String getUniqueCode() {
