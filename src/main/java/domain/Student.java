@@ -51,7 +51,7 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return String.format("Студент: %s, ID студента: %s, Курс: %d, Група: %s, Рік вступу: %d, Форма навчання: %s, Статус: %s",
+        return String.format("Студент: %s, Кафедра: %s, ID студента: %s, Курс: %d, Група: %s, Рік вступу: %d, Форма навчання: %s, Статус: %s",
                         super.toString(),
                         (department != null ? department.getName() : "не призначено"),
                         studentId, course, group, enrollmentYear,
