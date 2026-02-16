@@ -1,6 +1,6 @@
 package domain;
 
-import repository.Repository;
+import repositories.Repository;
 
 import java.util.List;
 import java.util.Optional;

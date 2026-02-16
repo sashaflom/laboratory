@@ -1,4 +1,4 @@
-package repository;
+package repositories;
 
 import domain.*;
 
@@ -392,7 +392,7 @@ public class Repository {
     }
 
     public static void findStudent() {
-        List<Student> students = repository.Repository.getInstance().getStudents();
+        List<Student> students = Repository.getInstance().getStudents();
         if (students.isEmpty()) {
             System.out.println("Список студентів порожній.");
             return;
