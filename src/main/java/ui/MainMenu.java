@@ -1,7 +1,6 @@
 package ui;
 
 import domain.*;
-import repositories.Repository;
 import validators.InputReader;
 
 import java.util.Scanner;
@@ -31,23 +30,23 @@ public class MainMenu {
                                 "\n2 - кафедра" +
                                 "\n3 - студент" +
                                 "\n4 - викладач" +
-                                "\n0 - вийти на рівень вище", 0, 4);
+                                "\n0 - повернутись на крок назад", 0, 4);
                         switch (whatToWorkWith){
                             // faculty was chosen
                             case 1:
-                                Faculty.selectOperation();
+                                FacultyMenu.selectOperation();
                                 break;
                             // department was chosen
                             case 2:
-                                Department.selectDepartmentOperation();
+                                DepartmentMenu.selectOperation();
                                 break;
                             // student was chosen
                             case 3:
-                                Student.selectStudentOperation();
+                                StudentMenu.selectOperation();
                                 break;
                             // teacher was chosen
                             case 4:
-                                Teacher.selectOperation();
+                                TeacherMenu.selectOperation();
                                 break;
                             // exit was chosen
                             case 0:
@@ -62,15 +61,15 @@ public class MainMenu {
                         int whatToFind = InputReader.readInt("\nВиберіть, кого хочете знайти: " +
                                 "\n1 - студента" +
                                 "\n2 - викладача" +
-                                "\n0 - вийти на рівень вище", 0, 2);
+                                "\n0 - повернутись на крок назад", 0, 2);
                         switch (whatToFind){
                             //find student was chosen
                             case 1:
-                                Repository.findStudent();
+                                StudentMenu.find();
                                 break;
                             // find teacher was chosen
                             case 2:
-                                Teacher.find();
+                                TeacherMenu.find();
                                 break;
                             //exit was chosen
                             case 0:
@@ -85,7 +84,7 @@ public class MainMenu {
                     break;
                 // exit was chosen
                 case 0:
-                    System.out.println("Дякую, що прийшли!");
+                    System.out.println("\nДякую, що прийшли!");
                     break;
             }
             if (whatToDo==0) break;

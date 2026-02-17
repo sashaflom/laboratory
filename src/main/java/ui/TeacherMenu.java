@@ -1,0 +1,362 @@
+package ui;
+
+import domain.*;
+import repositories.Repository;
+import services.DepartmentService;
+import services.FacultyService;
+import services.StudentService;
+import services.TeacherService;
+import validators.FacultyValidator;
+import validators.InputReader;
+import validators.PersonValidator;
+import validators.TeacherValidator;
+
+import java.util.List;
+import java.util.Optional;
+
+public class TeacherMenu {
+
+    public static void selectOperation(){
+        while(true){
+            int whatToDo = InputReader.readInt("\nВиберіть, що хочете зробити: " +
+                    "\n1 - створити нового викладча" +
+                    "\n2 - побачити всіх викладачів" +
+                    "\n3 - редагувати існуючого викладача" +
+                    "\n4 - видалити існуючого викладача" +
+                    "\n0 - повернутись на крок назад", 0, 4);
+            switch (whatToDo){
+                // create a new one was chosen
+                case 1:
+                    int makingSure = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
+                    if(makingSure==1){
+                        createForm();
+                    }
+                    break;
+                // see existing one was chosen
+                case 2:
+                    int makingSure2 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
+                    if(makingSure2==1){
+                        TeacherService service = new TeacherService(Repository.getInstance());
+                        printAll(service.getAll());
+                    }
+                    break;
+                // change existing one was chosen
+                case 3:
+                    int makingSure3 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
+                    if(makingSure3==1){
+                        changeForm();
+                    }
+                    //Repository.getInstance().changeFaculty();
+                    break;
+                // delete existing one was chosen
+                case 4:
+                    int makingSure4 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
+                    if(makingSure4==1){
+                        deleteForm();
+                    }
+                    //Repository.getInstance().deleteFaculty();
+                    break;
+                // exit was chosen
+                case 0:
+                    break;
+            }
+            if(whatToDo==0) break;
+        }
+    }
+
+    public static void createForm(){
+        TeacherService service = new TeacherService(Repository.getInstance());
+        TeacherValidator teacherValidator = new TeacherValidator(Repository.getInstance());
+        PersonValidator personValidator = new PersonValidator();
+        System.out.println("\nВи успішно додали викладача: \n" + service.createNewAndAdd(getId(teacherValidator), getLastName(), getFirstName(),
+                getPatronymic(), getBirthDate(), getEmail(), getPhoneNumber(personValidator), null, getPosition(),
+                getAcademicDegree(), getAcademicTitle(), getHireDate(), getWorkload()));
+    }
+
+    private static String getId(TeacherValidator validator){
+        String id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
+        while(!validator.isIdValid(id)){
+            System.out.println("Помилка! Викладач з таким унікальним ідентифікатором уже існує.");
+            id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
+        }
+        return id;
+    }
+
+    private static String getLastName(){
+        String lastName = InputReader.readLine("Введіть прізвище: ", 1, 30);
+        return lastName;
+    }
+
+    private static String getFirstName(){
+        String firstName = InputReader.readLine("Введіть ім'я: ", 1, 30);
+        return firstName;
+    }
+
+    private static String getPatronymic(){
+        String patronymic = InputReader.readLine("Введіть побатькові: ", 1, 30);
+        return patronymic;
+    }
+
+    private static String getBirthDate(){
+        int bdYear = InputReader.readInt("Введіть рік народження: ", 1900, 2026);
+        int bdMonth = InputReader.readInt("Введіть місяць народження цифрою: ", 1, 12);
+        int bdDay = InputReader.readInt("Введіть день народження цифрою: ", 1, 31);
+        String birthDate = bdDay + "." + bdMonth + "." + bdYear;
+        return birthDate;
+    }
+
+    private static String getEmail(){
+        String email = InputReader.readLine("Введіть email: ", 1, 40);
+        return email;
+    }
+
+    private static String getPhoneNumber(PersonValidator validator){
+        String phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
+        while(!validator.isPhoneNumberValid(phoneNumber)){
+            System.out.println("Помилка! Некоректний формат номеру телефону.");
+            phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
+        }
+        return phoneNumber;
+    }
+
+    public static Department getDepartment(){
+        while (true){
+            int howToChooseDepartment = InputReader.readInt("Виберіть, як хочете призначити викладача кафедрі: " +
+                    "\n1 - вибрати з уже існуючих кафедр" +
+                    "\n2 - створити нову кафедру та призначити до неї викладача", 1,2);
+            DepartmentService departmentService = new DepartmentService(Repository.getInstance());
+            switch (howToChooseDepartment){
+                //choose from existing
+                case 1:
+                    if(DepartmentMenu.printAll(departmentService.getAll())){
+                        String uniqueCode = InputReader.readLine("\nВведіть унікальний код кафедри, яку хочете обрати: ", 4, 4);
+                        Optional<Department> maybeDepartment = departmentService.findByUniqueCode(uniqueCode);
+                        if(maybeDepartment.isPresent()){
+                            Department foundDepartment = maybeDepartment.get();
+                            System.out.println("\nЦей викладач буде на кафедрі " + foundDepartment.getName() + ".");
+                            return foundDepartment;
+                        }else{
+                            System.out.println("\nКафедру з унікальним кодом " + uniqueCode + " не знайдено.");
+                        }
+                    }else{
+                        System.out.println("Немає з чого обрати.");
+                    }
+                    break;
+                // create new
+                case 2:
+                    DepartmentMenu.createForm();
+                    Department department = departmentService.findLastAdded();
+                    System.out.println("\nЦей викладач буде на кафедрі " + department.getName() + ".");
+                    return department;
+            }
+        }
+    }
+
+    private static Position getPosition(){
+        int indexOfPosition = InputReader.readInt("Виберіть посаду:" +
+                "\n0 - Викладач" +
+                "\n1 - Декан факультету" +
+                "\n2 - Завідувач кафедри", 0, 2);
+        return Position.values()[indexOfPosition];
+    }
+
+    private static AcademicDegree getAcademicDegree(){
+        int indexOfAcademicDegree = InputReader.readInt("Виберіть науковий ступунь:" +
+                "\n0 - Без ступеня" +
+                "\n1 - Кандидат наук" +
+                "\n2 - Доктор наук", 0, 2);
+        return AcademicDegree.values()[indexOfAcademicDegree];
+    }
+
+    private static AcademicTitle getAcademicTitle(){
+        int indexOfAcademicTitle = InputReader.readInt("Виберіть вчене звання:" +
+                "\n0 - Без звання" +
+                "\n1 - Доцент" +
+                "\n2 - Професор", 0, 2);
+        return AcademicTitle.values()[indexOfAcademicTitle];
+    }
+
+    private static String getHireDate(){
+        int hYear = InputReader.readInt("Введіть рік прийняття на роботу: ", 1900, 2026);
+        int hMonth = InputReader.readInt("Введіть місяць прийняття на роботу цифрою: ", 1, 12);
+        int hDay = InputReader.readInt("Введіть день прийняття на роботу цифрою: ", 1, 31);
+        String hireDate = hDay + "." + hMonth + "." + hYear;
+        return hireDate;
+    }
+
+    private static double getWorkload(){
+        double workload = InputReader.readDouble("Введіть ставку: ", 10, 1000000);
+        return workload;
+    }
+
+    public static boolean printAll(List<Teacher> allTeachers){
+        if(allTeachers.size()!=0){
+            System.out.println("\nСПИСОК ВИКЛАДАЧІВ:");
+            int count = 1;
+            for(Teacher teacher : allTeachers){
+                System.out.println(count + ". " + teacher);
+                count++;
+            }
+            return true;
+        }else{
+            System.out.println("\nСписок викладачів порожній.");
+        }
+        return false;
+    }
+
+    private static void changeForm(){
+        TeacherService service = new TeacherService(Repository.getInstance());
+        PersonValidator validator = new PersonValidator();
+        if(printAll(service.getAll())){
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете змінити: ", 5, 5);
+            Optional<Teacher> maybeTeacher = service.findById(id);
+            if(maybeTeacher.isPresent()){
+                Teacher foundTeacher = maybeTeacher.get();
+                while(true){
+                    int whatToChange = InputReader.readInt("\nВиберіть, що ви хочете змінити:" +
+                            "\n1 - прізвище" +
+                            "\n2 - ім'я" +
+                            "\n3 - побатькові" +
+                            "\n4 - дату народження" +
+                            "\n5 - email" +
+                            "\n6 - номер телефону" +
+                            "\n7 - кафедру" +
+                            "\n8 - науковий ступінь" +
+                            "\n9 - вчене звання" +
+                            "\n10 - дату прийняття на роботу" +
+                            "\n11 - ставку" +
+                            "\n0 - повернутись на крок назад", 0, 11);
+                    switch (whatToChange){
+                        // last name to change
+                        case 1:
+                            foundTeacher.setLastname(getLastName());
+                            break;
+                        // first name to change
+                        case 2:
+                            foundTeacher.setFirstname(getFirstName());
+                            break;
+                        // patronymic to change
+                        case 3:
+                            foundTeacher.setPatronymic(getPatronymic());
+                            break;
+                        // birth date to change
+                        case 4:
+                            foundTeacher.setBirthDate(getBirthDate());
+                            break;
+                        // email to change
+                        case 5:
+                            foundTeacher.setEmail(getEmail());
+                            break;
+                        // phone number to change
+                        case 6:
+                            foundTeacher.setPhoneNumber(getPhoneNumber(validator));
+                            break;
+                        //  department to change
+                        case 7:
+                            foundTeacher.setDepartment(getDepartment());
+                            break;
+                        //  academic degree to change
+                        case 8:
+                            foundTeacher.setAcademicDegree(getAcademicDegree());
+                            break;
+                        // academic title to change
+                        case 9:
+                            foundTeacher.setAcademicTitle(getAcademicTitle());
+                            break;
+                        // hire date to change
+                        case 10:
+                            foundTeacher.setHireDate(getHireDate());
+                            break;
+                        // workload to change
+                        case 11:
+                            foundTeacher.setWorkload(getWorkload());
+                            break;
+                        // exit
+                        case 0:
+                            break;
+                    }
+                    if(whatToChange==0) break;
+                    System.out.println("\nЗміни проведені успішно. Оновлені дані: \n" + foundTeacher);
+                }
+            }else{
+                System.out.println("\nВикладача з унікальним ідентифікатором " + id + " не знайдено.");
+            }
+        }else{
+            System.out.println("Немає кого змінювати.");
+        }
+    }
+
+    private static void deleteForm(){
+        TeacherService service = new TeacherService(Repository.getInstance());
+        if(printAll(service.getAll())) {
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете видалити: ", 5, 5);
+            Optional<Teacher> maybeTeacher = service.findById(id);
+            if (maybeTeacher.isPresent()) {
+                Teacher foundTeacher = maybeTeacher.get();
+                service.delete(foundTeacher);
+                System.out.println("\nВи успішно видалили викладача. Оновлені дані: ");
+                printAll(service.getAll());
+            }else{
+                System.out.println("\nВикладача з унікальним ідентифікатором " + id + " не знайдено.");
+            }
+        }else{
+            System.out.println("Немає кого видаляти.");
+        }
+    }
+
+    public static void find(){
+        while(true){
+            TeacherService service = new TeacherService(Repository.getInstance());
+            if (service.isThereSomethingInRepository()){
+                int howToFind = InputReader.readInt("\nОберіть критерій пошуку: " +
+                        "\n1 - за унікальним ідентифікатором" +
+                        "\n2 - за ПІБ" +
+                        "\n0 - повернутись на крок назад", 0, 2);
+                switch (howToFind){
+                    // find by ID
+                    case 1:
+                        findById(service);
+                        break;
+                    // find by full name
+                    case 2:
+                        findByFullName(service);
+                        break;
+                    // exit
+                    case 0:
+                        break;
+                }
+                if(howToFind==0) break;
+            }else{
+                System.out.println("\nСписок викладачів порожній, ви не можете нікого знайти.");
+                break;
+            }
+        }
+    }
+
+    private static void findById(TeacherService service){
+        TeacherValidator teacherValidator = new TeacherValidator(Repository.getInstance());
+        String id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
+        Optional<Teacher> maybeTeacher = service.findById(id);
+        if(maybeTeacher.isPresent()){
+            System.out.println("\nЗнайдений викладач з унікальним ідентифікатором " + id + ":");
+            System.out.println(maybeTeacher.get());
+        }else{
+            System.out.println("\nВикладача з унікальним ідентифікатором " + id + " не знайдено.");
+        }
+    }
+
+    private static void findByFullName(TeacherService service){
+        String fullName = getLastName() + " " + getFirstName() + " " + getPatronymic();
+        List<Teacher> foundTeachers = service.findByFullName(fullName);
+        if(foundTeachers.size()!=0){
+            System.out.println("\nЗнайдені викладачі з ПІБ " + fullName + ":");
+            int count = 1;
+            for(Teacher teacher : foundTeachers){
+                System.out.println(count + ". " + teacher);
+            }
+        }else{
+            System.out.println("\nВикладачів з ПІБ " + fullName + " не знайдено.");
+        }
+    }
+
+}

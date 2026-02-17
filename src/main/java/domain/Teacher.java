@@ -8,13 +8,12 @@ import java.util.Scanner;
 
 public class Teacher extends Person {
 
-    private static Scanner scanner = new Scanner(System.in);
     private Department department;
     private Position position; //посада
-   private AcademicDegree academicDegree; //науковий ступінь
-   private AcademicTitle academicTitle; // enum, вчене звання
-   private String hireDate; //дата прийняття на роботу
-   private double workload; //ставка/навантаження
+    private AcademicDegree academicDegree; //науковий ступінь
+    private AcademicTitle academicTitle; // enum, вчене звання
+    private String hireDate; //дата прийняття на роботу
+    private double workload; //ставка/навантаження
 
     public Teacher(String id, String lastName, String firstName,String patronymic,
                   String birthDate, String email, String phoneNumber, Department department, Position position,
@@ -29,29 +28,25 @@ public class Teacher extends Person {
        this.workload = workload;
    }
 
-   public Position getPosition() {return position;}
+    public Department getDepartment() {
+        return department;
+    }
+    public Position getPosition() {return position;}
     public AcademicDegree getAcademicDegree() {return academicDegree;}
     public AcademicTitle getAcademicTitle() {return academicTitle;}
     public String getHireDate() {return hireDate;}
     public double getWorkload() {return workload;}
-    public Department getDepartment() {
-        return department;
-    }
 
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
     public void setPosition(Position position) {this.position = position;}
-    public void setWorkload(double workload) {this.workload = workload;}
     public void setAcademicDegree(AcademicDegree academicDegree) { this.academicDegree = academicDegree;}
     public void setAcademicTitle(AcademicTitle academicTitle) { this.academicTitle = academicTitle;}
     public void setHireDate(String hireDate) {
         this.hireDate = hireDate;
     }
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public String getRole() {
-        return "Викладач";
-    }
+    public void setWorkload(double workload) {this.workload = workload;}
 
     @Override
     public String toString() {
@@ -59,385 +54,6 @@ public class Teacher extends Person {
                         super.toString(), (department != null ? department.getName() : "не призначено"), position.getDisplayName(), academicDegree.getDisplayName(), academicTitle.getDisplayName(),
                         hireDate, workload);
     }
-
-    public static void selectOperation(){
-        while(true){
-            System.out.println("Виберіть, що хочете зробити: " +
-                    "\n1 - створити новий" +
-                    "\n2 - побачити всіх викладачів" +
-                    "\n3 - редагувати існуючий" +
-                    "\n4 - видалити існуючий" +
-                    "\n0 - вийти на рівень вище");
-            int whatToDo;
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            }
-            whatToDo = scanner.nextInt();
-            while(whatToDo<0 || whatToDo>4){
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                while (!scanner.hasNextInt()) {
-                    String input = scanner.next();
-                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                }
-                whatToDo = scanner.nextInt();
-            }
-
-            // create a new one was chosen
-            if(whatToDo==1){
-                createNew();
-                // see existing one was chosen
-            }else if (whatToDo==2){
-                System.out.println("Список наявних викладачів:");
-                Repository.getInstance().showAllTeachers();
-                // change existing one was chosen
-            }else if(whatToDo==3){
-                Repository.getInstance().changeTeacher();
-                // delete existing one was chosen
-            }else if (whatToDo==4){
-                Repository.getInstance().deleteTeacher();
-                // exit was chosen
-            }else if (whatToDo==0){
-                break;
-            }
-        }
-    }
-
-    public static void createNew(){
-        System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
-        int makingSure;
-        while (!scanner.hasNextInt()) {
-            String input = scanner.next();
-            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-        }
-        makingSure = scanner.nextInt();
-        while(makingSure!=0 && makingSure!=1){
-            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            }
-            makingSure = scanner.nextInt();
-        }
-
-        if(makingSure==1){
-            Repository.getInstance().addTeacher(new Teacher(idValidation(), lastNameValidation(),
-                    firstNameValidation(), patronymicValidation(), birthDateValidation(),
-                    emailValidation(), phoneNumberValidation(), null, positionValidation(),
-                    academicDegreeValidation(), academicTitleValidation(), hireDateValidation(),
-                    workloadValidation()));
-            System.out.println("Ви успішно додали викладача: \n" + Repository.getInstance().findLastAddedTeacher());
-        }
-    }
-
-    private static String idValidation(){
-        scanner.nextLine();
-        System.out.println("Введіть унікальний ідентифікатор з 5 знаків: ");
-        String id = scanner.nextLine();
-        while(id.length() != 5){
-            System.out.println("Не може бути такої довжини, введіть 5 знаків: ");
-            id = scanner.nextLine();
-        }
-        List<Teacher> teachers = Repository.getInstance().getTeachers();
-        if(teachers.size() != 0){
-            for(int i=0; i<teachers.size(); i++){
-                while(teachers.get(i).getId().equals(id)){
-                    System.out.println("Викладач з таким ідентифікатором уже існує, введіть інший:");
-                    id = scanner.nextLine();
-                    while(id.length() != 5) {
-                        System.out.println("Не може бути такої довжини, введіть 5 знаків: ");
-                        id = scanner.nextLine();
-                    }
-                }
-            }
-        }
-        return id;
-    }
-
-    public static Department departmentValidation(){
-        while(true){
-            System.out.println("Виберіть, як хочете призначити кафедру викладачу: " +
-                    "\n1 - вибрати з уже існуючих кафедр" +
-                    "\n2 - створити нову кафедру та призначити");
-            int howToChooseDepartment;
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            }
-            howToChooseDepartment = scanner.nextInt();
-            while(howToChooseDepartment!=1 && howToChooseDepartment!=2){
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                while (!scanner.hasNextInt()) {
-                    String input = scanner.next();
-                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                }
-                howToChooseDepartment = scanner.nextInt();
-            }
-
-            // chose from existing
-            if(howToChooseDepartment==1){
-                System.out.println("СПИСОК НАЯВНИХ КАФЕДР:");
-                Repository.getInstance().showAllDepartments();
-                if(Repository.getInstance().getDepartments().size()!=0){
-                    System.out.println("Введіть унікальний код кафедри, яку хочете призначити: ");
-                    scanner.nextLine();
-                    String uniqueCode = scanner.nextLine();
-                    while (uniqueCode.isEmpty() || uniqueCode.length() > 4) {
-                        System.out.println("Код не може бути порожнім або довшим за 4 символи. Спробуйте ще раз:");
-                        uniqueCode = scanner.nextLine();
-                    }
-
-                    Optional<Department> maybeDepartment = Repository.getInstance().findDepartmentByUniqueCode(uniqueCode);
-                    if(maybeDepartment.isPresent()){
-                        return maybeDepartment.get();
-                    }
-                }else{
-                    System.out.println("Не створено жодної кафедри, отже ви не можете вибрати");
-                }
-                //create new
-            }else if(howToChooseDepartment==2){
-                Department.createDepartment();
-                System.out.println("Ця кафедра буде призначена цьому викладачу.");
-                return Repository.getInstance().lastAddedDepartment();
-            }
-        }
-    }
-
-    public static Position positionValidation(){
-        System.out.println("Виберіть посаду:" +
-                "\n0 - Викладач" +
-                "\n1 - Декан факультету" +
-                "\n2 - Завідувач кафедри");
-        int indexOfPosition;
-        while (!scanner.hasNextInt()) {
-            String input = scanner.next();
-            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-        }
-        indexOfPosition = scanner.nextInt();
-        while(indexOfPosition<0 || indexOfPosition>2){
-            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            }
-            indexOfPosition = scanner.nextInt();
-        }
-        Position pos = Position.values()[indexOfPosition];
-        return pos;
-    }
-
-    public static AcademicDegree academicDegreeValidation(){
-        System.out.println("Виберіть науковий ступунь:" +
-                "\n0 - Без ступеня" +
-                "\n1 - Кандидат наук" +
-                "\n2 - Доктор наук");
-        int indexOfAcademicDegree;
-        while (!scanner.hasNextInt()) {
-            String input = scanner.next();
-            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-        }
-        indexOfAcademicDegree = scanner.nextInt();
-        while(indexOfAcademicDegree<0 || indexOfAcademicDegree>2){
-            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            }
-            indexOfAcademicDegree = scanner.nextInt();
-        }
-        AcademicDegree acDeg = AcademicDegree.values()[indexOfAcademicDegree];
-        return acDeg;
-    }
-
-    public static AcademicTitle academicTitleValidation(){
-        System.out.println("Виберіть вчене звання:" +
-                "\n0 - Без звання" +
-                "\n1 - Доцент" +
-                "\n2 - Професор");
-        int indexOfAcademicTitle;
-        while (!scanner.hasNextInt()) {
-            String input = scanner.next();
-            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-        }
-        indexOfAcademicTitle = scanner.nextInt();
-        while(indexOfAcademicTitle<0 || indexOfAcademicTitle>2){
-            System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            }
-            indexOfAcademicTitle = scanner.nextInt();
-        }
-        AcademicTitle acTit = AcademicTitle.values()[indexOfAcademicTitle];
-        return acTit;
-    }
-
-    public static String hireDateValidation(){
-        scanner.nextLine();
-        System.out.println("Введіть рік прийняття на роботу: ");
-        int emYear;
-        while (!scanner.hasNextInt()) {
-            String input = scanner.next();
-            System.out.println("Не може бути такий рік прийняття на роботу, введіть інший: ");
-        }
-        emYear = scanner.nextInt();
-        while(emYear<1900 || emYear>2026){
-            System.out.println("Не може бути такий рік прийняття на роботу, введіть інший: ");
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Не може бути такий рік прийняття на роботу, введіть інший: ");
-            }
-            emYear = scanner.nextInt();
-        }
-
-        System.out.println("Введіть місяць прийняття на роботу цифрою: ");
-        int emMonth;
-        while (!scanner.hasNextInt()) {
-            String input = scanner.next();
-            System.out.println("Не може бути такий місяць прийняття на роботу, введіть інший: ");
-        }
-        emMonth = scanner.nextInt();
-        while(emMonth<1 || emMonth>12){
-            System.out.println("Не може бути такий місяць прийняття на роботу, введіть інший: ");
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Не може бути такий місяць прийняття на роботу, введіть інший: ");
-            }
-            emMonth = scanner.nextInt();
-        }
-
-        System.out.println("Введіть день прийняття на роботу цифрою: ");
-        int emDay;
-        while (!scanner.hasNextInt()) {
-            String input = scanner.next();
-            System.out.println("Не може бути такий день прийняття на роботу, введіть інший: ");
-        }
-        emDay = scanner.nextInt();
-        while(emDay<1 || emDay>31){
-            System.out.println("Не може бути такий день прийняття на роботу, введіть інший: ");
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Не може бути такий день прийняття на роботу, введіть інший: ");
-            }
-            emDay = scanner.nextInt();
-        }
-        String employmentDate = emDay + "." + emMonth + "." + emYear;
-        return employmentDate;
-    }
-
-    public static double workloadValidation(){
-        scanner.nextLine();
-        System.out.println("Введіть ставку: ");
-        double load;
-        while (!scanner.hasNextDouble()) {
-            String input = scanner.next();
-            System.out.println("Не може бути така ставка, введіть іншу: ");
-        }
-        load = scanner.nextDouble();
-        while(load<0){
-            System.out.println("Не може бути така ставка, введіть іншу: ");
-            while (!scanner.hasNextDouble()) {
-                String input = scanner.next();
-                System.out.println("Не може бути така ставка, введіть іншу: ");
-            }
-            load = scanner.nextDouble();
-        }
-        return load;
-    }
-
-    public static void find(){
-        while(true){
-            System.out.println("Виберіть, за яким параметром проводити пошук: " +
-                    "\n1 - за унікальним ідентифікатором" +
-                    "\n2 - за ПІБ" +
-                    "\n0 - вийти на рівень вище");
-            int howToFind;
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-            }
-            howToFind = scanner.nextInt();
-            while(howToFind<0 || howToFind>2) {
-                System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                while (!scanner.hasNextInt()) {
-                    String input = scanner.next();
-                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                }
-                howToFind = scanner.nextInt();
-            }
-
-            // ID
-            if(howToFind==1){
-                System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
-                int makingSure;
-                while (!scanner.hasNextInt()) {
-                    String input = scanner.next();
-                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                }
-                makingSure = scanner.nextInt();
-                while(makingSure!=0 && makingSure!=1){
-                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                    while (!scanner.hasNextInt()) {
-                        String input = scanner.next();
-                        System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                    }
-                    makingSure = scanner.nextInt();
-                }
-
-                if(makingSure==1){
-                    findById();
-                }
-
-                // last name, first name, patronymic
-            }else if(howToFind==2){
-                System.out.println("Введіть 1, щоби розпочати, або 0, щоби повернутися на крок назад: ");
-                int makingSure;
-                while (!scanner.hasNextInt()) {
-                    String input = scanner.next();
-                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                }
-                makingSure = scanner.nextInt();
-                while(makingSure!=0 && makingSure!=1){
-                    System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                    while (!scanner.hasNextInt()) {
-                        String input = scanner.next();
-                        System.out.println("Немає такої опції, введіть число відповідно до інструкції: ");
-                    }
-                    makingSure = scanner.nextInt();
-                }
-                if(makingSure==1){
-                    findByFullName();
-                }
-                // exit
-            }else if(howToFind==0){
-                break;
-            }
-        }
-    }
-
-    public static void findById(){
-        System.out.println("Введіть ID за яким хочете шукати: ");
-        scanner.nextLine();
-        String id = scanner.nextLine();
-        while (id.length() != 5) {
-            System.out.println("Не може бути такої довжини, введіть 5 знаків: ");
-            id = scanner.nextLine();
-        }
-
-        Optional<Teacher> maybeTeacher = Repository.getInstance().findTeacherByID(id);
-        if (maybeTeacher.isPresent()){
-            System.out.println(maybeTeacher.get());
-        }else{
-            System.out.println("Немає викладача з таким ID.");
-        }
-
-    }
-
-    public static void findByFullName(){
-        String fullName = lastNameValidation() + " " + firstNameValidation() + " " + patronymicValidation();
-        Repository.getInstance().findTeacherByFullName(fullName);
-    }
-
-   }
+}
 
 
