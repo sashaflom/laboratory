@@ -253,7 +253,9 @@ public class TeacherMenu {
                             break;
                         //  department to change
                         case 7:
-                            foundTeacher.setDepartment(getDepartment());
+                            Department newDepartment = getDepartment();
+                            foundTeacher.setDepartment(newDepartment);
+                            foundTeacher.setFaculty(newDepartment.getFaculty());
                             break;
                         //  academic degree to change
                         case 8:

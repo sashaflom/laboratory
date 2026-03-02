@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Teacher extends Person {
 
+    private Faculty faculty;
     private Department department;
     private Position position; //посада
     private AcademicDegree academicDegree; //науковий ступінь
@@ -20,6 +21,11 @@ public class Teacher extends Person {
                   AcademicDegree academicDegree, AcademicTitle academicTitle,
                   String hireDate, double workload ) {
        super(id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
+       if(department==null){
+           faculty = null;
+       }else{
+           faculty = department.getFaculty();
+       }
        this.department = department;
        this.position = position;
        this.academicDegree = academicDegree;
@@ -28,6 +34,9 @@ public class Teacher extends Person {
        this.workload = workload;
    }
 
+    public Faculty getFaculty() {
+        return faculty;
+    }
     public Department getDepartment() {
         return department;
     }
@@ -37,6 +46,9 @@ public class Teacher extends Person {
     public String getHireDate() {return hireDate;}
     public double getWorkload() {return workload;}
 
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
     public void setDepartment(Department department) {
         this.department = department;
     }
@@ -50,8 +62,9 @@ public class Teacher extends Person {
 
     @Override
     public String toString() {
-        return String.format("Викладач: %s, Кафедра: %s, Посада: %s, Науковий ступінь: %s, Вчене звання: %s, Дата прийняття: %s, Ставка: %s",
-                        super.toString(), (department != null ? department.getName() : "не призначено"), position.getDisplayName(), academicDegree.getDisplayName(), academicTitle.getDisplayName(),
+        return String.format("Викладач: %s, Факультет: %s, Кафедра: %s, Посада: %s, Науковий ступінь: %s, Вчене звання: %s, Дата прийняття: %s, Ставка: %s",
+                        super.toString(), (faculty != null ? faculty.getFullName() : "не призначено"),
+                (department != null ? department.getName() : "не призначено"), position.getDisplayName(), academicDegree.getDisplayName(), academicTitle.getDisplayName(),
                         hireDate, workload);
     }
 }
