@@ -69,7 +69,7 @@ public class TeacherMenu {
         TeacherValidator teacherValidator = new TeacherValidator(Repository.getInstance());
         PersonValidator personValidator = new PersonValidator();
         System.out.println("\nВи успішно додали викладача: \n" + service.createNewAndAdd(getId(teacherValidator), getLastName(), getFirstName(),
-                getPatronymic(), getBirthDate(), getEmail(), getPhoneNumber(personValidator), null, getPosition(),
+                getPatronymic(), getBirthDate(), getEmail(personValidator), getPhoneNumber(personValidator), null, getPosition(),
                 getAcademicDegree(), getAcademicTitle(), getHireDate(), getWorkload()));
     }
 
@@ -105,8 +105,12 @@ public class TeacherMenu {
         return birthDate;
     }
 
-    private static String getEmail(){
+    private static String getEmail(PersonValidator validator){
         String email = InputReader.readLine("Введіть email: ", 1, 40);
+        while(!validator.isEmailValid(email)){
+            System.out.println("Помилка! Email має бути формату xxx@ukma.edu.ua.");
+            email = InputReader.readLine("Введіть email: ", 1, 40);
+        }
         return email;
     }
 
@@ -245,7 +249,7 @@ public class TeacherMenu {
                             break;
                         // email to change
                         case 5:
-                            foundTeacher.setEmail(getEmail());
+                            foundTeacher.setEmail(getEmail(validator));
                             break;
                         // phone number to change
                         case 6:

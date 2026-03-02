@@ -7,7 +7,7 @@ import repositories.TeacherRepository;
 
 import java.util.Optional;
 
-public class StudentValidator {
+public class StudentValidator extends PersonValidator{
 
     private StudentRepository repository;
 

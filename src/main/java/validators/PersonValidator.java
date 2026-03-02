@@ -23,4 +23,23 @@ public class PersonValidator {
         return true;
     }
 
+    public boolean isEmailValid(String email){
+        int atSymbolIndex = -1;
+        for(int i = 0; i<email.length(); i++){
+            if(email.charAt(i) == '@'){
+                atSymbolIndex = i;
+            }
+        }
+        if(atSymbolIndex == -1){
+            return false;
+        }else{
+            String afterAt = email.substring(atSymbolIndex);
+            if(afterAt.equals("@ukma.edu.ua")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
 }

@@ -66,7 +66,7 @@ public class StudentMenu {
         StudentValidator studentValidator = new StudentValidator(Repository.getInstance());
         PersonValidator personValidator = new PersonValidator();
         System.out.println("\nВи успішно додали студента: \n" + service.createNewAndAdd(getId(studentValidator),
-                getLastName(), getFirstName(), getPatronymic(), getBirthDate(), getEmail(), getPhoneNumber(personValidator),
+                getLastName(), getFirstName(), getPatronymic(), getBirthDate(), getEmail(personValidator), getPhoneNumber(personValidator),
                 getDepartment(), getStudentId(studentValidator), getCourse(), getGroup(), getEnrollmentYear(),
                 getEducationForm(), getStatus()));
     }
@@ -103,8 +103,12 @@ public class StudentMenu {
         return birthDate;
     }
 
-    private static String getEmail(){
+    private static String getEmail(PersonValidator validator){
         String email = InputReader.readLine("Введіть email: ", 1, 40);
+        while(!validator.isEmailValid(email)){
+            System.out.println("Помилка! Email має бути формату xxx@ukma.edu.ua.");
+            email = InputReader.readLine("Введіть email: ", 1, 40);
+        }
         return email;
     }
 
@@ -248,7 +252,7 @@ public class StudentMenu {
                             break;
                         // email to change
                         case 5:
-                            foundStudent.setEmail(getEmail());
+                            foundStudent.setEmail(getEmail(personValidator));
                             break;
                         // phone number to change
                         case 6:
