@@ -256,7 +256,9 @@ public class StudentMenu {
                             break;
                         //  department to change
                         case 7:
-                            foundStudent.setDepartment(getDepartment());
+                            Department newDepartment = getDepartment();
+                            foundStudent.setDepartment(newDepartment);
+                            foundStudent.setFaculty(newDepartment.getFaculty());
                             break;
                         //  student id to change
                         case 8:

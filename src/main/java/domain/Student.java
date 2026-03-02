@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class Student extends Person {
+    private Faculty faculty;
     private Department department;
     private String studentId;
     private int course;
@@ -21,6 +22,7 @@ public class Student extends Person {
                    int enrollmentYear, EducationForm educationForm,
                    StudentStatus status) {
         super(id, lastName, firstName, patronymic, birthDate, email, phone);
+        faculty = department.getFaculty();
         this.department = department;
         this.studentId = studentId;
         this.course = course;
@@ -30,6 +32,9 @@ public class Student extends Person {
         this.status = status;
     }
 
+    public Faculty getFaculty() {
+        return faculty;
+    }
     public Department getDepartment() {
         return department;
     }
@@ -40,6 +45,9 @@ public class Student extends Person {
     public EducationForm getEducationForm() { return educationForm; }
     public StudentStatus getStatus() { return status; }
 
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
     public void setDepartment(Department department) {
         this.department = department;
     }
@@ -52,9 +60,9 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return String.format("Студент: %s, Кафедра: %s, ID студента: %s, Курс: %d, Група: %s, Рік вступу: %d, Форма навчання: %s, Статус: %s",
-                        super.toString(),
-                        (department != null ? department.getName() : "не призначено"),
+        return String.format("Студент: %s, Факультет: %s, Кафедра: %s, ID студента: %s, Курс: %d, Група: %s, Рік вступу: %d, Форма навчання: %s, Статус: %s",
+                        super.toString(), faculty.getFullName(),
+                        department.getName(),
                         studentId, course, group, enrollmentYear,
                         educationForm.getDisplayName(),
                         status.getDisplayName());
