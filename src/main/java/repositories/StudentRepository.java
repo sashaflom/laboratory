@@ -3,6 +3,7 @@ package repositories;
 import domain.Student;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class StudentRepository implements Repository<Student, String> {
 
@@ -58,30 +59,30 @@ public class StudentRepository implements Repository<Student, String> {
         return foundStudent;
     }
 
-    public List<Student> findByFullName(String fullName) {
+    public List<Student> findByFullName(Predicate<Student> rule) {
         List<Student> foundStudents = new ArrayList<>();
         for(Student student : students.values()){
-            if(student.getFullName().equals(fullName)){
+            if(rule.test(student)){
                 foundStudents.add(student);
             }
         }
         return foundStudents;
     }
 
-    public List<Student> findByCourse(int course){
+    public List<Student> findByCourse(Predicate<Student> rule){
         List<Student> foundStudents = new ArrayList<>();
         for(Student student : students.values()){
-            if(student.getCourse()==course){
+            if(rule.test(student)){
                 foundStudents.add(student);
             }
         }
         return foundStudents;
     }
 
-    public List<Student> findByGroup(String group){
+    public List<Student> findByGroup(Predicate<Student> rule){
         List<Student> foundStudents = new ArrayList<>();
         for(Student student : students.values()){
-            if(student.getGroup().equals(group)){
+            if(rule.test(student)){
                 foundStudents.add(student);
             }
         }

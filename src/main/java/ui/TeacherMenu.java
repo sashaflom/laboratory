@@ -2,6 +2,7 @@ package ui;
 
 import domain.*;
 import services.DepartmentService;
+import services.FacultyService;
 import services.TeacherService;
 import validators.InputReader;
 import validators.PersonValidator;
@@ -345,10 +346,83 @@ public class TeacherMenu {
             int count = 1;
             for(Teacher teacher : foundTeachers){
                 System.out.println(count + ". " + teacher);
+                count++;
             }
         }else{
             System.out.println("\nВикладачів з ПІБ " + fullName + " не знайдено.");
         }
+    }
+
+    public static void report(){
+        while(true){
+            int whatToShow = InputReader.readInt("\nВиберіть конкретний звіт: " +
+                    "\n1 - всі викладачі, впорядковані за алфавітом" +
+                    "\n2 - всі викладачі певної кафедри, впорядковані за алфавітом" +
+                    "\n3 - всі викладачі певного факультету, впорядковані за алфавітом" +
+                    "\n0 - повернутись на крок назад", 0, 3);
+            switch (whatToShow){
+                //all teachers sorted by alphabet
+                case 1:
+                    printAllTeachersSortedByAlphabet();
+                    break;
+                //teachers in department (get faculty first) sorted by alphabet
+                case 2:
+                    chooseDepartment();
+                    break;
+                //teachers in faculty (get faculty first) sorted by alphabet
+                case 3:
+                    chooseFaculty();
+                    break;
+                //exit was chosen
+                case 0:
+                    break;
+            }
+            if(whatToShow==0) break;
+        }
+    }
+
+    private static void printAllTeachersSortedByAlphabet(){
+        // code for report
+    }
+
+    private static void chooseDepartment(){
+        if(DepartmentMenu.printAll(DepartmentService.getAll())){
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор кафедри, " +
+                    "викладачів якої ви хочете побачити: ", 4, 4);
+            Optional<Department> maybeDepartment = DepartmentService.findById(id);
+            if(maybeDepartment.isPresent()){
+                Department foundDepartment = maybeDepartment.get();
+                printAllTeachersInDepartmentSortedByAlphabet();
+            }else{
+                System.out.println("\nКафедру з унікальним ідентифікатором " + id + " не знайдено.");
+            }
+        }else{
+            System.out.println("Звіт порожній.");
+        }
+    }
+
+    private static void printAllTeachersInDepartmentSortedByAlphabet(){
+        // code for report
+    }
+
+    private static void chooseFaculty(){
+        if(FacultyMenu.printAll(FacultyService.getAll())){
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор факультету, " +
+                    "викладачів якого хочете побачити: ", 7, 7);
+            Optional<Faculty> maybeFaculty = FacultyService.findById(id);
+            if(maybeFaculty.isPresent()){
+                Faculty foundFaculty = maybeFaculty.get();
+                printAllTeachersInFacultySortedByAlphabet();
+            }else{
+                System.out.println("\nФакультету з унікальним ідентифікатором " + id + " не знайдено.");
+            }
+        }else{
+            System.out.println("Звіт порожній.");
+        }
+    }
+
+    private static void printAllTeachersInFacultySortedByAlphabet(){
+        // code for report
     }
 
 }

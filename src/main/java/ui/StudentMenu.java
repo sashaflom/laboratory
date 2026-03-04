@@ -2,6 +2,7 @@ package ui;
 
 import domain.*;
 import services.DepartmentService;
+import services.FacultyService;
 import services.StudentService;
 import validators.InputReader;
 import validators.PersonValidator;
@@ -9,6 +10,7 @@ import validators.StudentValidator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class StudentMenu {
 
@@ -162,8 +164,8 @@ public class StudentMenu {
         return course;
     }
 
-    private static String getGroup(){
-        String group = InputReader.readLine("Введіть назву групи: ", 1, 15);
+    private static int getGroup(){
+        int group = InputReader.readInt("Введіть номер групи: ", 1, 10);
         return group;
     }
 
@@ -346,12 +348,14 @@ public class StudentMenu {
 
     private static void findByFullName(){
         String fullName = getLastName() + " " + getFirstName() + " " + getPatronymic();
-        List<Student> foundStudents = StudentService.findByFullName(fullName);
+        Predicate<Student> sameFullName = student -> student.getFullName().equals(fullName);
+        List<Student> foundStudents = StudentService.findByFullName(sameFullName);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти з ПІБ " + fullName + ":");
             int count = 1;
             for(Student student : foundStudents){
                 System.out.println(count + ". " + student);
+                count++;
             }
         }else{
             System.out.println("\nCтудентів з ПІБ " + fullName + " не знайдено.");
@@ -360,12 +364,14 @@ public class StudentMenu {
 
     private static void findByCourse(){
         int course = getCourse();
-        List<Student> foundStudents = StudentService.findByCourse(course);
+        Predicate<Student> sameCourse = student -> student.getCourse() == course;
+        List<Student> foundStudents = StudentService.findByCourse(sameCourse);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти на " + course + " курсі:");
             int count = 1;
             for(Student student : foundStudents){
                 System.out.println(count + ". " + student);
+                count++;
             }
         }else{
             System.out.println("\nCтудентів на " + course + " курсі не знайдено.");
@@ -373,17 +379,133 @@ public class StudentMenu {
     }
 
     private static void findByGroup(){
-        String group = getGroup();
-        List<Student> foundStudents = StudentService.findByGroup(group);
+        int group = getGroup();
+        Predicate<Student> sameGroup = student -> student.getGroup() == group;
+        List<Student> foundStudents = StudentService.findByGroup(sameGroup);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти в групі " + group + ":");
             int count = 1;
             for(Student student : foundStudents){
                 System.out.println(count + ". " + student);
+                count++;
             }
         }else{
             System.out.println("\nCтудентів в групі " + group + " не знайдено.");
         }
+    }
+
+    public static void report(){
+        while(true){
+            int whatToShow = InputReader.readInt("\nВиберіть конкретний звіт: " +
+                    "\n1 - всі студенти, впорядковані за курсом" +
+                    "\n2 - всі студенти, впорядковані за алфавітом" +
+                    "\n3 - студенти певної кафедри" +
+                    "\n4 - всі студенти певного факультету, впорядковані за алфавітом" +
+                    "\n0 - повернутись на крок назад", 0, 4);
+            switch (whatToShow){
+                //all students sorted by course
+                case 1:
+                    printAllStudentsSortedByCourse();
+                    break;
+                //all students sorted by alphabet
+                case 2:
+                    printAllStudentsSortedByAlphabet();
+                    break;
+                //student in department
+                case 3:
+                    chooseDepartment();
+                    break;
+                //student in faculty (get faculty first) sorted by alphabet
+                case 4:
+                    chooseFaculty();
+                    break;
+                //exit was chosen
+                case 0:
+                    break;
+            }
+            if(whatToShow==0) break;
+        }
+    }
+
+    private static void printAllStudentsSortedByCourse(){
+        // code for report
+    }
+
+    private static void printAllStudentsSortedByAlphabet(){
+        // code for report
+    }
+
+    private static void chooseDepartment(){
+        if(DepartmentMenu.printAll(DepartmentService.getAll())){
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор кафедри, " +
+                    "студентів якої ви хочете побачити: ", 4, 4);
+            Optional<Department> maybeDepartment = DepartmentService.findById(id);
+            if(maybeDepartment.isPresent()){
+                Department foundDepartment = maybeDepartment.get();
+                while(true){
+                    int whatToShow = InputReader.readInt("\nВиберіть конкретний звіт:" +
+                            "\n1 - всі студенти цієї кафедри, впорядковані за курсами" +
+                            "\n2 - всі студенти цієї кафедри, впорядковані за алфавітом" +
+                            "\n3 - всі студенти цієї кафедри певного курсу, впорядковані за алфавітом" +
+                            "\n0 - повернутись на крок назад", 0, 3);
+                    switch (whatToShow){
+                        // student in department sorted by course
+                        case 1:
+                            printAllStudentsInDepartmentSortedByCourse();
+                            break;
+                        // student in department sorted by alphabet
+                        case 2:
+                            printAllStudentsInDepartmentSortedByAlphabet();
+                            break;
+                        // student in department with entered course (get course first) sorted by alphabet
+                        case 3:
+                            int course = getCourse();
+                            printAllStudentsInDepartmentWithCourseSortedByAlphabet(course);
+                            break;
+                        // exit
+                        case 0:
+                            break;
+                    }
+                    if(whatToShow==0) break;
+                }
+            }else{
+                System.out.println("\nКафедру з унікальним ідентифікатором " + id + " не знайдено.");
+            }
+        }else{
+            System.out.println("Звіт порожній.");
+        }
+    }
+
+    private static void printAllStudentsInDepartmentSortedByCourse(){
+        // code for report
+    }
+
+    private static void printAllStudentsInDepartmentSortedByAlphabet(){
+        // code for report
+    }
+
+    private static void printAllStudentsInDepartmentWithCourseSortedByAlphabet(int course){
+        // code for report
+    }
+
+    private static void chooseFaculty(){
+        if(FacultyMenu.printAll(FacultyService.getAll())){
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор факультету, " +
+                    "студентів якого хочете побачити: ", 7, 7);
+            Optional<Faculty> maybeFaculty = FacultyService.findById(id);
+            if(maybeFaculty.isPresent()){
+                Faculty foundFaculty = maybeFaculty.get();
+                printAllStudentsInFacultySortedByAlphabet();
+            }else{
+                System.out.println("\nФакультету з унікальним ідентифікатором " + id + " не знайдено.");
+            }
+        }else{
+            System.out.println("Звіт порожній.");
+        }
+    }
+
+    private static void printAllStudentsInFacultySortedByAlphabet(){
+        // code for report
     }
 
 }

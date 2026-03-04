@@ -7,14 +7,14 @@ public class Student extends Person {
     private Department department;
     private String studentId;
     private int course;
-    private String group;
+    private int group;
     private int enrollmentYear;
     private EducationForm educationForm;  // enum
     private StudentStatus status; // enum
 
     public Student(String id, String lastName, String firstName, String patronymic,
                    String birthDate, String email, String phone,
-                   Department department, String studentId, int course, String group,
+                   Department department, String studentId, int course, int group,
                    int enrollmentYear, EducationForm educationForm,
                    StudentStatus status) {
         super(id, lastName, firstName, patronymic, birthDate, email, phone);
@@ -36,7 +36,7 @@ public class Student extends Person {
     }
     public String getStudentId() { return studentId; }
     public int getCourse() { return course; }
-    public String getGroup() { return group; }
+    public int getGroup() { return group; }
     public int getEnrollmentYear() { return enrollmentYear; }
     public EducationForm getEducationForm() { return educationForm; }
     public StudentStatus getStatus() { return status; }
@@ -49,7 +49,7 @@ public class Student extends Person {
     }
     public void setStudentId(String studentId) { this.studentId = studentId; }
     public void setCourse(int course) { this.course = course; }
-    public void setGroup(String group) { this.group = group; }
+    public void setGroup(int group) { this.group = group; }
     public void setEnrollmentYear(int enrollmentYear) { this.enrollmentYear = enrollmentYear; }
     public void setEducationForm(EducationForm educationForm) { this.educationForm = educationForm; }
     public void setStatus(StudentStatus status) { this.status = status; }
@@ -72,7 +72,7 @@ public class Student extends Person {
                     Objects.equals(department.getName(), student.department.getName()) &&
                     Objects.equals(studentId, student.studentId) &&
                     course == student.course &&
-                    Objects.equals(group, student.group) &&
+                    group == student.group &&
                     enrollmentYear == student.enrollmentYear &&
                     Objects.equals(educationForm, student.educationForm) &&
                     Objects.equals(status, student.status));
