@@ -3,6 +3,7 @@ package domain;
 import repositories.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -66,6 +67,27 @@ public class Teacher extends Person {
                         super.toString(), (faculty != null ? faculty.getFullName() : "не призначено"),
                 (department != null ? department.getName() : "не призначено"), position.getDisplayName(), academicDegree.getDisplayName(), academicTitle.getDisplayName(),
                         hireDate, workload);
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (super.equals(o)){
+            Teacher teacher = (Teacher) o;
+            return (Objects.equals(faculty.getFullName(), teacher.faculty.getFullName()) &&
+                    Objects.equals(department.getName(), teacher.department.getName()) &&
+                    Objects.equals(position, teacher.position) &&
+                    Objects.equals(academicDegree, teacher.academicDegree) &&
+                    Objects.equals(academicTitle, teacher.academicTitle) &&
+                    Objects.equals(hireDate, teacher.hireDate) &&
+                    workload == teacher.workload);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(super.hashCode(), faculty.getFullName(), department.getName(), position,
+                academicDegree, academicTitle, hireDate, workload);
     }
 }
 

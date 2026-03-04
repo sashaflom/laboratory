@@ -3,6 +3,7 @@ package domain;
 import repositories.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -66,6 +67,28 @@ public class Student extends Person {
                         studentId, course, group, enrollmentYear,
                         educationForm.getDisplayName(),
                         status.getDisplayName());
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (super.equals(o)){
+            Student student = (Student) o;
+            return (Objects.equals(faculty.getFullName(), student.faculty.getFullName()) &&
+                    Objects.equals(department.getName(), student.department.getName()) &&
+                    Objects.equals(studentId, student.studentId) &&
+                    course == student.course &&
+                    Objects.equals(group, student.group) &&
+                    enrollmentYear == student.enrollmentYear &&
+                    Objects.equals(educationForm, student.educationForm) &&
+                    Objects.equals(status, student.status));
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(super.hashCode(), faculty.getFullName(), department.getName(), studentId,
+                course, group, enrollmentYear, educationForm, status);
     }
 }
 

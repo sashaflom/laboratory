@@ -54,4 +54,23 @@ public class Person {
                         "Телефон: %s",
                 id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (this==o) return true;
+        if (o==null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return (Objects.equals(id, person.id) &&
+                Objects.equals(lastName, person.lastName) &&
+                Objects.equals(firstName, person.firstName) &&
+                Objects.equals(patronymic, person.patronymic) &&
+                Objects.equals(birthDate, person.birthDate) &&
+                Objects.equals(email, person.email) &&
+                Objects.equals(phoneNumber, person.phoneNumber));
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
+    }
 }

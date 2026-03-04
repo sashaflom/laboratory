@@ -13,8 +13,9 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
     private Faculty lastAddedFaculty;
     private Map<String, Department> departments = new LinkedHashMap<>();
     private Department lastAddedDepartment;
-    private List<Student> students = new ArrayList<>();
-    private List<Teacher> teachers = new ArrayList<>();
+    private Map<String, Student> students = new LinkedHashMap<>();
+    private Map<String, Teacher> teachers = new LinkedHashMap<>();
+    private Teacher lastAddedTeacher;
 
     // the constructor is private so that it is impossible to create an instance of the class anywhere outside
     private Repository(){}
@@ -36,24 +37,18 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
 
     @Override
-    public void addStudent(Student student){ students.add(student); }
+    public void addStudent(Student student){
+        students.put(student.getId(), student);
+    }
 
     @Override
     public void deleteStudent(Student student){
-        students.remove(student);
+        students.remove(student.getId());
     }
 
     @Override
     public Optional <Student> findStudentById(String id) {
-        Optional<Student> foundStudent = Optional.empty();
-        if(students.size()!=0){
-            for (Student student : students) {
-                if(student.getId().equals(id)){
-                    foundStudent = Optional.of(student);
-                    break;
-                }
-            }
-        }
+        Optional<Student> foundStudent = Optional.ofNullable(students.get(id));
         return foundStudent;
     }
 
@@ -61,7 +56,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
     public Optional <Student> findStudentByStudentId(String id) {
         Optional<Student> foundStudent = Optional.empty();
         if(students.size()!=0){
-            for (Student student : students) {
+            for (Student student : students.values()) {
                 if(student.getStudentId().equals(id)){
                     foundStudent = Optional.of(student);
                     break;
@@ -74,7 +69,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
     @Override
     public List<Student> findStudentsByFullName(String fullName) {
         List<Student> foundStudents = new ArrayList<>();
-        for(Student student : students){
+        for(Student student : students.values()){
             if(student.getFullName().equals(fullName)){
                 foundStudents.add(student);
             }
@@ -85,7 +80,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
     @Override
     public List<Student> findStudentsByCourse(int course){
         List<Student> foundStudents = new ArrayList<>();
-        for(Student student : students){
+        for(Student student : students.values()){
             if(student.getCourse()==course){
                 foundStudents.add(student);
             }
@@ -96,7 +91,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
     @Override
     public List<Student> findStudentsByGroup(String group){
         List<Student> foundStudents = new ArrayList<>();
-        for(Student student : students){
+        for(Student student : students.values()){
             if(student.getGroup().equals(group)){
                 foundStudents.add(student);
             }
@@ -106,7 +101,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
     @Override
     public List<Student> getStudents() {
-        return new ArrayList<>(students);
+        return new ArrayList<>(students.values());
     }
 
     @Override
@@ -119,37 +114,30 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
     @Override
     public void addTeacher(Teacher teacher){
-        teachers.add(teacher);
+        teachers.put(teacher.getId(), teacher);
+        lastAddedTeacher = teacher;
     }
 
     @Override
     public void deleteTeacher(Teacher teacher){
-        teachers.remove(teacher);
+        teachers.remove(teacher.getId());
     }
 
     @Override
     public Optional<Teacher> findTeacherById(String id){
-        Optional<Teacher> foundTeacher = Optional.empty();
-        if(teachers.size()!=0){
-            for (Teacher teacher : teachers) {
-                if(teacher.getId().equals(id)){
-                    foundTeacher = Optional.of(teacher);
-                    break;
-                }
-            }
-        }
+        Optional<Teacher> foundTeacher = Optional.ofNullable(teachers.get(id));
         return foundTeacher;
     }
 
     @Override
     public Teacher findLastAddedTeacher(){
-        return teachers.get(teachers.size()-1);
+        return lastAddedTeacher;
     }
 
     @Override
     public List<Teacher> findTeachersByFullName(String fullName){
         List<Teacher> foundTeachers = new ArrayList<>();
-        for(Teacher teacher : teachers){
+        for(Teacher teacher : teachers.values()){
             if(teacher.getFullName().equals(fullName)){
                 foundTeachers.add(teacher);
             }
@@ -159,7 +147,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
     @Override
     public List<Teacher> getTeachers() {
-        return new ArrayList<>(teachers);
+        return new ArrayList<>(teachers.values());
     }
 
     @Override
@@ -171,7 +159,10 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
 
     @Override
-    public void addDepartment(Department department) {departments.put(department.getUniqueCode(), department);}
+    public void addDepartment(Department department) {
+        departments.put(department.getUniqueCode(), department);
+        lastAddedDepartment = department;
+    }
 
     @Override
     public void deleteDepartment(Department department) {
