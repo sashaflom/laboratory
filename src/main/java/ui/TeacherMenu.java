@@ -25,7 +25,7 @@ public class TeacherMenu {
                 case 1:
                     int makingSure = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
                     if(makingSure==1){
-                        createForm();
+                        createForm(true);
                     }
                     break;
                 // see existing one was chosen
@@ -41,7 +41,6 @@ public class TeacherMenu {
                     if(makingSure3==1){
                         changeForm();
                     }
-                    //Repository.getInstance().changeFaculty();
                     break;
                 // delete existing one was chosen
                 case 4:
@@ -49,7 +48,6 @@ public class TeacherMenu {
                     if(makingSure4==1){
                         deleteForm();
                     }
-                    //Repository.getInstance().deleteFaculty();
                     break;
                 // exit was chosen
                 case 0:
@@ -59,9 +57,9 @@ public class TeacherMenu {
         }
     }
 
-    public static void createForm(){
+    public static void createForm(boolean whatToDoWithDepartment){
         System.out.println("\nВи успішно додали викладача: \n" + TeacherService.createNewAndAdd(getId(), getLastName(), getFirstName(),
-                getPatronymic(), getBirthDate(), getEmail(), getPhoneNumber(), null, getPosition(),
+                getPatronymic(), getBirthDate(), getEmail(), getPhoneNumber(), getDepartment(whatToDoWithDepartment), Position.TEACHER,
                 getAcademicDegree(), getAcademicTitle(), getHireDate(), getWorkload()));
     }
 
@@ -115,44 +113,46 @@ public class TeacherMenu {
         return phoneNumber;
     }
 
-    public static Department getDepartment(){
-        while (true){
-            int howToChooseDepartment = InputReader.readInt("Виберіть, як хочете призначити викладача кафедрі: " +
-                    "\n1 - вибрати з уже існуючих кафедр" +
-                    "\n2 - створити нову кафедру та призначити до неї викладача", 1,2);
-            switch (howToChooseDepartment){
-                //choose from existing
-                case 1:
-                    if(DepartmentMenu.printAll(DepartmentService.getAll())){
-                        String uniqueCode = InputReader.readLine("\nВведіть унікальний код кафедри, яку хочете обрати: ", 4, 4);
-                        Optional<Department> maybeDepartment = DepartmentService.findById(uniqueCode);
-                        if(maybeDepartment.isPresent()){
-                            Department foundDepartment = maybeDepartment.get();
-                            System.out.println("\nЦей викладач буде на кафедрі " + foundDepartment.getName() + ".");
-                            return foundDepartment;
+    public static Department getDepartment(boolean fromWhere){
+        /*
+        if we creating a teacher from menu "create a new one" or
+        from "change teacher" (true) -> we need to get department
+         */
+        /*
+        if we creating a teacher WHILE creating a faculty or department (false) -> return null
+         */
+        if(fromWhere){
+            while (true){
+                int howToChooseDepartment = InputReader.readInt("Виберіть, як хочете призначити викладача кафедрі: " +
+                        "\n1 - вибрати з уже існуючих кафедр" +
+                        "\n2 - створити нову кафедру та призначити до неї викладача", 1,2);
+                switch (howToChooseDepartment){
+                    //choose from existing
+                    case 1:
+                        if(DepartmentMenu.printAll(DepartmentService.getAll())){
+                            String uniqueCode = InputReader.readLine("\nВведіть унікальний код кафедри, яку хочете обрати: ", 4, 4);
+                            Optional<Department> maybeDepartment = DepartmentService.findById(uniqueCode);
+                            if(maybeDepartment.isPresent()){
+                                Department foundDepartment = maybeDepartment.get();
+                                System.out.println("\nЦей викладач буде на кафедрі " + foundDepartment.getName() + ".");
+                                return foundDepartment;
+                            }else{
+                                System.out.println("\nКафедру з унікальним кодом " + uniqueCode + " не знайдено.");
+                            }
                         }else{
-                            System.out.println("\nКафедру з унікальним кодом " + uniqueCode + " не знайдено.");
+                            System.out.println("Немає з чого обрати.");
                         }
-                    }else{
-                        System.out.println("Немає з чого обрати.");
-                    }
-                    break;
-                // create new
-                case 2:
-                    DepartmentMenu.createForm();
-                    Department department = DepartmentService.findLastAdded();
-                    System.out.println("\nЦей викладач буде на кафедрі " + department.getName() + ".");
-                    return department;
+                        break;
+                    // create new
+                    case 2:
+                        DepartmentMenu.createForm();
+                        Department department = DepartmentService.findLastAdded();
+                        System.out.println("\nЦей викладач буде на кафедрі " + department.getName() + ".");
+                        return department;
+                }
             }
         }
-    }
-
-    private static Position getPosition(){
-        int indexOfPosition = InputReader.readInt("Виберіть посаду:" +
-                "\n0 - Викладач" +
-                "\n1 - Декан факультету" +
-                "\n2 - Завідувач кафедри", 0, 2);
-        return Position.values()[indexOfPosition];
+        return null;
     }
 
     private static AcademicDegree getAcademicDegree(){
@@ -246,7 +246,7 @@ public class TeacherMenu {
                             break;
                         //  department to change
                         case 7:
-                            Department newDepartment = getDepartment();
+                            Department newDepartment = getDepartment(true);
                             foundTeacher.setDepartment(newDepartment);
                             foundTeacher.setFaculty(newDepartment.getFaculty());
                             break;

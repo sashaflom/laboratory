@@ -1,8 +1,10 @@
 package ui;
 
+import domain.Department;
 import domain.Faculty;
 import domain.Position;
 import domain.Teacher;
+import services.DepartmentService;
 import services.FacultyService;
 import services.TeacherService;
 import validators.FacultyValidator;
@@ -61,6 +63,8 @@ public class FacultyMenu {
     public static void createForm(){
         System.out.println("\nВи успішно додали факультет: \n" + FacultyService.createNewAndAdd(getId(),
                 getFullName(), getShortName(), getDean(), getContacts()));
+        Faculty createdFaculty = FacultyService.findLastAdded();
+        createdFaculty.getDean().setFaculty(createdFaculty);
     }
 
     private static String getId(){
@@ -121,8 +125,9 @@ public class FacultyMenu {
                     break;
                 // create new
                 case 2:
-                    TeacherMenu.createForm();
+                    TeacherMenu.createForm(false);
                     Teacher dean = TeacherService.findLastAdded();
+                    dean.setPosition(Position.DEAN);
                     System.out.println("\nВикладач " + dean.getFullName() + " буде деканом цього факультету.");
                     return dean;
             }

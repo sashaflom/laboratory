@@ -37,7 +37,6 @@ public class DepartmentMenu {
                     if(makingSure2==1){
                         printAll(DepartmentService.getAll());
                     }
-                    //Repository.getInstance().showAllFaculties();
                     break;
                 // change existing one was chosen
                 case 3:
@@ -45,7 +44,6 @@ public class DepartmentMenu {
                     if(makingSure3==1){
                         changeForm();
                     }
-                    //Repository.getInstance().changeFaculty();
                     break;
                 // delete existing one was chosen
                 case 4:
@@ -53,7 +51,6 @@ public class DepartmentMenu {
                     if(makingSure4==1){
                         deleteForm();
                     }
-                    //Repository.getInstance().deleteFaculty();
                     break;
                 // exit was chosen
                 case 0:
@@ -66,6 +63,10 @@ public class DepartmentMenu {
     public static void createForm(){
         System.out.println("\nВи успішно додали кафедру: \n" + DepartmentService.createNewAndAdd(getId(),
                 getName(), getFaculty(), getHeadOfDepartment(), getLocation()));
+        Department createdDepartment = DepartmentService.findLastAdded();
+        Teacher head = createdDepartment.getHeadOfDepartment();
+        head.setDepartment(createdDepartment);
+        head.setFaculty(createdDepartment.getFaculty());
     }
 
     private static String getId(){
@@ -149,8 +150,9 @@ public class DepartmentMenu {
                     break;
                 // create new
                 case 2:
-                    TeacherMenu.createForm();
+                    TeacherMenu.createForm(false);
                     Teacher headOfDepartment = TeacherService.findLastAdded();
+                    headOfDepartment.setPosition(Position.HEAD);
                     System.out.println("Викладач " + headOfDepartment.getFullName() + " буде завідувачем цієї кафедри.");
                     return headOfDepartment;
             }

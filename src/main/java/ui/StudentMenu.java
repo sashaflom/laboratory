@@ -41,7 +41,6 @@ public class StudentMenu {
                     if(makingSure3==1){
                         changeForm();
                     }
-                    //Repository.getInstance().changeFaculty();
                     break;
                 // delete existing one was chosen
                 case 4:
@@ -49,7 +48,6 @@ public class StudentMenu {
                     if(makingSure4==1){
                         deleteForm();
                     }
-                    //Repository.getInstance().deleteFaculty();
                     break;
                 // exit was chosen
                 case 0:
