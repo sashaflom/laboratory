@@ -1,7 +1,6 @@
 package services;
 
 import domain.*;
-import repositories.FacultyRepository;
 import repositories.TeacherRepository;
 
 import java.util.List;
@@ -9,42 +8,38 @@ import java.util.Optional;
 
 public class TeacherService {
 
-    private TeacherRepository repository;
+    private static TeacherRepository repository = TeacherRepository.getInstance();
 
-    public TeacherService(TeacherRepository repository){
-        this.repository = repository;
-    }
-
-    public Teacher createNewAndAdd(String id, String lastName, String firstName, String patronymic, String birthDate,
+    public static Teacher createNewAndAdd(String id, String lastName, String firstName, String patronymic, String birthDate,
                                    String email, String phoneNumber, Department department, Position position,
                                    AcademicDegree academicDegree, AcademicTitle academicTitle, String hireDate, double workload){
         Teacher teacher = new Teacher(id, lastName, firstName, patronymic, birthDate, email, phoneNumber, department, position,
                 academicDegree, academicTitle, hireDate, workload);
-        repository.addTeacher(teacher);
+        repository.add(teacher);
         return teacher;
     }
 
-    public void delete(Teacher teacher){
-        repository.deleteTeacher(teacher);
+    public static void delete(Teacher teacher){
+        repository.delete(teacher);
     }
 
-    public Optional<Teacher> findById(String id){
-        return repository.findTeacherById(id);
+    public static Optional<Teacher> findById(String id){
+        return repository.findById(id);
     }
 
-    public Teacher findLastAdded(){
-        return repository.findLastAddedTeacher();
+    public static Teacher findLastAdded(){
+        return repository.findLastAdded();
     }
 
-    public List<Teacher> findByFullName(String fullName){
-        return repository.findTeachersByFullName(fullName);
+    public static List<Teacher> findByFullName(String fullName){
+        return repository.findByFullName(fullName);
     }
 
-    public List<Teacher> getAll(){
-        return repository.getTeachers();
+    public static List<Teacher> getAll(){
+        return repository.getAll();
     }
 
-    public boolean isThereSomethingInRepository(){
+    public static boolean isThereSomethingInRepository(){
         return repository.teachersIsNotEmpty();
     }
 

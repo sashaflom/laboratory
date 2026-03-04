@@ -1,12 +1,8 @@
 package ui;
 
 import domain.*;
-import repositories.Repository;
 import services.DepartmentService;
-import services.FacultyService;
-import services.StudentService;
 import services.TeacherService;
-import validators.FacultyValidator;
 import validators.InputReader;
 import validators.PersonValidator;
 import validators.TeacherValidator;
@@ -36,8 +32,7 @@ public class TeacherMenu {
                 case 2:
                     int makingSure2 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
                     if(makingSure2==1){
-                        TeacherService service = new TeacherService(Repository.getInstance());
-                        printAll(service.getAll());
+                        printAll(TeacherService.getAll());
                     }
                     break;
                 // change existing one was chosen
@@ -65,17 +60,14 @@ public class TeacherMenu {
     }
 
     public static void createForm(){
-        TeacherService service = new TeacherService(Repository.getInstance());
-        TeacherValidator teacherValidator = new TeacherValidator(Repository.getInstance());
-        PersonValidator personValidator = new PersonValidator();
-        System.out.println("\nВи успішно додали викладача: \n" + service.createNewAndAdd(getId(teacherValidator), getLastName(), getFirstName(),
-                getPatronymic(), getBirthDate(), getEmail(personValidator), getPhoneNumber(personValidator), null, getPosition(),
+        System.out.println("\nВи успішно додали викладача: \n" + TeacherService.createNewAndAdd(getId(), getLastName(), getFirstName(),
+                getPatronymic(), getBirthDate(), getEmail(), getPhoneNumber(), null, getPosition(),
                 getAcademicDegree(), getAcademicTitle(), getHireDate(), getWorkload()));
     }
 
-    private static String getId(TeacherValidator validator){
+    private static String getId(){
         String id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
-        while(!validator.isIdValid(id)){
+        while(!TeacherValidator.isIdValid(id)){
             System.out.println("Помилка! Викладач з таким унікальним ідентифікатором уже існує.");
             id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
         }
@@ -105,18 +97,18 @@ public class TeacherMenu {
         return birthDate;
     }
 
-    private static String getEmail(PersonValidator validator){
+    private static String getEmail(){
         String email = InputReader.readLine("Введіть email: ", 1, 40);
-        while(!validator.isEmailValid(email)){
+        while(!PersonValidator.isEmailValid(email)){
             System.out.println("Помилка! Email має бути формату xxx@ukma.edu.ua.");
             email = InputReader.readLine("Введіть email: ", 1, 40);
         }
         return email;
     }
 
-    private static String getPhoneNumber(PersonValidator validator){
+    private static String getPhoneNumber(){
         String phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
-        while(!validator.isPhoneNumberValid(phoneNumber)){
+        while(!PersonValidator.isPhoneNumberValid(phoneNumber)){
             System.out.println("Помилка! Некоректний формат номеру телефону.");
             phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
         }
@@ -128,13 +120,12 @@ public class TeacherMenu {
             int howToChooseDepartment = InputReader.readInt("Виберіть, як хочете призначити викладача кафедрі: " +
                     "\n1 - вибрати з уже існуючих кафедр" +
                     "\n2 - створити нову кафедру та призначити до неї викладача", 1,2);
-            DepartmentService departmentService = new DepartmentService(Repository.getInstance());
             switch (howToChooseDepartment){
                 //choose from existing
                 case 1:
-                    if(DepartmentMenu.printAll(departmentService.getAll())){
+                    if(DepartmentMenu.printAll(DepartmentService.getAll())){
                         String uniqueCode = InputReader.readLine("\nВведіть унікальний код кафедри, яку хочете обрати: ", 4, 4);
-                        Optional<Department> maybeDepartment = departmentService.findByUniqueCode(uniqueCode);
+                        Optional<Department> maybeDepartment = DepartmentService.findById(uniqueCode);
                         if(maybeDepartment.isPresent()){
                             Department foundDepartment = maybeDepartment.get();
                             System.out.println("\nЦей викладач буде на кафедрі " + foundDepartment.getName() + ".");
@@ -149,7 +140,7 @@ public class TeacherMenu {
                 // create new
                 case 2:
                     DepartmentMenu.createForm();
-                    Department department = departmentService.findLastAdded();
+                    Department department = DepartmentService.findLastAdded();
                     System.out.println("\nЦей викладач буде на кафедрі " + department.getName() + ".");
                     return department;
             }
@@ -209,11 +200,9 @@ public class TeacherMenu {
     }
 
     private static void changeForm(){
-        TeacherService service = new TeacherService(Repository.getInstance());
-        PersonValidator validator = new PersonValidator();
-        if(printAll(service.getAll())){
+        if(printAll(TeacherService.getAll())){
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете змінити: ", 5, 5);
-            Optional<Teacher> maybeTeacher = service.findById(id);
+            Optional<Teacher> maybeTeacher = TeacherService.findById(id);
             if(maybeTeacher.isPresent()){
                 Teacher foundTeacher = maybeTeacher.get();
                 while(true){
@@ -249,11 +238,11 @@ public class TeacherMenu {
                             break;
                         // email to change
                         case 5:
-                            foundTeacher.setEmail(getEmail(validator));
+                            foundTeacher.setEmail(getEmail());
                             break;
                         // phone number to change
                         case 6:
-                            foundTeacher.setPhoneNumber(getPhoneNumber(validator));
+                            foundTeacher.setPhoneNumber(getPhoneNumber());
                             break;
                         //  department to change
                         case 7:
@@ -293,15 +282,14 @@ public class TeacherMenu {
     }
 
     private static void deleteForm(){
-        TeacherService service = new TeacherService(Repository.getInstance());
-        if(printAll(service.getAll())) {
+        if(printAll(TeacherService.getAll())) {
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете видалити: ", 5, 5);
-            Optional<Teacher> maybeTeacher = service.findById(id);
+            Optional<Teacher> maybeTeacher = TeacherService.findById(id);
             if (maybeTeacher.isPresent()) {
                 Teacher foundTeacher = maybeTeacher.get();
-                service.delete(foundTeacher);
+                TeacherService.delete(foundTeacher);
                 System.out.println("\nВи успішно видалили викладача. Оновлені дані: ");
-                printAll(service.getAll());
+                printAll(TeacherService.getAll());
             }else{
                 System.out.println("\nВикладача з унікальним ідентифікатором " + id + " не знайдено.");
             }
@@ -312,8 +300,7 @@ public class TeacherMenu {
 
     public static void find(){
         while(true){
-            TeacherService service = new TeacherService(Repository.getInstance());
-            if (service.isThereSomethingInRepository()){
+            if (TeacherService.isThereSomethingInRepository()){
                 int howToFind = InputReader.readInt("\nОберіть критерій пошуку: " +
                         "\n1 - за унікальним ідентифікатором" +
                         "\n2 - за ПІБ" +
@@ -321,11 +308,11 @@ public class TeacherMenu {
                 switch (howToFind){
                     // find by ID
                     case 1:
-                        findById(service);
+                        findById();
                         break;
                     // find by full name
                     case 2:
-                        findByFullName(service);
+                        findByFullName();
                         break;
                     // exit
                     case 0:
@@ -339,10 +326,9 @@ public class TeacherMenu {
         }
     }
 
-    private static void findById(TeacherService service){
-        TeacherValidator teacherValidator = new TeacherValidator(Repository.getInstance());
+    private static void findById(){
         String id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
-        Optional<Teacher> maybeTeacher = service.findById(id);
+        Optional<Teacher> maybeTeacher = TeacherService.findById(id);
         if(maybeTeacher.isPresent()){
             System.out.println("\nЗнайдений викладач з унікальним ідентифікатором " + id + ":");
             System.out.println(maybeTeacher.get());
@@ -351,9 +337,9 @@ public class TeacherMenu {
         }
     }
 
-    private static void findByFullName(TeacherService service){
+    private static void findByFullName(){
         String fullName = getLastName() + " " + getFirstName() + " " + getPatronymic();
-        List<Teacher> foundTeachers = service.findByFullName(fullName);
+        List<Teacher> foundTeachers = TeacherService.findByFullName(fullName);
         if(foundTeachers.size()!=0){
             System.out.println("\nЗнайдені викладачі з ПІБ " + fullName + ":");
             int count = 1;

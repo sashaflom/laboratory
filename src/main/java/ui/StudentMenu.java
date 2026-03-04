@@ -1,7 +1,6 @@
 package ui;
 
 import domain.*;
-import repositories.Repository;
 import services.DepartmentService;
 import services.StudentService;
 import validators.InputReader;
@@ -33,8 +32,7 @@ public class StudentMenu {
                 case 2:
                     int makingSure2 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
                     if(makingSure2==1){
-                        StudentService service = new StudentService(Repository.getInstance());
-                        printAll(service.getAll());
+                        printAll(StudentService.getAll());
                     }
                     break;
                 // change existing one was chosen
@@ -62,18 +60,15 @@ public class StudentMenu {
     }
 
     public static void createForm(){
-        StudentService service = new StudentService(Repository.getInstance());
-        StudentValidator studentValidator = new StudentValidator(Repository.getInstance());
-        PersonValidator personValidator = new PersonValidator();
-        System.out.println("\nВи успішно додали студента: \n" + service.createNewAndAdd(getId(studentValidator),
-                getLastName(), getFirstName(), getPatronymic(), getBirthDate(), getEmail(personValidator), getPhoneNumber(personValidator),
-                getDepartment(), getStudentId(studentValidator), getCourse(), getGroup(), getEnrollmentYear(),
+        System.out.println("\nВи успішно додали студента: \n" + StudentService.createNewAndAdd(getId(),
+                getLastName(), getFirstName(), getPatronymic(), getBirthDate(), getEmail(), getPhoneNumber(),
+                getDepartment(), getStudentId(), getCourse(), getGroup(), getEnrollmentYear(),
                 getEducationForm(), getStatus()));
     }
 
-    private static String getId(StudentValidator validator){
+    private static String getId(){
         String id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
-        while(!validator.isIdValid(id)){
+        while(!StudentValidator.isIdValid(id)){
             System.out.println("Помилка! Студент з таким унікальним ідентифікатором уже існує.");
             id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
         }
@@ -103,18 +98,18 @@ public class StudentMenu {
         return birthDate;
     }
 
-    private static String getEmail(PersonValidator validator){
+    private static String getEmail(){
         String email = InputReader.readLine("Введіть email: ", 1, 40);
-        while(!validator.isEmailValid(email)){
+        while(!PersonValidator.isEmailValid(email)){
             System.out.println("Помилка! Email має бути формату xxx@ukma.edu.ua.");
             email = InputReader.readLine("Введіть email: ", 1, 40);
         }
         return email;
     }
 
-    private static String getPhoneNumber(PersonValidator validator){
+    private static String getPhoneNumber(){
         String phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
-        while(!validator.isPhoneNumberValid(phoneNumber)){
+        while(!PersonValidator.isPhoneNumberValid(phoneNumber)){
             System.out.println("Помилка! Некоректний формат номеру телефону.");
             phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
         }
@@ -126,13 +121,12 @@ public class StudentMenu {
             int howToChooseDepartment = InputReader.readInt("Виберіть, як хочете призначити студента кафедрі: " +
                     "\n1 - вибрати з уже існуючих кафедр" +
                     "\n2 - створити нову кафедру та призначити до неї студента", 1,2);
-            DepartmentService departmentService = new DepartmentService(Repository.getInstance());
             switch (howToChooseDepartment){
                 //choose from existing
                 case 1:
-                    if(DepartmentMenu.printAll(departmentService.getAll())){
+                    if(DepartmentMenu.printAll(DepartmentService.getAll())){
                         String uniqueCode = InputReader.readLine("\nВведіть унікальний код кафедри, яку хочете обрати: ", 4, 4);
-                        Optional<Department> maybeDepartment = departmentService.findByUniqueCode(uniqueCode);
+                        Optional<Department> maybeDepartment = DepartmentService.findById(uniqueCode);
                         if(maybeDepartment.isPresent()){
                             Department foundDepartment = maybeDepartment.get();
                             System.out.println("\nЦей студент буде на кафедрі " + foundDepartment.getName() + ".");
@@ -147,16 +141,16 @@ public class StudentMenu {
                 // create new
                 case 2:
                     DepartmentMenu.createForm();
-                    Department department = departmentService.findLastAdded();
+                    Department department = DepartmentService.findLastAdded();
                     System.out.println("\nЦей студент буде на кафедрі " + department.getName() + ".");
                     return department;
             }
         }
     }
 
-    private static String getStudentId(StudentValidator validator){
+    private static String getStudentId(){
         String id = InputReader.readLine("Введіть номер залікової книжки (8 знаків): ", 8, 8);
-        while(!validator.isStudentIdValid(id)){
+        while(!StudentValidator.isStudentIdValid(id)){
             System.out.println("Помилка! Студент з таким номером залікової книжки уже існує.");
             id = InputReader.readLine("Введіть номер залікової книжки (8 знаків): ", 8, 8);
         }
@@ -209,12 +203,9 @@ public class StudentMenu {
     }
 
     private static void changeForm(){
-        StudentService service = new StudentService(Repository.getInstance());
-        PersonValidator personValidator = new PersonValidator();
-        StudentValidator studentValidator = new StudentValidator(Repository.getInstance());
-        if(printAll(service.getAll())){
+        if(printAll(StudentService.getAll())){
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор студента, якого хочете змінити: ", 5, 5);
-            Optional<Student> maybeStudent = service.findById(id);
+            Optional<Student> maybeStudent = StudentService.findById(id);
             if(maybeStudent.isPresent()){
                 Student foundStudent = maybeStudent.get();
                 while(true){
@@ -252,11 +243,11 @@ public class StudentMenu {
                             break;
                         // email to change
                         case 5:
-                            foundStudent.setEmail(getEmail(personValidator));
+                            foundStudent.setEmail(getEmail());
                             break;
                         // phone number to change
                         case 6:
-                            foundStudent.setPhoneNumber(getPhoneNumber(personValidator));
+                            foundStudent.setPhoneNumber(getPhoneNumber());
                             break;
                         //  department to change
                         case 7:
@@ -266,7 +257,7 @@ public class StudentMenu {
                             break;
                         //  student id to change
                         case 8:
-                            foundStudent.setStudentId(getStudentId(studentValidator));
+                            foundStudent.setStudentId(getStudentId());
                             break;
                         // course to change
                         case 9:
@@ -304,15 +295,14 @@ public class StudentMenu {
     }
 
     private static void deleteForm(){
-        StudentService service = new StudentService(Repository.getInstance());
-        if(printAll(service.getAll())) {
+        if(printAll(StudentService.getAll())) {
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор студента, якого хочете видалити: ", 5, 5);
-            Optional<Student> maybeStudent = service.findById(id);
+            Optional<Student> maybeStudent = StudentService.findById(id);
             if (maybeStudent.isPresent()) {
                 Student foundStudent = maybeStudent.get();
-                service.delete(foundStudent);
+                StudentService.delete(foundStudent);
                 System.out.println("\nВи успішно видалили студента. Оновлені дані: ");
-                printAll(service.getAll());
+                printAll(StudentService.getAll());
             }else{
                 System.out.println("\nСтудента з унікальним ідентифікатором " + id + " не знайдено.");
             }
@@ -323,8 +313,7 @@ public class StudentMenu {
 
     public static void find(){
         while(true){
-            StudentService service = new StudentService(Repository.getInstance());
-            if (service.isThereSomethingInRepository()){
+            if (StudentService.isThereSomethingInRepository()){
                 int howToFind = InputReader.readInt("\nОберіть критерій пошуку: " +
                         "\n1 - за ПІБ" +
                         "\n2 - за курсом" +
@@ -333,15 +322,15 @@ public class StudentMenu {
                 switch (howToFind){
                     // find by full name
                     case 1:
-                        findByFullName(service);
+                        findByFullName();
                         break;
                     // find by course
                     case 2:
-                        findByCourse(service);
+                        findByCourse();
                         break;
                     // find by group
                     case 3:
-                        findByGroup(service);
+                        findByGroup();
                         break;
                     // exit
                     case 0:
@@ -355,9 +344,9 @@ public class StudentMenu {
         }
     }
 
-    private static void findByFullName(StudentService service){
+    private static void findByFullName(){
         String fullName = getLastName() + " " + getFirstName() + " " + getPatronymic();
-        List<Student> foundStudents = service.findByFullName(fullName);
+        List<Student> foundStudents = StudentService.findByFullName(fullName);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти з ПІБ " + fullName + ":");
             int count = 1;
@@ -369,9 +358,9 @@ public class StudentMenu {
         }
     }
 
-    private static void findByCourse(StudentService service){
+    private static void findByCourse(){
         int course = getCourse();
-        List<Student> foundStudents = service.findByCourse(course);
+        List<Student> foundStudents = StudentService.findByCourse(course);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти на " + course + " курсі:");
             int count = 1;
@@ -383,9 +372,9 @@ public class StudentMenu {
         }
     }
 
-    private static void findByGroup(StudentService service){
+    private static void findByGroup(){
         String group = getGroup();
-        List<Student> foundStudents = service.findByGroup(group);
+        List<Student> foundStudents = StudentService.findByGroup(group);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти в групі " + group + ":");
             int count = 1;

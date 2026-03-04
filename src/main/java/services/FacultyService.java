@@ -9,32 +9,28 @@ import java.util.Optional;
 
 public class FacultyService {
 
-    private FacultyRepository repository;
+    private static FacultyRepository repository = FacultyRepository.getInstance();
 
-    public FacultyService(FacultyRepository repository){
-        this.repository = repository;
-    }
-
-    public Faculty createNewAndAdd(String uniqueCode, String fullName, String shortName, Teacher dean, String contacts){
+    public static Faculty createNewAndAdd(String uniqueCode, String fullName, String shortName, Teacher dean, String contacts){
         Faculty faculty = new Faculty(uniqueCode, fullName, shortName, dean, contacts);
-        repository.addFaculty(faculty);
+        repository.add(faculty);
         return faculty;
     }
 
-    public void delete(Faculty faculty){
-        repository.deleteFaculty(faculty);
+    public static void delete(Faculty faculty){
+        repository.delete(faculty);
     }
 
-    public Optional<Faculty> findByUniqueCode(String uniqueCode){
-        return repository.findFacultyByUniqueCode(uniqueCode);
+    public static Optional<Faculty> findById(String id){
+        return repository.findById(id);
     }
 
-    public Faculty findLastAdded(){
-        return repository.findLastAddedFaculty();
+    public static Faculty findLastAdded(){
+        return repository.findLastAdded();
     }
 
-    public List<Faculty> getAll(){
-        return repository.getFaculties();
+    public static List<Faculty> getAll(){
+        return repository.getAll();
     }
 
 }

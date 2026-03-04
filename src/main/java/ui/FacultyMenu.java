@@ -3,7 +3,6 @@ package ui;
 import domain.Faculty;
 import domain.Position;
 import domain.Teacher;
-import repositories.Repository;
 import services.FacultyService;
 import services.TeacherService;
 import validators.FacultyValidator;
@@ -34,8 +33,7 @@ public class FacultyMenu {
                 case 2:
                     int makingSure2 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
                     if(makingSure2==1){
-                        FacultyService service = new FacultyService(Repository.getInstance());
-                        printAll(service.getAll());
+                        printAll(FacultyService.getAll());
                     }
                     break;
                 // change existing one was chosen
@@ -61,33 +59,31 @@ public class FacultyMenu {
     }
 
     public static void createForm(){
-        FacultyService service = new FacultyService(Repository.getInstance());
-        FacultyValidator facultyValidator = new FacultyValidator(Repository.getInstance());
-        System.out.println("\nВи успішно додали факультет: \n" + service.createNewAndAdd(getUniqueCode(facultyValidator),
-                getFullName(facultyValidator), getShortName(facultyValidator), getDean(), getContacts()));
+        System.out.println("\nВи успішно додали факультет: \n" + FacultyService.createNewAndAdd(getId(),
+                getFullName(), getShortName(), getDean(), getContacts()));
     }
 
-    private static String getUniqueCode(FacultyValidator validator){
-        String uniqueCode = InputReader.readLine("Введіть унікальний код з 7 знаків: ", 7, 7);
-        while(!validator.isUniqueCodeValid(uniqueCode)){
-            System.out.println("Помилка! Факультет з таким унікальним кодом уже існує.");
-            uniqueCode = InputReader.readLine("Введіть унікальний код з 7 знаків: ", 7, 7);
+    private static String getId(){
+        String id = InputReader.readLine("Введіть унікальний ідентифікатор з 7 знаків: ", 7, 7);
+        while(!FacultyValidator.isIdValid(id)){
+            System.out.println("Помилка! Факультет з таким унікальним ідентифікатором уже існує.");
+            id = InputReader.readLine("Введіть унікальний ідентифікатор з 7 знаків: ", 7, 7);
         }
-        return uniqueCode;
+        return id;
     }
 
-    private static String getFullName(FacultyValidator validator){
+    private static String getFullName(){
         String fullName = InputReader.readLine("Введіть повну назву: ", 5, 50);
-        while(!validator.isFullNameValid(fullName)){
+        while(!FacultyValidator.isFullNameValid(fullName)){
             System.out.println("Помилка! Факультет з такою повною назвою вже існує.");
             fullName = InputReader.readLine("Введіть повну назву: ", 5, 50);
         }
         return fullName;
     }
 
-    private static String getShortName(FacultyValidator validator){
+    private static String getShortName(){
         String shortName = InputReader.readLine("Введіть скорочену назву: ", 1, 10);
-        while(!validator.isShortNameValid(shortName)){
+        while(!FacultyValidator.isShortNameValid(shortName)){
             System.out.println("Помилка! Факультет з такою скороченою назвою вже існує.");
             shortName = InputReader.readLine("Введіть скорочену назву: ", 1, 10);
         }
@@ -99,13 +95,12 @@ public class FacultyMenu {
             int howToChooseDean = InputReader.readInt("Виберіть, як хочете назначити декана: " +
                     "\n1 - вибрати з уже існуючих викладачів" +
                     "\n2 - створити нового викладача та назначити деканом", 1,2);
-            TeacherService teacherService = new TeacherService(Repository.getInstance());
             switch (howToChooseDean){
                 //choose from existing
                 case 1:
-                    if(TeacherMenu.printAll(teacherService.getAll())){
+                    if(TeacherMenu.printAll(TeacherService.getAll())){
                         String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете обрати: ", 5, 5);
-                        Optional<Teacher> maybeTeacher = teacherService.findById(id);
+                        Optional<Teacher> maybeTeacher = TeacherService.findById(id);
                         if(maybeTeacher.isPresent()){
                             Teacher foundTeacher = maybeTeacher.get();
                             if(foundTeacher.getPosition()== Position.DEAN){
@@ -127,7 +122,7 @@ public class FacultyMenu {
                 // create new
                 case 2:
                     TeacherMenu.createForm();
-                    Teacher dean = teacherService.findLastAdded();
+                    Teacher dean = TeacherService.findLastAdded();
                     System.out.println("\nВикладач " + dean.getFullName() + " буде деканом цього факультету.");
                     return dean;
             }
@@ -155,11 +150,9 @@ public class FacultyMenu {
     }
 
     private static void changeForm(){
-        FacultyService service = new FacultyService(Repository.getInstance());
-        FacultyValidator facultyValidator = new FacultyValidator(Repository.getInstance());
-        if(printAll(service.getAll())){
-            String uniqueCode = InputReader.readLine("\nВведіть унікальний код факультету, який хочете змінити: ", 7, 7);
-            Optional<Faculty> maybeFaculty = service.findByUniqueCode(uniqueCode);
+        if(printAll(FacultyService.getAll())){
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор факультету, який хочете змінити: ", 7, 7);
+            Optional<Faculty> maybeFaculty = FacultyService.findById(id);
             if(maybeFaculty.isPresent()){
                 Faculty foundFaculty = maybeFaculty.get();
                 while(true){
@@ -172,11 +165,11 @@ public class FacultyMenu {
                     switch (whatToChange){
                         // full name to change
                         case 1:
-                            foundFaculty.setFullName(getFullName(facultyValidator));
+                            foundFaculty.setFullName(getFullName());
                             break;
                         // short name to change
                         case 2:
-                            foundFaculty.setShortName(getShortName(facultyValidator));
+                            foundFaculty.setShortName(getShortName());
                             break;
                         // dean to change
                         case 3:
@@ -195,7 +188,7 @@ public class FacultyMenu {
                     System.out.println("\nЗміни проведені успішно. Оновлені дані: \n" + foundFaculty);
                 }
             }else{
-                System.out.println("\nФакультет з унікальним кодом " + uniqueCode + " не знайдено.");
+                System.out.println("\nФакультету з унікальним ідентифікатором " + id + " не знайдено.");
             }
         }else{
             System.out.println("Немає що змінювати.");
@@ -203,17 +196,16 @@ public class FacultyMenu {
     }
 
     private static void deleteForm(){
-        FacultyService service = new FacultyService(Repository.getInstance());
-        if(printAll(service.getAll())) {
-            String uniqueCode = InputReader.readLine("\nВведіть унікальний код факультету, який хочете видалити: ", 7, 7);
-            Optional<Faculty> maybeFaculty = service.findByUniqueCode(uniqueCode);
+        if(printAll(FacultyService.getAll())) {
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор факультету, який хочете видалити: ", 7, 7);
+            Optional<Faculty> maybeFaculty = FacultyService.findById(id);
             if (maybeFaculty.isPresent()) {
                 Faculty foundFaculty = maybeFaculty.get();
-                service.delete(foundFaculty);
+                FacultyService.delete(foundFaculty);
                 System.out.println("\nВи успішно видалили факультет. Оновлені дані: ");
-                printAll(service.getAll());
+                printAll(FacultyService.getAll());
             }else{
-                System.out.println("\nФакультет з унікальним кодом " + uniqueCode + " не знайдено.");
+                System.out.println("\nФакультету з унікальним ідентифікатором " + id + " не знайдено.");
             }
         }else{
             System.out.println("Немає що видаляти.");

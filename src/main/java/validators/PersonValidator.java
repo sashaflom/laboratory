@@ -1,14 +1,8 @@
 package validators;
 
-import repositories.FacultyRepository;
-
 public class PersonValidator {
 
-    public PersonValidator(){
-
-    }
-
-    public boolean isPhoneNumberValid(String phoneNumber){
+    public static boolean isPhoneNumberValid(String phoneNumber){
         int index;
         if(phoneNumber.charAt(0) == '+'){
             index = 1;
@@ -23,7 +17,7 @@ public class PersonValidator {
         return true;
     }
 
-    public boolean isEmailValid(String email){
+    public static boolean isEmailValid(String email){
         int atSymbolIndex = -1;
         for(int i = 0; i<email.length(); i++){
             if(email.charAt(i) == '@'){

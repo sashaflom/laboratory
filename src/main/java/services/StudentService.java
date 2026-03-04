@@ -8,47 +8,42 @@ import java.util.Optional;
 
 public class StudentService {
 
-    private StudentRepository repository;
+    private static StudentRepository repository = StudentRepository.getInstance();
 
-    public StudentService(StudentRepository repository){
-        this.repository = repository;
-    }
-
-
-    public Student createNewAndAdd(String id, String lastName, String firstName, String patronymic, String birthDate,
+    public static Student createNewAndAdd(String id, String lastName, String firstName, String patronymic, String birthDate,
                                    String email, String phoneNumber, Department department, String studentId, int course,
                                    String group, int enrollmentYear, EducationForm educationForm, StudentStatus status){
         Student student = new Student(id, lastName, firstName, patronymic, birthDate, email, phoneNumber, department, studentId,
                 course, group, enrollmentYear, educationForm, status);
-        repository.addStudent(student);
+        repository.add(student);
         return student;
     }
 
-    public void delete(Student student){
-        repository.deleteStudent(student);
+    public static void delete(Student student){
+        repository.delete(student);
     }
 
-    public Optional<Student> findById(String id){
-        return repository.findStudentById(id);
+    public static Optional<Student> findById(String id){
+        return repository.findById(id);
     }
 
-    public List<Student> findByFullName(String fullName){
-        return repository.findStudentsByFullName(fullName);
+    public static List<Student> findByFullName(String fullName){
+        return repository.findByFullName(fullName);
     }
 
-    public List<Student> findByCourse(int course){
-        return repository.findStudentsByCourse(course);
+    public static List<Student> findByCourse(int course){
+        return repository.findByCourse(course);
     }
 
-    public List<Student> findByGroup(String group){
-        return repository.findStudentsByGroup(group);
+    public static List<Student> findByGroup(String group){
+        return repository.findByGroup(group);
     }
 
-    public List<Student> getAll(){
-        return repository.getStudents();
+    public static List<Student> getAll(){
+        return repository.getAll();
     }
 
-    public boolean isThereSomethingInRepository(){
+    public static boolean isThereSomethingInRepository(){
         return repository.studentsIsNotEmpty();
     }
 }

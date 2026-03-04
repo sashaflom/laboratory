@@ -1,28 +1,22 @@
 package validators;
 
 import domain.Department;
-import domain.Faculty;
 import repositories.DepartmentRepository;
-import repositories.FacultyRepository;
 
 import java.util.Optional;
 
 public class DepartmentValidator {
 
-    private DepartmentRepository repository;
+    private static DepartmentRepository repository = DepartmentRepository.getInstance();
 
-    public DepartmentValidator(DepartmentRepository repository){
-        this.repository = repository;
-    }
-
-    public boolean isUniqueCodeValid(String uniqueCode){
-        Optional<Department> maybeDepartment = repository.findDepartmentByUniqueCode(uniqueCode);
+    public static boolean isIdValid(String id){
+        Optional<Department> maybeDepartment = repository.findById(id);
         if(maybeDepartment.isEmpty()) return true;
         return false;
     }
 
-    public boolean isNameValid(String name){
-        Optional<Department> maybeDepartment = repository.findDepartmentByName(name);
+    public static boolean isNameValid(String name){
+        Optional<Department> maybeDepartment = repository.findByName(name);
         if(maybeDepartment.isEmpty()) return true;
         return false;
     }

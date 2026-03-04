@@ -1,28 +1,22 @@
 package validators;
 
 import domain.Student;
-import domain.Teacher;
 import repositories.StudentRepository;
-import repositories.TeacherRepository;
 
 import java.util.Optional;
 
 public class StudentValidator extends PersonValidator{
 
-    private StudentRepository repository;
+    private static StudentRepository repository = StudentRepository.getInstance();
 
-    public StudentValidator(StudentRepository repository){
-        this.repository = repository;
-    }
-
-    public boolean isIdValid(String id){
-        Optional<Student> maybeStudent = repository.findStudentById(id);
+    public static boolean isIdValid(String id){
+        Optional<Student> maybeStudent = repository.findById(id);
         if(maybeStudent.isEmpty()) return true;
         return false;
     }
 
-    public boolean isStudentIdValid(String id) {
-        Optional<Student> maybeStudent = repository.findStudentByStudentId(id);
+    public static boolean isStudentIdValid(String id) {
+        Optional<Student> maybeStudent = repository.findByStudentId(id);
         if(maybeStudent.isEmpty()) return true;
         return false;
     }

@@ -1,22 +1,17 @@
 package domain;
 
-import repositories.Repository;
-
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.Scanner;
 
 public class Department {
 
-    private final String uniqueCode;
+    private final String id;
     private String name;
     private Faculty faculty;
     private Teacher headOfDepartment;
     private String location;
 
-    public Department(String uniqueCode, String name, Faculty faculty, Teacher headOfDepartment, String location){
-        this.uniqueCode = uniqueCode;
+    public Department(String id, String name, Faculty faculty, Teacher headOfDepartment, String location){
+        this.id = id;
         this.name = name;
         this.faculty = faculty;
         this.headOfDepartment = headOfDepartment;
@@ -25,12 +20,12 @@ public class Department {
 
     @Override
     public String toString(){
-        return "\nКафедра: \nунікальний код: '%s', \nназва: '%s', \nфакультет: '%s', \nзавідувач: '%s', \nлокація: '%s'.".formatted(uniqueCode, name,(faculty != null ? faculty.getFullName() : "не призначено"),
+        return "Кафедра: ID: '%s', назва: '%s', факультет: '%s', завідувач: '%s', локація: '%s'.".formatted(id, name,(faculty != null ? faculty.getFullName() : "не призначено"),
                 (headOfDepartment != null ? headOfDepartment.getFullName() : "не призначено"), location);
     }
 
-    public String getUniqueCode() {
-        return uniqueCode;
+    public String getId() {
+        return id;
     }
     public String getName() {
         return name;
@@ -63,7 +58,7 @@ public class Department {
         if (this==o) return true;
         if (o==null || getClass() != o.getClass()) return false;
         Department department = (Department) o;
-        return (Objects.equals(uniqueCode, department.uniqueCode) &&
+        return (Objects.equals(id, department.id) &&
                 Objects.equals(name, department.name) &&
                 Objects.equals(faculty.getFullName(), department.faculty.getFullName()) &&
                 Objects.equals(headOfDepartment.getId(), department.headOfDepartment.getId()) &&
@@ -72,7 +67,7 @@ public class Department {
 
     @Override
     public int hashCode(){
-        return Objects.hash(uniqueCode, name, faculty.getFullName(), headOfDepartment.getId(),
+        return Objects.hash(id, name, faculty.getFullName(), headOfDepartment.getId(),
                 location);
     }
 }
