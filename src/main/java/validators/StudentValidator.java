@@ -3,7 +3,9 @@ package validators;
 import domain.Student;
 import repositories.StudentRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class StudentValidator extends PersonValidator{
 
@@ -16,8 +18,9 @@ public class StudentValidator extends PersonValidator{
     }
 
     public static boolean isStudentIdValid(String id) {
-        Optional<Student> maybeStudent = repository.findByStudentId(id);
-        if(maybeStudent.isEmpty()) return true;
+        Predicate<Student> rule = student -> student.getStudentId().equals(id);
+        List<Student> foundStudent = repository.findAll(rule);
+        if(foundStudent.isEmpty()) return true;
         return false;
     }
 

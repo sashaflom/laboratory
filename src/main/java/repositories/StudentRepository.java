@@ -46,20 +46,7 @@ public class StudentRepository implements Repository<Student, String> {
         return foundStudent;
     }
 
-    public Optional <Student> findByStudentId(String id) {
-        Optional<Student> foundStudent = Optional.empty();
-        if(students.size()!=0){
-            for (Student student : students.values()) {
-                if(student.getStudentId().equals(id)){
-                    foundStudent = Optional.of(student);
-                    break;
-                }
-            }
-        }
-        return foundStudent;
-    }
-
-    public List<Student> findByFullName(Predicate<Student> rule) {
+    public List<Student> findAll(Predicate<Student> rule) {
         List<Student> foundStudents = new ArrayList<>();
         for(Student student : students.values()){
             if(rule.test(student)){
@@ -69,19 +56,9 @@ public class StudentRepository implements Repository<Student, String> {
         return foundStudents;
     }
 
-    public List<Student> findByCourse(Predicate<Student> rule){
+    public List<Student> findPart(Predicate<Student> rule, List<Student> list) {
         List<Student> foundStudents = new ArrayList<>();
-        for(Student student : students.values()){
-            if(rule.test(student)){
-                foundStudents.add(student);
-            }
-        }
-        return foundStudents;
-    }
-
-    public List<Student> findByGroup(Predicate<Student> rule){
-        List<Student> foundStudents = new ArrayList<>();
-        for(Student student : students.values()){
+        for(Student student : list){
             if(rule.test(student)){
                 foundStudents.add(student);
             }
@@ -98,4 +75,15 @@ public class StudentRepository implements Repository<Student, String> {
         return students.size()!=0;
     }
 
+    public List<Student> sortAll(Comparator<Student> rule){
+        List<Student> sorted = new ArrayList<>(students.values());
+        sorted.sort(rule);
+        return sorted;
+    }
+
+    public List<Student> sortPart(Comparator<Student> rule, List<Student> list){
+        List<Student> sorted = new ArrayList<>(list);
+        sorted.sort(rule);
+        return sorted;
+    }
 }
