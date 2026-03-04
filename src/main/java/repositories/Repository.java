@@ -2,17 +2,15 @@ package repositories;
 
 import domain.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Repository implements FacultyRepository, DepartmentRepository, TeacherRepository, StudentRepository {
 
     // static class variable that will store a reference to a single instance of the class
     private static Repository instance = null;
 
-    private List<Faculty> faculties = new ArrayList<>();
+    private Map<String, Faculty> faculties = new LinkedHashMap<>();
+    private Faculty lastAddedFaculty;
     private List<Department> departments = new ArrayList<>();
     private List<Student> students = new ArrayList<>();
     private List<Teacher> teachers = new ArrayList<>();
@@ -222,25 +220,18 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
     @Override
     public void addFaculty(Faculty faculty){
-        faculties.add(faculty);
+        faculties.put(faculty.getUniqueCode(), faculty);
+        lastAddedFaculty = faculty;
     }
 
     @Override
     public void deleteFaculty(Faculty faculty){
-        faculties.remove(faculty);
+        faculties.remove(faculty.getUniqueCode());
     }
 
     @Override
     public Optional<Faculty> findFacultyByUniqueCode(String uniqueCode){
-        Optional<Faculty> foundFaculty = Optional.empty();
-        if(faculties.size()!=0){
-            for (Faculty faculty : faculties) {
-                if(faculty.getUniqueCode().equals(uniqueCode)){
-                    foundFaculty = Optional.of(faculty);
-                    break;
-                }
-            }
-        }
+        Optional<Faculty> foundFaculty = Optional.ofNullable(faculties.get(uniqueCode));
         return foundFaculty;
     }
 
@@ -248,7 +239,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
     public Optional<Faculty> findFacultyByFullName(String fullName){
         Optional<Faculty> foundFaculty = Optional.empty();
         if(faculties.size()!=0){
-            for(Faculty faculty : faculties){
+            for(Faculty faculty : faculties.values()){
                 if (faculty.getFullName().equals(fullName)){
                     foundFaculty = Optional.of(faculty);
                     break;
@@ -262,7 +253,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
     public Optional<Faculty> findFacultyByShortName(String shortName){
         Optional<Faculty> foundFaculty = Optional.empty();
         if(faculties.size()!=0){
-            for(Faculty faculty : faculties){
+            for(Faculty faculty : faculties.values()){
                 if (faculty.getShortName().equals(shortName)){
                     foundFaculty = Optional.of(faculty);
                     break;
@@ -274,11 +265,11 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
     @Override
     public Faculty findLastAddedFaculty(){
-        return faculties.get(faculties.size()-1);
+        return lastAddedFaculty;
     }
 
     @Override
     public List<Faculty> getFaculties() {
-        return new ArrayList<>(faculties);
+        return new ArrayList<>(faculties.values());
     }
 }

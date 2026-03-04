@@ -1,9 +1,6 @@
 package domain;
 
-import repositories.Repository;
-
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.Objects;
 
 public class Faculty {
 
@@ -53,5 +50,23 @@ public class Faculty {
     }
     public void setContactForCommunication(String contactForCommunication) {
         this.contactForCommunication = contactForCommunication;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this==o) return true;
+        if (o==null || getClass() != o.getClass()) return false;
+        Faculty faculty = (Faculty) o;
+        return (Objects.equals(uniqueCode, faculty.uniqueCode) &&
+                Objects.equals(fullName, faculty.fullName) &&
+                Objects.equals(shortName, faculty.shortName) &&
+                Objects.equals(dean.getId(), faculty.dean.getId()) &&
+                Objects.equals(contactForCommunication, faculty.contactForCommunication));
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(uniqueCode, fullName, shortName, dean.getId(),
+                contactForCommunication);
     }
 }
