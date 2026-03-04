@@ -11,7 +11,8 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
     private Map<String, Faculty> faculties = new LinkedHashMap<>();
     private Faculty lastAddedFaculty;
-    private List<Department> departments = new ArrayList<>();
+    private Map<String, Department> departments = new LinkedHashMap<>();
+    private Department lastAddedDepartment;
     private List<Student> students = new ArrayList<>();
     private List<Teacher> teachers = new ArrayList<>();
 
@@ -170,24 +171,16 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
 
     @Override
-    public void addDepartment(Department department) {departments.add(department);}
+    public void addDepartment(Department department) {departments.put(department.getUniqueCode(), department);}
 
     @Override
     public void deleteDepartment(Department department) {
-        departments.remove(department);
+        departments.remove(department.getUniqueCode());
     }
 
     @Override
     public Optional<Department> findDepartmentByUniqueCode(String uniqueCode ){
-        Optional<Department> foundDepartament = Optional.empty();
-        if (departments.size()!=0) {
-            for (Department department : departments) {
-                if (department.getUniqueCode().equals(uniqueCode)) {
-                    foundDepartament = Optional.of(department);
-                    break;
-                }
-            }
-        }
+        Optional<Department> foundDepartament = Optional.ofNullable(departments.get(uniqueCode));
         return foundDepartament;
     }
 
@@ -195,7 +188,7 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
     public Optional<Department> findDepartmentByName(String name){
         Optional<Department> foundDepartament = Optional.empty();
         if (departments.size()!=0) {
-            for (Department department : departments) {
+            for (Department department : departments.values()) {
                 if (department.getName().equals(name)) {
                     foundDepartament = Optional.of(department);
                     break;
@@ -207,12 +200,12 @@ public class Repository implements FacultyRepository, DepartmentRepository, Teac
 
     @Override
     public Department findLastAddedDepartment(){
-        return departments.get(departments.size()-1);
+        return lastAddedDepartment;
     }
 
     @Override
     public List<Department> getDepartments() {
-        return new ArrayList<>(departments);
+        return new ArrayList<>(departments.values());
     }
 
 

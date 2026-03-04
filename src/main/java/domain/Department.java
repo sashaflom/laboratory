@@ -3,6 +3,7 @@ package domain;
 import repositories.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -55,5 +56,23 @@ public class Department {
     }
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this==o) return true;
+        if (o==null || getClass() != o.getClass()) return false;
+        Department department = (Department) o;
+        return (Objects.equals(uniqueCode, department.uniqueCode) &&
+                Objects.equals(name, department.name) &&
+                Objects.equals(faculty.getFullName(), department.faculty.getFullName()) &&
+                Objects.equals(headOfDepartment.getId(), department.headOfDepartment.getId()) &&
+                Objects.equals(location, department.location));
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(uniqueCode, name, faculty.getFullName(), headOfDepartment.getId(),
+                location);
     }
 }
