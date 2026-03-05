@@ -13,9 +13,6 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static Scanner scanner = new Scanner(System.in);
-    private static Role sessionRole;
-
     public static void main(String[] args){
         University kyivMohylaAcademy = new University("Національний університет 'Києво-Могилянська академія'",
                 "НаУКМА", "Київ", "вулиця Григорія Сковороди, 2, Київ, 04655");
@@ -100,13 +97,13 @@ public class MainMenu {
                 login = InputReader.readLine("Введіть логін: ", 5, 30);
                 maybeUser = UserService.findByLogin(login);
             }
-            User chosenUser = maybeUser.get();
+            UserService.setSessionUser(maybeUser.get());
             int tryPassword = 3;
             while(tryPassword > 0){
                 String password = InputReader.readLine("Введіть пароль: ", 10, 10);
-                if(UserService.checkPassword(password, chosenUser)){
-                    System.out.println("\nВи увійшли в акаунт " + chosenUser.getLogin() + ". Ваша роль: " + chosenUser.getRole().getDisplayName());
-                    sessionRole = chosenUser.getRole();
+                if(UserService.checkPassword(password)){
+                    UserService.setSessionRole();
+                    System.out.println("\nВи увійшли в акаунт " + UserService.getSessionUserLogin() + ". Ваша роль: " + UserService.getSessionRole());
                     break;
                 }else{
                     tryPassword--;
@@ -129,7 +126,7 @@ public class MainMenu {
             switch (whatToDo){
                 // data management operations was chosen
                 case 1:
-                    if(sessionRole != Role.USER){
+                    if(!UserService.isUser()){
                         while(true){
                             int whatToWorkWith = InputReader.readInt("\nВиберіть, з чим хочете працювати: " +
                                     "\n1 - факультет" +
@@ -161,7 +158,7 @@ public class MainMenu {
                             if(whatToWorkWith==0) break;
                         }
                     }else{
-                        System.out.println("\nЦя дія недоступна для ролі " + sessionRole.getDisplayName() + ".");
+                        System.out.println("\nЦя дія недоступна для ролі " + UserService.getSessionRole() + ".");
                     }
                     break;
                 // search was chosen
