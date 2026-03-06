@@ -341,7 +341,7 @@ public class TeacherMenu {
     private static void findByFullName(){
         String fullName = getLastName() + " " + getFirstName() + " " + getPatronymic();
         List<Teacher> foundTeachers = TeacherService.findByFullName(fullName);
-        if(foundTeachers.isEmpty()){
+        if(!foundTeachers.isEmpty()){
             System.out.println("\nЗнайдені викладачі з ПІБ " + fullName + ":");
             int count = 1;
             for(Teacher teacher : foundTeachers){
