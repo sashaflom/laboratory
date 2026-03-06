@@ -5,6 +5,8 @@ import repositories.TeacherRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Comparator;
+import java.util.ArrayList;
 
 public class TeacherService {
 
@@ -32,7 +34,22 @@ public class TeacherService {
     }
 
     public static List<Teacher> findByFullName(String fullName){
-        return repository.findByFullName(fullName);
+        return repository.findAll(t -> t.getFullName().equals(fullName));
+    }
+    public static List<Teacher> getAllTeachersSortedByAlphabet(){
+        List<Teacher> all = new ArrayList<>(repository.findAll(t ->true));
+        all.sort((t1, t2) -> t1.getFullName().compareTo(t2.getFullName()));
+        return all;
+    }
+    public static List<Teacher> getAllTeachersSortedByDepartment(Department department){
+        List<Teacher> teachersList = new ArrayList<>(repository.findAll (teacher ->teacher.getDepartment().equals(department)));
+        teachersList.sort((t1,t2)-> t1.getFullName().compareTo(t2.getFullName()));
+        return teachersList;
+    }
+    public static List<Teacher> getAllTeachersSortedByFaculty(Faculty faculty){
+        List<Teacher> teachersList1 = new ArrayList<>(repository.findAll (teacher1 ->teacher1.getFaculty().equals(faculty)));
+        teachersList1.sort((t1, t2) -> t1.getFullName().compareTo(t2.getFullName()));
+        return teachersList1;
     }
 
     public static List<Teacher> getAll(){

@@ -3,6 +3,7 @@ package repositories;
 import domain.Student;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class StudentRepository implements Repository<Student, String> {
 
@@ -45,43 +46,20 @@ public class StudentRepository implements Repository<Student, String> {
         return foundStudent;
     }
 
-    public Optional <Student> findByStudentId(String id) {
-        Optional<Student> foundStudent = Optional.empty();
-        if(students.size()!=0){
-            for (Student student : students.values()) {
-                if(student.getStudentId().equals(id)){
-                    foundStudent = Optional.of(student);
-                    break;
-                }
-            }
-        }
-        return foundStudent;
-    }
-
-    public List<Student> findByFullName(String fullName) {
+    public List<Student> findAll(Predicate<Student> rule) {
         List<Student> foundStudents = new ArrayList<>();
         for(Student student : students.values()){
-            if(student.getFullName().equals(fullName)){
+            if(rule.test(student)){
                 foundStudents.add(student);
             }
         }
         return foundStudents;
     }
 
-    public List<Student> findByCourse(int course){
+    public List<Student> findPart(Predicate<Student> rule, List<Student> list) {
         List<Student> foundStudents = new ArrayList<>();
-        for(Student student : students.values()){
-            if(student.getCourse()==course){
-                foundStudents.add(student);
-            }
-        }
-        return foundStudents;
-    }
-
-    public List<Student> findByGroup(String group){
-        List<Student> foundStudents = new ArrayList<>();
-        for(Student student : students.values()){
-            if(student.getGroup().equals(group)){
+        for(Student student : list){
+            if(rule.test(student)){
                 foundStudents.add(student);
             }
         }
@@ -97,4 +75,15 @@ public class StudentRepository implements Repository<Student, String> {
         return students.size()!=0;
     }
 
+    public List<Student> sortAll(Comparator<Student> rule){
+        List<Student> sorted = new ArrayList<>(students.values());
+        sorted.sort(rule);
+        return sorted;
+    }
+
+    public List<Student> sortPart(Comparator<Student> rule, List<Student> list){
+        List<Student> sorted = new ArrayList<>(list);
+        sorted.sort(rule);
+        return sorted;
+    }
 }

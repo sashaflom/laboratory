@@ -3,6 +3,7 @@ package repositories;
 import domain.Teacher;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class TeacherRepository implements Repository<Teacher, String> {
 
@@ -51,15 +52,10 @@ public class TeacherRepository implements Repository<Teacher, String> {
         return lastAdded;
     }
 
-    public List<Teacher> findByFullName(String fullName){
-        List<Teacher> foundTeachers = new ArrayList<>();
-        for(Teacher teacher : teachers.values()){
-            if(teacher.getFullName().equals(fullName)){
-                foundTeachers.add(teacher);
-            }
-        }
-        return foundTeachers;
+    public List<Teacher> findAll(Predicate<Teacher> rule){
+        return teachers.values().stream().filter(rule).toList() ;
     }
+
 
     @Override
     public List<Teacher> getAll() {

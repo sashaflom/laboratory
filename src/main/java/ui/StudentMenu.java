@@ -2,6 +2,7 @@ package ui;
 
 import domain.*;
 import services.DepartmentService;
+import services.FacultyService;
 import services.StudentService;
 import validators.InputReader;
 import validators.PersonValidator;
@@ -160,8 +161,8 @@ public class StudentMenu {
         return course;
     }
 
-    private static String getGroup(){
-        String group = InputReader.readLine("Введіть назву групи: ", 1, 15);
+    private static int getGroup(){
+        int group = InputReader.readInt("Введіть номер групи: ", 1, 10);
         return group;
     }
 
@@ -344,12 +345,13 @@ public class StudentMenu {
 
     private static void findByFullName(){
         String fullName = getLastName() + " " + getFirstName() + " " + getPatronymic();
-        List<Student> foundStudents = StudentService.findByFullName(fullName);
+        List<Student> foundStudents = StudentService.findAllByFullName(fullName);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти з ПІБ " + fullName + ":");
             int count = 1;
             for(Student student : foundStudents){
                 System.out.println(count + ". " + student);
+                count++;
             }
         }else{
             System.out.println("\nCтудентів з ПІБ " + fullName + " не знайдено.");
@@ -358,12 +360,13 @@ public class StudentMenu {
 
     private static void findByCourse(){
         int course = getCourse();
-        List<Student> foundStudents = StudentService.findByCourse(course);
+        List<Student> foundStudents = StudentService.findAllByCourse(course);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти на " + course + " курсі:");
             int count = 1;
             for(Student student : foundStudents){
                 System.out.println(count + ". " + student);
+                count++;
             }
         }else{
             System.out.println("\nCтудентів на " + course + " курсі не знайдено.");
@@ -371,16 +374,193 @@ public class StudentMenu {
     }
 
     private static void findByGroup(){
-        String group = getGroup();
-        List<Student> foundStudents = StudentService.findByGroup(group);
+        int group = getGroup();
+        List<Student> foundStudents = StudentService.findAllByGroup(group);
         if(foundStudents.size()!=0){
             System.out.println("\nЗнайдені студенти в групі " + group + ":");
             int count = 1;
             for(Student student : foundStudents){
                 System.out.println(count + ". " + student);
+                count++;
             }
         }else{
             System.out.println("\nCтудентів в групі " + group + " не знайдено.");
+        }
+    }
+
+    public static void report(){
+        while(true){
+            int whatToShow = InputReader.readInt("\nВиберіть конкретний звіт: " +
+                    "\n1 - всі студенти, впорядковані за курсом" +
+                    "\n2 - всі студенти, впорядковані за алфавітом" +
+                    "\n3 - студенти певної кафедри" +
+                    "\n4 - всі студенти певного факультету, впорядковані за алфавітом" +
+                    "\n0 - повернутись на крок назад", 0, 4);
+            switch (whatToShow){
+                //all students sorted by course
+                case 1:
+                    printAllStudentsSortedByCourse();
+                    break;
+                //all students sorted by alphabet
+                case 2:
+                    printAllStudentsSortedByAlphabet();
+                    break;
+                //student in department
+                case 3:
+                    chooseDepartment();
+                    break;
+                //student in faculty (get faculty first) sorted by alphabet
+                case 4:
+                    chooseFaculty();
+                    break;
+                //exit was chosen
+                case 0:
+                    break;
+            }
+            if(whatToShow==0) break;
+        }
+    }
+
+    private static void printAllStudentsSortedByCourse(){
+        List<Student> sorted = StudentService.sortAllByCourse();
+        if(sorted.isEmpty()){
+            System.out.println("\nНемає жодного студенту, звіт порожній.");
+        }else{
+            System.out.println("\nСПИСОК ВСІХ СТУДЕНТІВ, ВІДСОРТОВАНИХ ЗА КУРСОМ:");
+            int count = 1;
+            for(Student student : sorted){
+                System.out.println(count + ". " + student);
+                count++;
+            }
+        }
+    }
+
+    private static void printAllStudentsSortedByAlphabet(){
+        List<Student> sorted = StudentService.sortAllByAlphabet();
+        if(sorted.isEmpty()){
+            System.out.println("\nНемає жодного студенту, звіт порожній.");
+        }else{
+            System.out.println("\nСПИСОК ВСІХ СТУДЕНТІВ, ВІДСОРТОВАНИХ ЗА АЛФАВІТОМ:");
+            int count = 1;
+            for(Student student : sorted){
+                System.out.println(count + ". " + student);
+                count++;
+            }
+        }
+    }
+
+    private static void chooseDepartment(){
+        if(DepartmentMenu.printAll(DepartmentService.getAll())){
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор кафедри, " +
+                    "студентів якої ви хочете побачити: ", 4, 4);
+            Optional<Department> maybeDepartment = DepartmentService.findById(id);
+            if(maybeDepartment.isPresent()){
+                Department foundDepartment = maybeDepartment.get();
+                List<Student> inDepartment = StudentService.findAllByDepartment(foundDepartment);
+                while(true){
+                    int whatToShow = InputReader.readInt("\nВиберіть конкретний звіт:" +
+                            "\n1 - всі студенти цієї кафедри, впорядковані за курсами" +
+                            "\n2 - всі студенти цієї кафедри, впорядковані за алфавітом" +
+                            "\n3 - всі студенти цієї кафедри певного курсу, впорядковані за алфавітом" +
+                            "\n0 - повернутись на крок назад", 0, 3);
+                    switch (whatToShow){
+                        // student in department sorted by course
+                        case 1:
+                            printAllStudentsInDepartmentSortedByCourse(inDepartment, foundDepartment.getName());
+                            break;
+                        // student in department sorted by alphabet
+                        case 2:
+                            printAllStudentsInDepartmentSortedByAlphabet(inDepartment, foundDepartment.getName());
+                            break;
+                        // student in department with entered course (get course first) sorted by alphabet
+                        case 3:
+                            int course = getCourse();
+                            printAllStudentsInDepartmentWithCourseSortedByAlphabet(inDepartment, foundDepartment.getName(), course);
+                            break;
+                        // exit
+                        case 0:
+                            break;
+                    }
+                    if(whatToShow==0) break;
+                }
+            }else{
+                System.out.println("\nКафедру з унікальним ідентифікатором " + id + " не знайдено.");
+            }
+        }else{
+            System.out.println("Звіт порожній.");
+        }
+    }
+
+    private static void printAllStudentsInDepartmentSortedByCourse(List<Student> inDepartment, String departmentName){
+        List<Student> sorted = StudentService.sortPartByCourse(inDepartment);
+        if(sorted.isEmpty()){
+            System.out.println("\nНемає жодного студенту на кафедрі " + departmentName + ", звіт порожній.");
+        }else{
+            System.out.println("\nСПИСОК ВСІХ СТУДЕНТІВ НА КАФЕДРІ " + departmentName.toUpperCase() + ", ВІДСОРТОВАНИХ ЗА КУРСОМ:");
+            int count = 1;
+            for(Student student : sorted){
+                System.out.println(count + ". " + student);
+                count++;
+            }
+        }
+    }
+
+    private static void printAllStudentsInDepartmentSortedByAlphabet(List<Student> inDepartment, String departmentName){
+        List<Student> sorted = StudentService.sortPartByAlphabet(inDepartment);;
+        if(sorted.isEmpty()){
+            System.out.println("\nНемає жодного студенту на кафедрі " + departmentName + ", звіт порожній.");
+        }else{
+            System.out.println("\nСПИСОК ВСІХ СТУДЕНТІВ НА КАФЕДРІ " + departmentName.toUpperCase() + ", ВІДСОРТОВАНИХ ЗА АЛФАВІТОМ:");
+            int count = 1;
+            for(Student student : sorted){
+                System.out.println(count + ". " + student);
+                count++;
+            }
+        }
+    }
+
+    private static void printAllStudentsInDepartmentWithCourseSortedByAlphabet(List<Student> inDepartment, String departmentName, int course){
+        List<Student> sorted = StudentService.sortPartByAlphabet(StudentService.findPartByCourse(course, inDepartment));;
+        if(sorted.isEmpty()){
+            System.out.println("\nНемає жодного студенту на кафедрі " + departmentName + " на курсі " + course + ", звіт порожній.");
+        }else{
+            System.out.println("\nСПИСОК ВСІХ СТУДЕНТІВ НА КАФЕДРІ " + departmentName.toUpperCase() + " НА КУРСІ " + course + ", ВІДСОРТОВАНИХ ЗА АЛФАВІТОМ:");
+            int count = 1;
+            for(Student student : sorted){
+                System.out.println(count + ". " + student);
+                count++;
+            }
+        }
+    }
+
+    private static void chooseFaculty(){
+        if(FacultyMenu.printAll(FacultyService.getAll())){
+            String id = InputReader.readLine("\nВведіть унікальний ідентифікатор факультету, " +
+                    "студентів якого хочете побачити: ", 7, 7);
+            Optional<Faculty> maybeFaculty = FacultyService.findById(id);
+            if(maybeFaculty.isPresent()){
+                Faculty foundFaculty = maybeFaculty.get();
+                List<Student> inFaculty = StudentService.findAllByFaculty(foundFaculty);
+                printAllStudentsInFacultySortedByAlphabet(inFaculty, foundFaculty.getShortName());
+            }else{
+                System.out.println("\nФакультету з унікальним ідентифікатором " + id + " не знайдено.");
+            }
+        }else{
+            System.out.println("Звіт порожній.");
+        }
+    }
+
+    private static void printAllStudentsInFacultySortedByAlphabet(List<Student> inFaculty, String facultyName){
+        List<Student> sorted = StudentService.sortPartByAlphabet(inFaculty);;
+        if(sorted.isEmpty()){
+            System.out.println("\nНемає жодного студенту на факультеті " + facultyName + ", звіт порожній.");
+        }else{
+            System.out.println("\nСПИСОК ВСІХ СТУДЕНТІВ НА ФАКУЛЬТЕТІ " + facultyName.toUpperCase() + ", ВІДСОРТОВАНИХ ЗА АЛФАВІТОМ:");
+            int count = 1;
+            for(Student student : sorted){
+                System.out.println(count + ". " + student);
+                count++;
+            }
         }
     }
 
