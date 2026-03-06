@@ -341,7 +341,7 @@ public class TeacherMenu {
     private static void findByFullName(){
         String fullName = getLastName() + " " + getFirstName() + " " + getPatronymic();
         List<Teacher> foundTeachers = TeacherService.findByFullName(fullName);
-        if(foundTeachers.size()!=0){
+        if(foundTeachers.isEmpty()){
             System.out.println("\nЗнайдені викладачі з ПІБ " + fullName + ":");
             int count = 1;
             for(Teacher teacher : foundTeachers){
@@ -382,7 +382,18 @@ public class TeacherMenu {
     }
 
     private static void printAllTeachersSortedByAlphabet(){
-        // code for report
+        List <Teacher> sorted = TeacherService.getAllTeachersSortedByAlphabet();
+        if (sorted.isEmpty()){
+            System.out.println("\nЗвіт порожній, ще не було створено жодного викладача");
+        }
+        else {
+            System.out.println("\nВсі викладачі впорядковані за алфавітом");
+            int count = 1;
+            for(Teacher teacher : sorted){
+                System.out.println(count + ". " + teacher);
+                count++;
+            }
+        }
     }
 
     private static void chooseDepartment(){
@@ -402,7 +413,26 @@ public class TeacherMenu {
     }
 
     private static void printAllTeachersInDepartmentSortedByAlphabet(){
-        // code for report
+        String id = InputReader.readLine("\nВведіть унікальний ідентифікатор кафедри: ", 4,4 );
+        Optional<Department> maybeDepartment = DepartmentService.findById(id);
+        Department foundDepartment;
+        if(maybeDepartment.isPresent()){
+            foundDepartment = maybeDepartment.get();
+        } else {
+            System.out.println("\nЗ таким id кафедри не знайдено");
+            return;
+        }
+       List<Teacher> sorted = TeacherService.getAllTeachersSortedByDepartment(foundDepartment);
+       if(sorted.isEmpty()){
+           System.out.println("\nНа цій кафедрі немає викладачів");
+       }
+       else  {
+           int count = 1;
+           for(Teacher teacher : sorted){
+               System.out.println(count + "." + teacher);
+               count++;
+           }
+       }
     }
 
     private static void chooseFaculty(){
@@ -422,7 +452,27 @@ public class TeacherMenu {
     }
 
     private static void printAllTeachersInFacultySortedByAlphabet(){
-        // code for report
+        String id = InputReader.readLine("\nВведіть унікальний ідентифікатор факультету", 7,7);
+        Optional<Faculty> maybeFaculty = FacultyService.findById(id);
+        Faculty foundFaculty;
+        if(maybeFaculty.isPresent()){
+            foundFaculty = maybeFaculty.get();
+        }
+        else {
+            System.out.println("З таким id факультету не знайдено");
+            return;
+        }
+        List <Teacher> sorted = TeacherService.getAllTeachersSortedByFaculty(foundFaculty);
+        if(sorted.isEmpty()){
+            System.out.println("Цей факультет не містить викладачів");
+        }
+        else  {
+            int count = 1;
+            for(Teacher teacher : sorted){
+                System.out.println(count + "." + teacher);
+                count++;
+            }
+        }
     }
 
 }
