@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.Objects;
+import java.time.LocalDate;
 
 public class Teacher extends Person {
 
@@ -13,7 +14,7 @@ public class Teacher extends Person {
     private double workload; //ставка/навантаження
 
     public Teacher(String id, String lastName, String firstName,String patronymic,
-                  String birthDate, String email, String phoneNumber, Department department, Position position,
+                  LocalDate birthDate, String email, String phoneNumber, Department department, Position position,
                   AcademicDegree academicDegree, AcademicTitle academicTitle,
                   String hireDate, double workload ) {
        super(id, lastName, firstName, patronymic, birthDate, email, phoneNumber);

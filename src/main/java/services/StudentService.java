@@ -7,12 +7,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.time.LocalDate;
+
 
 public class StudentService {
 
     private static StudentRepository repository = StudentRepository.getInstance();
 
-    public static Student createNewAndAdd(String id, String lastName, String firstName, String patronymic, String birthDate,
+    public static Student createNewAndAdd(String id, String lastName, String firstName, String patronymic, LocalDate birthDate,
                                    String email, String phoneNumber, Department department, String studentId, int course,
                                    int group, int enrollmentYear, EducationForm educationForm, StudentStatus status){
         Student student = new Student(id, lastName, firstName, patronymic, birthDate, email, phoneNumber, department, studentId,

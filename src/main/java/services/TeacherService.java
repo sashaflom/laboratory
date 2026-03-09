@@ -5,12 +5,13 @@ import repositories.TeacherRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 public class TeacherService {
 
     private static TeacherRepository repository = TeacherRepository.getInstance();
 
-    public static Teacher createNewAndAdd(String id, String lastName, String firstName, String patronymic, String birthDate,
+    public static Teacher createNewAndAdd(String id, String lastName, String firstName, String patronymic, LocalDate birthDate,
                                    String email, String phoneNumber, Department department, Position position,
                                    AcademicDegree academicDegree, AcademicTitle academicTitle, String hireDate, double workload){
         Teacher teacher = new Teacher(id, lastName, firstName, patronymic, birthDate, email, phoneNumber, department, position,
