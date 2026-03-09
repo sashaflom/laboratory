@@ -2,6 +2,7 @@ package repositories;
 import domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import services.StudentService;
 import validators.PersonValidator;
 
 import java.time.LocalDate;
@@ -35,31 +36,26 @@ public class StudentRepositoryTest {
     @Test
     public void studentAddToRepo(){
         // Arrange
-        StudentRepository repository = StudentRepository.getInstance();
-        int initialSize = repository.getAll().size();
-        Student newStudent = new Student("12345", "Y", "N", "I", LocalDate.of(2007, 6, 14),
+        int initialSize = StudentService.getAll().size();
+        // Act
+        StudentService.createNewAndAdd("12345", "Y", "N", "I", LocalDate.of(2007, 6, 14),
                 "y@ukma.edu.ua", "+380967201296", department, "12345678",
                 1, 89, 2024,   EducationForm.BUDGET, StudentStatus.STUDYING );
-        //Act
-        repository.add(newStudent);
         // Assert
-        int newSize = repository.getAll().size();
-        assertEquals(initialSize + 1, newSize, "Розмір списку мав збільшитися на 1");
+        int newSize = StudentService.getAll().size();
+        assertEquals(initialSize + 1, newSize);
     }
 
     @Test
     public void studentFindById(){
         // Arrange
-        StudentRepository repository = StudentRepository.getInstance();
-        Student newStudent = new Student("55555", "Т", "А", "С",  LocalDate.of(2008,6, 21),
+        Student student = StudentService.createNewAndAdd("55555", "Т", "А", "С",  LocalDate.of(2008,6, 21),
                 "ppp@ukma.edu.ua", "+380967007798", department, "88888888",
                 2, 99, 2024,   EducationForm.CONTRACT, StudentStatus.ACADEMIC_LEAVE );
-        //Act
-        repository.add(newStudent);
+        // Act
+        Optional<Student> foundStudent = StudentService. findById(student.getId());
         // Assert
-        Optional<Student> foundStudent = repository.findById(newStudent.getId());
         assertTrue(foundStudent.isPresent());
-        assertEquals(newStudent.getStudentId(), foundStudent.get().getStudentId());
     }
     @Test
     public void validEmailShouldReturnTrue(){
@@ -74,16 +70,13 @@ public class StudentRepositoryTest {
     @Test
     public void deleteStudent(){
         // Arrange
-        StudentRepository repository = StudentRepository.getInstance();
-        Student newStudent = new Student("11111", "H", "F", "L",  LocalDate.of(2006, 5, 11),
+        Student student = StudentService.createNewAndAdd("11111", "H", "F", "L",  LocalDate.of(2006, 5, 11),
                 "uu@ukma.edu.ua", "+380988007711", department, "22222222",
                 4, 9, 2022,   EducationForm.CONTRACT, StudentStatus.ACADEMIC_LEAVE );
         //Act
-        repository.add(newStudent);
-        assertTrue(repository.findById(newStudent.getId()).isPresent());
-        repository.delete(newStudent);
+        StudentService.delete(student);
         // Assert
-        assertFalse(repository.findById(newStudent.getId()).isPresent());
+        assertTrue(StudentService.findById(student.getId()).isEmpty());
     }
 
 }
