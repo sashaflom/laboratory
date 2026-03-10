@@ -1,6 +1,10 @@
 package ui;
 
 import domain.*;
+import exceptions.DuplicateIdException;
+import exceptions.DuplicateStudentIdException;
+import exceptions.InvalidEmailException;
+import exceptions.InvalidPhoneNumber;
 import services.DepartmentService;
 import services.FacultyService;
 import services.StudentService;
@@ -67,8 +71,13 @@ public class StudentMenu {
 
     private static String getId(){
         String id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
-        while(!StudentValidator.isIdValid(id)){
-            System.out.println("Помилка! Студент з таким унікальним ідентифікатором уже існує.");
+        while(true){
+            try{
+                StudentValidator.isIdValid(id);
+                break;
+            }catch(DuplicateIdException e){
+                System.out.println(e.getMessage());
+            }
             id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
         }
         return id;
@@ -99,8 +108,13 @@ public class StudentMenu {
 
     private static String getEmail(){
         String email = InputReader.readLine("Введіть email: ", 1, 40);
-        while(!PersonValidator.isEmailValid(email)){
-            System.out.println("Помилка! Email має бути формату xxx@ukma.edu.ua.");
+        while(true){
+            try{
+                PersonValidator.isEmailValid(email);
+                break;
+            }catch(InvalidEmailException e){
+                System.out.println(e.getMessage());
+            }
             email = InputReader.readLine("Введіть email: ", 1, 40);
         }
         return email;
@@ -108,8 +122,13 @@ public class StudentMenu {
 
     private static String getPhoneNumber(){
         String phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
-        while(!PersonValidator.isPhoneNumberValid(phoneNumber)){
-            System.out.println("Помилка! Некоректний формат номеру телефону.");
+        while(true){
+            try{
+                PersonValidator.isPhoneNumberValid(phoneNumber);
+                break;
+            }catch(InvalidPhoneNumber e){
+                System.out.println(e.getMessage());
+            }
             phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
         }
         return phoneNumber;
@@ -149,8 +168,13 @@ public class StudentMenu {
 
     private static String getStudentId(){
         String id = InputReader.readLine("Введіть номер залікової книжки (8 знаків): ", 8, 8);
-        while(!StudentValidator.isStudentIdValid(id)){
-            System.out.println("Помилка! Студент з таким номером залікової книжки уже існує.");
+        while(true){
+            try{
+                StudentValidator.isStudentIdValid(id);
+                break;
+            } catch (DuplicateStudentIdException e) {
+                System.out.println(e.getMessage());
+            }
             id = InputReader.readLine("Введіть номер залікової книжки (8 знаків): ", 8, 8);
         }
         return id;

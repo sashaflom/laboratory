@@ -1,8 +1,11 @@
 package validators;
 
+import exceptions.InvalidEmailException;
+import exceptions.InvalidPhoneNumber;
+
 public class PersonValidator {
 
-    public static boolean isPhoneNumberValid(String phoneNumber){
+    public static void isPhoneNumberValid(String phoneNumber) throws InvalidPhoneNumber {
         int index;
         if(phoneNumber.charAt(0) == '+'){
             index = 1;
@@ -11,13 +14,12 @@ public class PersonValidator {
         }
         for(int i = index; i<phoneNumber.length(); i++){
             if(phoneNumber.charAt(i)<'0' || phoneNumber.charAt(i)>'9'){
-                return false;
+                throw new InvalidPhoneNumber("Помилка! Некоректний формат номеру телефону.");
             }
         }
-        return true;
     }
 
-    public static boolean isEmailValid(String email){
+    public static void isEmailValid(String email) throws InvalidEmailException {
         int atSymbolIndex = -1;
         for(int i = 0; i<email.length(); i++){
             if(email.charAt(i) == '@'){
@@ -25,13 +27,11 @@ public class PersonValidator {
             }
         }
         if(atSymbolIndex == -1){
-            return false;
+            throw new InvalidEmailException("Помилка! Email має бути формату xxx@ukma.edu.ua.");
         }else{
             String afterAt = email.substring(atSymbolIndex);
-            if(afterAt.equals("@ukma.edu.ua")){
-                return true;
-            }else{
-                return false;
+            if(!afterAt.equals("@ukma.edu.ua")){
+                throw new InvalidEmailException("Помилка! Email має бути формату xxx@ukma.edu.ua.");
             }
         }
     }
