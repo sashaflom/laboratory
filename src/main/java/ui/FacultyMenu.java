@@ -57,8 +57,6 @@ public class FacultyMenu {
     public static void createForm(){
         System.out.println("\nВи успішно додали факультет: \n" + FacultyService.createNewAndAdd(getId(),
                 getFullName(), getShortName(), getDean(), getContacts()));
-        Faculty createdFaculty = FacultyService.findLastAdded();
-        createdFaculty.getDean().setFaculty(createdFaculty);
     }
 
     private static String getId(){
