@@ -1,5 +1,6 @@
 package domain;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Student extends Person {
@@ -13,7 +14,7 @@ public class Student extends Person {
     private StudentStatus status; // enum
 
     public Student(String id, String lastName, String firstName, String patronymic,
-                   String birthDate, String email, String phone,
+                   LocalDate birthDate, String email, String phone,
                    Department department, String studentId, int course, int group,
                    int enrollmentYear, EducationForm educationForm,
                    StudentStatus status) {

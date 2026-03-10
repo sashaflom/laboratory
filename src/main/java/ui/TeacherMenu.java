@@ -13,7 +13,7 @@ import validators.TeacherValidator;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.time.LocalDate;
 public class TeacherMenu {
 
     public static void selectOperation(){
@@ -96,12 +96,11 @@ public class TeacherMenu {
         return patronymic;
     }
 
-    private static String getBirthDate(){
+    private static LocalDate getBirthDate(){
+        int bdDay = InputReader.readInt("Введіть день народження: ", 1, 31);
+        int bdMonth = InputReader.readInt("Введіть місяць народження (цифрою): ", 1, 12);
         int bdYear = InputReader.readInt("Введіть рік народження: ", 1900, 2026);
-        int bdMonth = InputReader.readInt("Введіть місяць народження цифрою: ", 1, 12);
-        int bdDay = InputReader.readInt("Введіть день народження цифрою: ", 1, 31);
-        String birthDate = bdDay + "." + bdMonth + "." + bdYear;
-        return birthDate;
+        return LocalDate.of(bdYear, bdMonth, bdDay);
     }
 
     private static String getEmail(){
@@ -190,12 +189,11 @@ public class TeacherMenu {
         return AcademicTitle.values()[indexOfAcademicTitle];
     }
 
-    private static String getHireDate(){
-        int hYear = InputReader.readInt("Введіть рік прийняття на роботу: ", 1900, 2026);
-        int hMonth = InputReader.readInt("Введіть місяць прийняття на роботу цифрою: ", 1, 12);
+    private static LocalDate getHireDate(){
         int hDay = InputReader.readInt("Введіть день прийняття на роботу цифрою: ", 1, 31);
-        String hireDate = hDay + "." + hMonth + "." + hYear;
-        return hireDate;
+        int hMonth = InputReader.readInt("Введіть місяць прийняття на роботу цифрою: ", 1, 12);
+        int hYear = InputReader.readInt("Введіть рік прийняття на роботу: ", 1900, 2026);
+        return LocalDate.of(hYear, hMonth, hDay);
     }
 
     private static double getWorkload(){

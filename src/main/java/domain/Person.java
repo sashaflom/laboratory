@@ -1,20 +1,24 @@
 package domain;
 
+import java.time.Period;
 import java.util.Objects;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class Person {
-
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     private final String id;
     private String lastName;
     private String firstName;
     private String patronymic;
-    private String birthDate;
+    private LocalDate birthDate;
     private String email;
     private String phoneNumber;
 
     public Person(String id, String lastname, String firstname, String patronymic,
-                  String birthDate, String email, String phoneNumber) {
+                  LocalDate birthDate, String email, String phoneNumber) {
         this.id = id;
         this.lastName = lastname;
         this.firstName = firstname;
@@ -28,14 +32,14 @@ public class Person {
     public String getLastname() { return lastName;}
     public String getFirstname() { return firstName;}
     public String getPatronymic() { return patronymic;}
-    public String getBirthDate() { return birthDate;}
+    public LocalDate getBirthDate() { return birthDate; }
     public String getEmail() { return email;}
     public String getPhoneNumber() { return phoneNumber;}
 
     public void setLastname(String Lastname) { this.lastName = Lastname;}
     public void setFirstname(String Firstname) { this.firstName = Firstname;}
     public void setPatronymic(String patronymic){this.patronymic = patronymic;}
-    public void setBirthDate (String birthDate){this.birthDate=birthDate;}
+    public void setBirthDate (LocalDate birthDate){this.birthDate = birthDate;}
     public void setEmail(String email){this.email=email;}
     public void setPhoneNumber(String phoneNumber){this.phoneNumber=phoneNumber;}
 
@@ -50,9 +54,14 @@ public class Person {
                         "ID: %s, " +
                         "ПІБ: %s %s %s, " +
                         "Дата народження: %s, " +
+                        "Скільки років: %s, " +
                         "Email: %s, " +
                         "Телефон: %s",
-                id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
+                id, lastName, firstName, patronymic, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
+    }
+
+    public int getHowOld() {
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
 
     @Override
