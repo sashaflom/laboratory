@@ -21,7 +21,7 @@ public class DepartmentValidator {
     public static void isNameValid(String name) throws DuplicateNameException {
         Optional<Department> maybeDepartment = repository.findByName(name);
         if(maybeDepartment.isPresent()){
-            throw new DuplicateNameException("Помилка! Кафедра з назвою  " + name + " уже існує");
+            throw new DuplicateNameException("Помилка! Кафедра з назвою " + name + " уже існує");
         }
     }
 

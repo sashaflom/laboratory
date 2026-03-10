@@ -86,7 +86,7 @@ public class DepartmentMenu {
     }
 
     private static String getName(){
-        String name = InputReader.readLine("Введіть назву кафедри: ", 1, 40);
+        String name = InputReader.readLine("Введіть назву кафедри: ", 1, 100);
         while(true){
             try{
                 DepartmentValidator.isNameValid(name);
@@ -94,7 +94,7 @@ public class DepartmentMenu {
             }catch(DuplicateNameException e){
                 System.out.println(e.getMessage());
             }
-            name = InputReader.readLine("Введіть назву кафедри: ", 1, 40);
+            name = InputReader.readLine("Введіть назву кафедри: ", 1, 100);
         }
         return name;
     }
