@@ -1,5 +1,6 @@
 package domain;
 
+import java.time.Period;
 import java.util.Objects;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -53,9 +54,14 @@ public class Person {
                         "ID: %s, " +
                         "ПІБ: %s %s %s, " +
                         "Дата народження: %s, " +
+                        "Скільки років: %s, " +
                         "Email: %s, " +
                         "Телефон: %s",
-                id, lastName, firstName, patronymic, birthDate.format(FORMATTER), email, phoneNumber);
+                id, lastName, firstName, patronymic, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
+    }
+
+    public int getHowOld() {
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
 
     @Override
