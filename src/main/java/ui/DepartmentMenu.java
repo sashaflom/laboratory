@@ -4,6 +4,8 @@ import domain.Department;
 import domain.Faculty;
 import domain.Position;
 import domain.Teacher;
+import exceptions.DuplicateIdException;
+import exceptions.DuplicateNameException;
 import services.DepartmentService;
 import services.FacultyService;
 import services.TeacherService;
@@ -71,8 +73,13 @@ public class DepartmentMenu {
 
     private static String getId(){
         String id = InputReader.readLine("Введіть унікальний ідентифікатор кафедри: ", 4, 4);
-        while(!DepartmentValidator.isIdValid(id)){
-            System.out.println("Помилка! Кафедра з таким унікальним ідентифікатором уже існує.");
+        while(true){
+            try{
+                DepartmentValidator.isIdValid(id);
+                break;
+            }catch(DuplicateIdException e){
+                System.out.println(e.getMessage());
+            }
             id = InputReader.readLine("Введіть унікальний ідентифікатор кафедри: ", 4, 4);
         }
         return id;
@@ -80,8 +87,13 @@ public class DepartmentMenu {
 
     private static String getName(){
         String name = InputReader.readLine("Введіть назву кафедри: ", 1, 40);
-        while(!DepartmentValidator.isNameValid(name)){
-            System.out.println("Помилка! Кафедра з такою назвою уже існує.");
+        while(true){
+            try{
+                DepartmentValidator.isNameValid(name);
+                break;
+            }catch(DuplicateNameException e){
+                System.out.println(e.getMessage());
+            }
             name = InputReader.readLine("Введіть назву кафедри: ", 1, 40);
         }
         return name;
