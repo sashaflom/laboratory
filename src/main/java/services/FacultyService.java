@@ -1,11 +1,9 @@
 package services;
 
-import domain.Faculty;
-import domain.Teacher;
+import domain.*;
 import repositories.FacultyRepository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class FacultyService {
 

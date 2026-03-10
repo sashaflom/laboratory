@@ -1,12 +1,9 @@
 package validators;
 
-import domain.Student;
-import exceptions.DuplicateIdException;
-import exceptions.DuplicateStudentIdException;
-import repositories.StudentRepository;
-
-import java.util.List;
-import java.util.Optional;
+import domain.*;
+import exceptions.*;
+import repositories.*;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class StudentValidator extends PersonValidator{

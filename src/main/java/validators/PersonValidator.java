@@ -1,7 +1,6 @@
 package validators;
 
-import exceptions.InvalidEmailException;
-import exceptions.InvalidPhoneNumber;
+import exceptions.*;
 
 public class PersonValidator {
 

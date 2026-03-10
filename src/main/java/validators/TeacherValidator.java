@@ -1,10 +1,9 @@
 package validators;
 
-import domain.Teacher;
-import exceptions.DuplicateIdException;
-import repositories.TeacherRepository;
-
-import java.util.Optional;
+import domain.*;
+import exceptions.*;
+import repositories.*;
+import java.util.*;
 
 public class TeacherValidator extends PersonValidator{
 

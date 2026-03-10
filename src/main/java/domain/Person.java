@@ -2,7 +2,6 @@ package domain;
 
 import java.time.Period;
 import java.util.Objects;
-import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -51,12 +50,12 @@ public class Person {
     @Override
     public String toString() {
         return String.format(
-                        "ID: %s, " +
-                        "ПІБ: %s %s %s, " +
-                        "Дата народження: %s, " +
-                        "Скільки років: %s, " +
-                        "Email: %s, " +
-                        "Телефон: %s",
+                        "ID: '%s', " +
+                        "ПІБ: '%s %s %s', " +
+                        "дата народження: '%s', " +
+                        "вік: '%s', " +
+                        "email: '%s', " +
+                        "телефон: '%s'",
                 id, lastName, firstName, patronymic, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
     }
 

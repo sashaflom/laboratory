@@ -1,11 +1,9 @@
 package validators;
 
-import domain.Department;
-import exceptions.DuplicateIdException;
-import exceptions.DuplicateNameException;
-import repositories.DepartmentRepository;
-
-import java.util.Optional;
+import domain.*;
+import exceptions.*;
+import repositories.*;
+import java.util.*;
 
 public class DepartmentValidator {
 

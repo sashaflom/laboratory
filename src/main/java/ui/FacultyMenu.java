@@ -1,17 +1,11 @@
 package ui;
 
-import domain.Faculty;
-import domain.Position;
-import domain.Teacher;
-import exceptions.DuplicateNameException;
-import exceptions.DuplicateIdException;
-import services.FacultyService;
-import services.TeacherService;
-import validators.FacultyValidator;
-import validators.InputReader;
+import domain.*;
+import exceptions.*;
+import services.*;
+import validators.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class FacultyMenu {
 

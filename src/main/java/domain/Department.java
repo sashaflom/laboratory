@@ -36,9 +36,6 @@ public class Department {
     public Teacher getHeadOfDepartment() {
         return headOfDepartment;
     }
-    public String getLocation() {
-        return location;
-    }
 
     public void setName(String name) {
         this.name = name;

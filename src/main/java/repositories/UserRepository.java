@@ -3,9 +3,7 @@ package repositories;
 import domain.Role;
 import domain.User;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.*;
 
 public class UserRepository {
 

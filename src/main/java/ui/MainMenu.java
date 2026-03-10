@@ -1,16 +1,12 @@
 package ui;
 
 import domain.*;
-import repositories.DepartmentRepository;
-import repositories.FacultyRepository;
-import repositories.StudentRepository;
-import repositories.TeacherRepository;
+import repositories.*;
 import services.*;
 import validators.InputReader;
 
 import java.util.Optional;
 import java.time.LocalDate;
-import java.util.Scanner;
 
 public class MainMenu {
 
@@ -19,6 +15,7 @@ public class MainMenu {
                 "НаУКМА", "Київ", "вулиця Григорія Сковороди, 2, Київ, 04655");
         System.out.println("Вітаю в інформаційній системі Києво-Могилянської академії!");
         System.out.println("\nСтворено:" + kyivMohylaAcademy);
+
         // test
         Teacher fenDean = new Teacher ("11111", "Глущенко", "Олександра","Степанівна", LocalDate.of(1972,4,12), "hlushchenkoas@ukma.edu.ua", "+380956387102", null, Position.DEAN, AcademicDegree.DOCTOR, AcademicTitle.PROFESSOR, LocalDate.of(2005,9,1), 48000);
         Faculty fen = new Faculty ("1111111", "Факультет економічних наук", "ФЕН", fenDean, "6-403, +380444256042");

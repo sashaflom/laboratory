@@ -1,11 +1,9 @@
 package validators;
 
-import domain.Faculty;
-import exceptions.DuplicateNameException;
-import exceptions.DuplicateIdException;
-import repositories.FacultyRepository;
-
-import java.util.Optional;
+import domain.*;
+import exceptions.*;
+import repositories.*;
+import java.util.*;
 
 public class FacultyValidator {
 

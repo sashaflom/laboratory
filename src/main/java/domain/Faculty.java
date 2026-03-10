@@ -35,9 +35,6 @@ public class Faculty {
     public Teacher getDean() {
         return dean;
     }
-    public String getContactForCommunication() {
-        return contactForCommunication;
-    }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;

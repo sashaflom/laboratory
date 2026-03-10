@@ -1,5 +1,7 @@
 package repositories;
+
 import domain.*;
+import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.StudentService;
@@ -57,14 +59,14 @@ public class StudentRepositoryTest {
         assertTrue(foundStudent.isPresent());
     }
     @Test
-    public void validEmailShouldReturnTrue(){
-        String email = "student@ukma.edu.ua";
-        assertTrue(PersonValidator.isEmailValid(email));
+    public void isEmailValidShouldThrowException(){
+        String email = "student@gmail.com";
+        assertThrows(InvalidEmailException.class, () -> PersonValidator.isEmailValid(email));
     }
     @Test
-    public void validEmailShouldReturnFalse(){
-        String email = "student@gmail.com";
-        assertFalse(PersonValidator.isEmailValid(email));
+    public void isPhoneNumberValidShouldThrowException(){
+        String phone = "+38095594abdc";
+        assertThrows(InvalidPhoneNumber.class, () -> PersonValidator.isPhoneNumberValid(phone));
     }
     @Test
     public void deleteStudent(){

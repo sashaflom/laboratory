@@ -1,20 +1,13 @@
 package ui;
 
 import domain.*;
-import exceptions.DuplicateIdException;
-import exceptions.DuplicateStudentIdException;
-import exceptions.InvalidEmailException;
-import exceptions.InvalidPhoneNumber;
-import services.DepartmentService;
-import services.FacultyService;
-import services.StudentService;
-import validators.InputReader;
-import validators.PersonValidator;
-import validators.StudentValidator;
+import exceptions.*;
+import services.*;
+import validators.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.time.LocalDate;
+
 public class StudentMenu {
 
     public static void selectOperation(){
