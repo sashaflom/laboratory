@@ -1,10 +1,10 @@
 package ui;
 
-import domain.Department;
 import domain.Faculty;
 import domain.Position;
 import domain.Teacher;
-import services.DepartmentService;
+import exceptions.DuplicateNameException;
+import exceptions.DuplicateIdException;
 import services.FacultyService;
 import services.TeacherService;
 import validators.FacultyValidator;
@@ -69,8 +69,13 @@ public class FacultyMenu {
 
     private static String getId(){
         String id = InputReader.readLine("Введіть унікальний ідентифікатор з 7 знаків: ", 7, 7);
-        while(!FacultyValidator.isIdValid(id)){
-            System.out.println("Помилка! Факультет з таким унікальним ідентифікатором уже існує.");
+        while(true){
+            try{
+                FacultyValidator.isIdValid(id);
+                break;
+            }catch(DuplicateIdException e){
+                System.out.println(e.getMessage());
+            }
             id = InputReader.readLine("Введіть унікальний ідентифікатор з 7 знаків: ", 7, 7);
         }
         return id;
@@ -78,8 +83,13 @@ public class FacultyMenu {
 
     private static String getFullName(){
         String fullName = InputReader.readLine("Введіть повну назву: ", 5, 50);
-        while(!FacultyValidator.isFullNameValid(fullName)){
-            System.out.println("Помилка! Факультет з такою повною назвою вже існує.");
+        while (true){
+            try{
+                FacultyValidator.isFullNameValid(fullName);
+                break;
+            }catch(DuplicateNameException e){
+                System.out.println(e.getMessage());
+            }
             fullName = InputReader.readLine("Введіть повну назву: ", 5, 50);
         }
         return fullName;
@@ -87,8 +97,13 @@ public class FacultyMenu {
 
     private static String getShortName(){
         String shortName = InputReader.readLine("Введіть скорочену назву: ", 1, 10);
-        while(!FacultyValidator.isShortNameValid(shortName)){
-            System.out.println("Помилка! Факультет з такою скороченою назвою вже існує.");
+        while (true){
+            try{
+                FacultyValidator.isShortNameValid(shortName);
+                break;
+            }catch(DuplicateNameException e){
+                System.out.println(e.getMessage());
+            }
             shortName = InputReader.readLine("Введіть скорочену назву: ", 1, 10);
         }
         return shortName;
