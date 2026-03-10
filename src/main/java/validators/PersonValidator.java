@@ -2,6 +2,9 @@ package validators;
 
 import exceptions.*;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+
 public class PersonValidator {
 
     public static void isPhoneNumberValid(String phoneNumber) throws InvalidPhoneNumber {
@@ -32,6 +35,15 @@ public class PersonValidator {
             if(!afterAt.equals("@ukma.edu.ua")){
                 throw new InvalidEmailException("Помилка! Email має бути формату xxx@ukma.edu.ua.");
             }
+        }
+    }
+
+    public static boolean isBirthDateValid(int year, int month, int day){
+        try{
+            LocalDate.of(year, month, day);
+            return true;
+        } catch (DateTimeException e){
+            return false;
         }
     }
 

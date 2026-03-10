@@ -91,9 +91,15 @@ public class TeacherMenu {
     }
 
     private static LocalDate getBirthDate(){
-        int bdDay = InputReader.readInt("Введіть день народження: ", 1, 31);
-        int bdMonth = InputReader.readInt("Введіть місяць народження (цифрою): ", 1, 12);
+        int bdDay = InputReader.readInt("Введіть день народження цифрою: ", 1, 31);
+        int bdMonth = InputReader.readInt("Введіть місяць народження цифрою: ", 1, 12);
         int bdYear = InputReader.readInt("Введіть рік народження: ", 1900, 2026);
+        while(!PersonValidator.isBirthDateValid(bdYear, bdMonth, bdDay)){
+            System.out.println("Помилка! Дата некоректна, перевірте що такий день є у цьому місяці.");
+            bdDay = InputReader.readInt("Введіть день народження цифрою: ", 1, 31);
+            bdMonth = InputReader.readInt("Введіть місяць народження цифрою: ", 1, 12);
+            bdYear = InputReader.readInt("Введіть рік народження: ", 1900, 2026);
+        }
         return LocalDate.of(bdYear, bdMonth, bdDay);
     }
 
@@ -187,6 +193,12 @@ public class TeacherMenu {
         int hDay = InputReader.readInt("Введіть день прийняття на роботу цифрою: ", 1, 31);
         int hMonth = InputReader.readInt("Введіть місяць прийняття на роботу цифрою: ", 1, 12);
         int hYear = InputReader.readInt("Введіть рік прийняття на роботу: ", 1900, 2026);
+        while(!TeacherValidator.isHireDateValid(hYear, hMonth, hDay)){
+            System.out.println("Помилка! Дата некоректна, перевірте що такий день є у цьому місяці.");
+            hDay = InputReader.readInt("Введіть день прийняття на роботу цифрою: ", 1, 31);
+            hMonth = InputReader.readInt("Введіть місяць прийняття на роботу цифрою: ", 1, 12);
+            hYear = InputReader.readInt("Введіть рік прийняття на роботу: ", 1900, 2026);
+        }
         return LocalDate.of(hYear, hMonth, hDay);
     }
 

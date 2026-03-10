@@ -95,6 +95,12 @@ public class StudentMenu {
         int bdDay = InputReader.readInt("Введіть день народження цифрою: ", 1, 31);
         int bdMonth = InputReader.readInt("Введіть місяць народження цифрою: ", 1, 12);
         int bdYear = InputReader.readInt("Введіть рік народження: ", 1900, 2026);
+        while(!PersonValidator.isBirthDateValid(bdYear, bdMonth, bdDay)){
+            System.out.println("Помилка! Дата некоректна, перевірте що такий день є у цьому місяці.");
+            bdDay = InputReader.readInt("Введіть день народження цифрою: ", 1, 31);
+            bdMonth = InputReader.readInt("Введіть місяць народження цифрою: ", 1, 12);
+            bdYear = InputReader.readInt("Введіть рік народження: ", 1900, 2026);
+        }
         return LocalDate.of(bdYear, bdMonth, bdDay);
     }
 
