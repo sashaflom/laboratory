@@ -171,12 +171,11 @@ public class TeacherMenu {
         return AcademicTitle.values()[indexOfAcademicTitle];
     }
 
-    private static String getHireDate(){
-        int hYear = InputReader.readInt("Введіть рік прийняття на роботу: ", 1900, 2026);
-        int hMonth = InputReader.readInt("Введіть місяць прийняття на роботу цифрою: ", 1, 12);
+    private static LocalDate getHireDate(){
         int hDay = InputReader.readInt("Введіть день прийняття на роботу цифрою: ", 1, 31);
-        String hireDate = hDay + "." + hMonth + "." + hYear;
-        return hireDate;
+        int hMonth = InputReader.readInt("Введіть місяць прийняття на роботу цифрою: ", 1, 12);
+        int hYear = InputReader.readInt("Введіть рік прийняття на роботу: ", 1900, 2026);
+        return LocalDate.of(hYear, hMonth, hDay);
     }
 
     private static double getWorkload(){

@@ -13,7 +13,7 @@ public class TeacherService {
 
     public static Teacher createNewAndAdd(String id, String lastName, String firstName, String patronymic, LocalDate birthDate,
                                    String email, String phoneNumber, Department department, Position position,
-                                   AcademicDegree academicDegree, AcademicTitle academicTitle, String hireDate, double workload){
+                                   AcademicDegree academicDegree, AcademicTitle academicTitle, LocalDate hireDate, double workload){
         Teacher teacher = new Teacher(id, lastName, firstName, patronymic, birthDate, email, phoneNumber, department, position,
                 academicDegree, academicTitle, hireDate, workload);
         repository.add(teacher);

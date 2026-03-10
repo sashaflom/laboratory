@@ -1,22 +1,24 @@
 package domain;
 
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.time.LocalDate;
 
 public class Teacher extends Person {
-
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     private Faculty faculty;
     private Department department;
     private Position position; //посада
     private AcademicDegree academicDegree; //науковий ступінь
     private AcademicTitle academicTitle; // enum, вчене звання
-    private String hireDate; //дата прийняття на роботу
+    private LocalDate hireDate; //дата прийняття на роботу
     private double workload; //ставка/навантаження
 
     public Teacher(String id, String lastName, String firstName,String patronymic,
                   LocalDate birthDate, String email, String phoneNumber, Department department, Position position,
                   AcademicDegree academicDegree, AcademicTitle academicTitle,
-                  String hireDate, double workload ) {
+                   LocalDate hireDate, double workload ) {
        super(id, lastName, firstName, patronymic, birthDate, email, phoneNumber);
        if(department==null){
            faculty = null;
@@ -40,8 +42,9 @@ public class Teacher extends Person {
     public Position getPosition() {return position;}
     public AcademicDegree getAcademicDegree() {return academicDegree;}
     public AcademicTitle getAcademicTitle() {return academicTitle;}
-    public String getHireDate() {return hireDate;}
+    public LocalDate getHireDate() {return hireDate;}
     public double getWorkload() {return workload;}
+
 
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
@@ -52,17 +55,21 @@ public class Teacher extends Person {
     public void setPosition(Position position) {this.position = position;}
     public void setAcademicDegree(AcademicDegree academicDegree) { this.academicDegree = academicDegree;}
     public void setAcademicTitle(AcademicTitle academicTitle) { this.academicTitle = academicTitle;}
-    public void setHireDate(String hireDate) {
+    public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
     public void setWorkload(double workload) {this.workload = workload;}
 
+    public int getWorkExperience() {
+        return Period.between(hireDate, LocalDate.now()).getYears();
+    }
+
     @Override
     public String toString() {
-        return String.format("Викладач: %s, Факультет: %s, Кафедра: %s, Посада: %s, Науковий ступінь: %s, Вчене звання: %s, Дата прийняття: %s, Ставка: %s",
+        return String.format("Викладач: %s, Факультет: %s, Кафедра: %s, Посада: %s, Науковий ступінь: %s, Вчене звання: %s, Дата прийняття: %s, Стаж:%d, Ставка: %s",
                         super.toString(), (faculty != null ? faculty.getFullName() : "не призначено"),
                 (department != null ? department.getName() : "не призначено"), position.getDisplayName(), academicDegree.getDisplayName(), academicTitle.getDisplayName(),
-                        hireDate, workload);
+                        hireDate.format(FORMATTER),getWorkExperience(), workload);
     }
 
     @Override

@@ -6,7 +6,6 @@ import services.StudentService;
 import validators.PersonValidator;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,12 +23,12 @@ public class StudentRepositoryTest {
         Teacher teacher1 = new Teacher("13245", "V",
                 "L", "F", LocalDate.of(1999, 6, 14), " V@ukma.edu.u",
                 "+380961457766", department,  Position.DEAN,
-                AcademicDegree.CANDIDATE, AcademicTitle.DOCENT, "12.07.2020", 1.0 );
+                AcademicDegree.CANDIDATE, AcademicTitle.DOCENT, LocalDate.of(2020,7,22), 1.0 );
 
         Teacher teacher2 = new Teacher("5498", "P",
                 "G", "E", LocalDate.of(2000,3, 14), " n@ukma.edu.u",
                 "+380968605533", department, Position.HEAD,
-                AcademicDegree.DOCTOR, AcademicTitle.PROFESSOR, "12.07.2020", 2.0);
+                AcademicDegree.DOCTOR, AcademicTitle.PROFESSOR, LocalDate.of(2021,8,9), 2.0);
         faculty.setDean(teacher1);
         department.setHeadOfDepartment(teacher2);
     }
