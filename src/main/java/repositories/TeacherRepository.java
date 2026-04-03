@@ -5,7 +5,7 @@ import domain.Teacher;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class TeacherRepository implements Repository<Teacher, String> {
+public final class TeacherRepository implements Repository<Teacher, String> {
 
     // static class variable that will store a reference to a single instance of the class
     private static TeacherRepository instance = null;

@@ -4,7 +4,7 @@ import domain.Faculty;
 
 import java.util.*;
 
-public class FacultyRepository implements Repository<Faculty, String> {
+public final class FacultyRepository implements Repository<Faculty, String> {
 
     // static class variable that will store a reference to a single instance of the class
     private static FacultyRepository instance = null;

@@ -17,8 +17,8 @@ public class UserService {
     }
 
     public static boolean checkPassword(String password){
-        if(password.equals(sessionUser.getPassword())){
-            sessionRole = sessionUser.getRole();
+        if(password.equals(sessionUser.password())){
+            sessionRole = sessionUser.role();
             return true;
         }
         return false;
@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public static String getSessionUserLogin() {
-        return sessionUser.getLogin();
+        return sessionUser.login();
     }
 
     public static String getSessionRole() {
@@ -41,6 +41,6 @@ public class UserService {
     }
 
     public static void setSessionRole() {
-        sessionRole = sessionUser.getRole();
+        sessionRole = sessionUser.role();
     }
 }
