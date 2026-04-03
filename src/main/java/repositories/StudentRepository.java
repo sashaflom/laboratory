@@ -47,22 +47,16 @@ public class StudentRepository implements Repository<Student, String> {
     }
 
     public List<Student> findAll(Predicate<Student> rule) {
-        List<Student> foundStudents = new ArrayList<>();
-        for(Student student : students.values()){
-            if(rule.test(student)){
-                foundStudents.add(student);
-            }
-        }
+        List<Student> foundStudents = students.values().stream()
+                .filter(rule)
+                .toList();
         return foundStudents;
     }
 
     public List<Student> findPart(Predicate<Student> rule, List<Student> list) {
-        List<Student> foundStudents = new ArrayList<>();
-        for(Student student : list){
-            if(rule.test(student)){
-                foundStudents.add(student);
-            }
-        }
+        List<Student> foundStudents = list.stream()
+                .filter(rule)
+                .toList();
         return foundStudents;
     }
 
@@ -76,14 +70,16 @@ public class StudentRepository implements Repository<Student, String> {
     }
 
     public List<Student> sortAll(Comparator<Student> rule){
-        List<Student> sorted = new ArrayList<>(students.values());
-        sorted.sort(rule);
+        List<Student> sorted = students.values().stream()
+                .sorted(rule)
+                .toList();
         return sorted;
     }
 
     public List<Student> sortPart(Comparator<Student> rule, List<Student> list){
-        List<Student> sorted = new ArrayList<>(list);
-        sorted.sort(rule);
+        List<Student> sorted = list.stream()
+                .sorted(rule)
+                .toList();
         return sorted;
     }
 }
