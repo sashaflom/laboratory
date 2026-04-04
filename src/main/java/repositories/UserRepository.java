@@ -32,11 +32,11 @@ public final class UserRepository implements Repository<User, String>{
 
     private User baseAdmin = new User("sashaFlom", "0123456789", Role.ADMINISTRATOR, UserStatus.PERMITTED);
 
-    private Map<String, User> users = Map.of(baseAdmin.login(), baseAdmin);
+    private Map<String, User> users = Map.of(baseAdmin.getLogin(), baseAdmin);
 
     @Override
     public void add(User user){
-        users.put(user.login(), user);
+        users.put(user.getLogin(), user);
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class UserRepository implements Repository<User, String>{
 
     @Override
     public void delete(User user){
-        users.remove(user.login());
+        users.remove(user.getLogin());
     }
 
 }

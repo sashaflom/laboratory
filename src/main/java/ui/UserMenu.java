@@ -68,7 +68,7 @@ public class UserMenu {
 
     public static void createForm(){
         System.out.println("\nВи успішно додали користувача: \n" + UserService.createNewAndAdd(getLogin(), getPassword(),
-                getRole(), UserStatus.PERMITTED);
+                getRole(), UserStatus.PERMITTED));
     }
 
     private static String getLogin(){

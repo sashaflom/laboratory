@@ -18,8 +18,8 @@ public class UserService {
     }
 
     public static boolean checkPassword(String password){
-        if(password.equals(sessionUser.password())){
-            sessionRole = sessionUser.role();
+        if(password.equals(sessionUser.getPassword())){
+            sessionRole = sessionUser.getRole();
             return true;
         }
         return false;
@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public static String getSessionUserLogin() {
-        return sessionUser.login();
+        return sessionUser.getLogin();
     }
 
     public static String getSessionRole() {
@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public static void setSessionRole() {
-        sessionRole = sessionUser.role();
+        sessionRole = sessionUser.getRole();
     }
 
     public static User createNewAndAdd(String login, String password, Role role, UserStatus status){
