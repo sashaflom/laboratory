@@ -58,12 +58,18 @@ public final class UserRepository implements Repository<User, String>{
 
     @Override
     public Map<String, User> getMap(){
-        return Map.copyOf(users);
+        return new LinkedHashMap<>(users);
     }
 
     @Override
     public void setMap(Map<String, User> map){
         users = new LinkedHashMap<>(map);
+    }
+
+    public void addWithNewLogin(String prevLogin, String newLogin){
+        User user = users.remove(prevLogin);
+        user.setLogin(newLogin);
+        users.put(newLogin, user);
     }
 
     public void addToBlocked(User user){
@@ -73,7 +79,8 @@ public final class UserRepository implements Repository<User, String>{
 
     public void reblock(){
         if(!blockedForSession.isEmpty()){
-            for(User user : blockedForSession){
+            for(int i=0; i<blockedForSession.size(); i++){
+                User user = blockedForSession.get(i);
                 user.setStatus(UserStatus.PERMITTED);
                 blockedForSession.remove(user);
             }

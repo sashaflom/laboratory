@@ -1,5 +1,7 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class User {
@@ -15,6 +17,8 @@ public class User {
         this.role = role;
         this.status = status;
     }
+
+    public User(){}
 
     public String getLogin() {
         return login;
@@ -48,6 +52,7 @@ public class User {
         this.status = status;
     }
 
+    @JsonIgnore
     public boolean isBlocked() {
         return status == UserStatus.BLOCKED;
     }

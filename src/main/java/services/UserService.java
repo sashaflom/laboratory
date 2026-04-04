@@ -75,4 +75,8 @@ public class UserService {
         repository.setBaseAdmin();
     }
 
+    public static void newLogin(String prevLogin, String newLogin){
+        repository.addWithNewLogin(prevLogin, newLogin);
+    }
+
 }

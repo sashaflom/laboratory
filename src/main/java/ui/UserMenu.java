@@ -151,7 +151,8 @@ public class UserMenu {
                     switch (whatToChange){
                         // login name to change
                         case 1:
-                            foundUser.setLogin(getLogin());
+                            String newLogin = getLogin();
+                            UserService.newLogin(login, newLogin);
                             break;
                         // password to change
                         case 2:
