@@ -68,6 +68,11 @@ public final class TeacherRepository implements Repository<Teacher, String> {
         return Map.copyOf(teachers);
     }
 
+    @Override
+    public void setMap(Map<String, Teacher> map){
+        teachers = Map.copyOf(map);
+    }
+
     public boolean teachersIsNotEmpty(){
         return teachers.size()!=0;
     }

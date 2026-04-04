@@ -1,25 +1,20 @@
 package data;
 
 import domain.*;
+import repositories.*;
 
+import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class UniversityData {
+public class UniversityData implements Serializable {
 
-    private Map<String, Faculty> facultyMap;
-    private Map<String, Department> departmentMap;
-    private Map<String, Student> studentMap;
-    private Map<String, Teacher> teacherMap;
+    private Map<String, Faculty> facultyMap = new LinkedHashMap<>();
+    private Map<String, Department> departmentMap = new LinkedHashMap<>();
+    private Map<String, Student> studentMap = new LinkedHashMap<>();
+    private Map<String, Teacher> teacherMap = new LinkedHashMap<>();
 
     public UniversityData(){}
-
-    public UniversityData(Map<String, Faculty> facultyMap, Map<String, Department> departmentMap,
-                          Map<String, Student> studentMap, Map<String, Teacher> teacherMap){
-        this.facultyMap = Map.copyOf(facultyMap);
-        this.departmentMap = Map.copyOf(departmentMap);
-        this.studentMap = Map.copyOf(studentMap);
-        this.teacherMap = Map.copyOf(teacherMap);
-    }
 
     public Map<String, Faculty> getFacultyMap(){ return Map.copyOf(facultyMap);}
     public Map<String, Department> getDepartmentMap(){ return Map.copyOf(departmentMap);}
@@ -30,4 +25,18 @@ public class UniversityData {
     public void setDepartmentMap(Map<String, Department> departmentMap){this.departmentMap = Map.copyOf(departmentMap);}
     public void setStudentMap(Map<String, Student> studentMap){this.studentMap = Map.copyOf(studentMap);}
     public void setTeacherMap(Map<String, Teacher> teacherMap){this.teacherMap = Map.copyOf(teacherMap);}
+
+    public void collectData(){
+        facultyMap = Map.copyOf(FacultyRepository.getInstance().getMap());
+        departmentMap = Map.copyOf(DepartmentRepository.getInstance().getMap());
+        studentMap = Map.copyOf(StudentRepository.getInstance().getMap());
+        teacherMap = Map.copyOf(TeacherRepository.getInstance().getMap());
+    }
+
+    public void putData(){
+        FacultyRepository.getInstance().setMap(facultyMap);
+        DepartmentRepository.getInstance().setMap(departmentMap);
+        StudentRepository.getInstance().setMap(studentMap);
+        TeacherRepository.getInstance().setMap(teacherMap);
+    }
 }

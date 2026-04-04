@@ -2,6 +2,7 @@ package repositories;
 
 import domain.Department;
 import domain.Faculty;
+import domain.Teacher;
 
 import java.util.*;
 
@@ -73,5 +74,10 @@ public final class DepartmentRepository implements Repository<Department, String
     @Override
     public Map<String, Department> getMap(){
         return Map.copyOf(departments);
+    }
+
+    @Override
+    public void setMap(Map<String, Department> map){
+        departments = Map.copyOf(map);
     }
 }

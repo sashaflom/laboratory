@@ -8,4 +8,5 @@ public sealed interface Repository<T, ID> permits DepartmentRepository, FacultyR
     Optional<T> findById (ID id);
     List<T> getAll();
     Map<ID, T> getMap();
+    void setMap(Map<ID,T> map);
 }
