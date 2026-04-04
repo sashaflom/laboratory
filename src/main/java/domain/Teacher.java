@@ -1,5 +1,8 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -7,7 +10,9 @@ import java.time.LocalDate;
 
 public class Teacher extends Person {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+    @JsonIdentityReference(alwaysAsId = true)
     private Faculty faculty;
+    @JsonIdentityReference(alwaysAsId = true)
     private Department department;
     private Position position; //посада
     private AcademicDegree academicDegree; //науковий ступінь
@@ -32,6 +37,8 @@ public class Teacher extends Person {
        this.hireDate = hireDate;
        this.workload = workload;
    }
+
+    public Teacher() {}
 
     public Faculty getFaculty() {
         return faculty;
@@ -60,6 +67,7 @@ public class Teacher extends Person {
     }
     public void setWorkload(double workload) {this.workload = workload;}
 
+    @JsonIgnore
     public int getWorkExperience() {
         return Period.between(hireDate, LocalDate.now()).getYears();
     }

@@ -1,6 +1,8 @@
 package repositories;
 
+import domain.Faculty;
 import domain.Student;
+import domain.Teacher;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -81,5 +83,15 @@ public final class StudentRepository implements Repository<Student, String> {
                 .sorted(rule)
                 .toList();
         return sorted;
+    }
+
+    @Override
+    public Map<String, Student> getMap(){
+        return Map.copyOf(students);
+    }
+
+    @Override
+    public void setMap(Map<String, Student> map){
+        students = new LinkedHashMap<>(map);
     }
 }

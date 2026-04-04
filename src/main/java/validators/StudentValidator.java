@@ -10,13 +10,6 @@ public class StudentValidator extends PersonValidator{
 
     private static StudentRepository repository = StudentRepository.getInstance();
 
-    public static void isIdValid(String id) throws DuplicateIdException {
-        Optional<Student> maybeStudent = repository.findById(id);
-        if(maybeStudent.isPresent()){
-            throw new DuplicateIdException("Помилка! Студент з унікальним ідентифікатором " + id + " уже існує.");
-        }
-    }
-
     public static void isStudentIdValid(String id) throws DuplicateStudentIdException {
         Predicate<Student> rule = student -> student.getStudentId().equals(id);
         List<Student> foundStudent = repository.findAll(rule);

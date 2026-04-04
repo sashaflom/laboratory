@@ -1,6 +1,7 @@
 package repositories;
 
 import domain.Faculty;
+import domain.Teacher;
 
 import java.util.*;
 
@@ -80,6 +81,16 @@ public final class FacultyRepository implements Repository<Faculty, String> {
     @Override
     public List<Faculty> getAll() {
         return new ArrayList<>(faculties.values());
+    }
+
+    @Override
+    public Map<String, Faculty> getMap(){
+        return Map.copyOf(faculties);
+    }
+
+    @Override
+    public void setMap(Map<String, Faculty> map){
+        faculties = new LinkedHashMap<>(map);
     }
 
 }

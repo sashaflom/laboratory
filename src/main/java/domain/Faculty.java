@@ -1,12 +1,21 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.util.Objects;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Faculty {
 
     private final String id;
     private String fullName;
     private String shortName;
+    @JsonIdentityReference(alwaysAsId = true)
     private Teacher dean;
     private String contactForCommunication;
 
@@ -16,6 +25,10 @@ public class Faculty {
         this.shortName = shortName;
         this.dean = dean;
         this.contactForCommunication = contactForCommunication;
+    }
+
+    public Faculty() {
+        this.id = null;
     }
 
     @Override
@@ -35,6 +48,7 @@ public class Faculty {
     public Teacher getDean() {
         return dean;
     }
+    public String getContactForCommunication() {return contactForCommunication;}
 
     public void setFullName(String fullName) {
         this.fullName = fullName;

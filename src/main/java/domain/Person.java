@@ -1,11 +1,21 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.*;
+
 import java.time.Period;
 import java.util.Objects;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Student.class, name = "student"),
+        @JsonSubTypes.Type(value = Teacher.class, name = "teacher")
+})
 public class Person {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     private final String id;
@@ -27,22 +37,27 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
+    public Person() {
+        this.id = null;
+    }
+
     public String getId() {return id;}
-    public String getLastname() { return lastName;}
-    public String getFirstname() { return firstName;}
+    public String getLastName() { return lastName;}
+    public String getFirstName() { return firstName;}
     public String getPatronymic() { return patronymic;}
     public LocalDate getBirthDate() { return birthDate; }
     public String getEmail() { return email;}
     public String getPhoneNumber() { return phoneNumber;}
 
-    public void setLastname(String Lastname) { this.lastName = Lastname;}
-    public void setFirstname(String Firstname) { this.firstName = Firstname;}
+    public void setLastName(String Lastname) { this.lastName = Lastname;}
+    public void setFirstName(String Firstname) { this.firstName = Firstname;}
     public void setPatronymic(String patronymic){this.patronymic = patronymic;}
     public void setBirthDate (LocalDate birthDate){this.birthDate = birthDate;}
     public void setEmail(String email){this.email=email;}
     public void setPhoneNumber(String phoneNumber){this.phoneNumber=phoneNumber;}
 
     // method which will be useful
+    @JsonIgnore
     public String getFullName() {
         return lastName + " " + firstName + " " + patronymic;
     }
@@ -59,6 +74,7 @@ public class Person {
                 id, lastName, firstName, patronymic, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
     }
 
+    @JsonIgnore
     public int getHowOld() {
         return Period.between(birthDate, LocalDate.now()).getYears();
     }
