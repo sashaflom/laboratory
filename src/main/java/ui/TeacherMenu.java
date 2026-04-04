@@ -245,11 +245,11 @@ public class TeacherMenu {
                     switch (whatToChange){
                         // last name to change
                         case 1:
-                            foundTeacher.setLastname(getLastName());
+                            foundTeacher.setLastName(getLastName());
                             break;
                         // first name to change
                         case 2:
-                            foundTeacher.setFirstname(getFirstName());
+                            foundTeacher.setFirstName(getFirstName());
                             break;
                         // patronymic to change
                         case 3:

@@ -32,15 +32,15 @@ public class Person {
     }
 
     public String getId() {return id;}
-    public String getLastname() { return lastName;}
-    public String getFirstname() { return firstName;}
+    public String getLastName() { return lastName;}
+    public String getFirstName() { return firstName;}
     public String getPatronymic() { return patronymic;}
     public LocalDate getBirthDate() { return birthDate; }
     public String getEmail() { return email;}
     public String getPhoneNumber() { return phoneNumber;}
 
-    public void setLastname(String Lastname) { this.lastName = Lastname;}
-    public void setFirstname(String Firstname) { this.firstName = Firstname;}
+    public void setLastName(String Lastname) { this.lastName = Lastname;}
+    public void setFirstName(String Firstname) { this.firstName = Firstname;}
     public void setPatronymic(String patronymic){this.patronymic = patronymic;}
     public void setBirthDate (LocalDate birthDate){this.birthDate = birthDate;}
     public void setEmail(String email){this.email=email;}
