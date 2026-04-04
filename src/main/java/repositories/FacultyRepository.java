@@ -90,7 +90,7 @@ public final class FacultyRepository implements Repository<Faculty, String> {
 
     @Override
     public void setMap(Map<String, Faculty> map){
-        faculties = Map.copyOf(map);
+        faculties = new LinkedHashMap<>(map);
     }
 
 }

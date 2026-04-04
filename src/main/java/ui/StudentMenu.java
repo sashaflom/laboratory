@@ -66,7 +66,7 @@ public class StudentMenu {
         String id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
         while(true){
             try{
-                StudentValidator.isIdValid(id);
+                PersonValidator.isIdValid(id);
                 break;
             }catch(DuplicateIdException e){
                 System.out.println(e.getMessage());
@@ -94,7 +94,7 @@ public class StudentMenu {
     private static LocalDate getBirthDate(){
         int bdDay = InputReader.readInt("Введіть день народження цифрою: ", 1, 31);
         int bdMonth = InputReader.readInt("Введіть місяць народження цифрою: ", 1, 12);
-        int bdYear = InputReader.readInt("Введіть рік народження: ", 1900, 2026);
+        int bdYear = InputReader.readInt("Введіть рік народження: ", 1900, 2011);
         while(!PersonValidator.isBirthDateValid(bdYear, bdMonth, bdDay)){
             System.out.println("Помилка! Дата некоректна, перевірте що такий день є у цьому місяці.");
             bdDay = InputReader.readInt("Введіть день народження цифрою: ", 1, 31);

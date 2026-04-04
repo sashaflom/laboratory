@@ -92,6 +92,6 @@ public final class StudentRepository implements Repository<Student, String> {
 
     @Override
     public void setMap(Map<String, Student> map){
-        students = Map.copyOf(map);
+        students = new LinkedHashMap<>(map);
     }
 }

@@ -70,7 +70,7 @@ public final class TeacherRepository implements Repository<Teacher, String> {
 
     @Override
     public void setMap(Map<String, Teacher> map){
-        teachers = Map.copyOf(map);
+        teachers = new LinkedHashMap<>(map);
     }
 
     public boolean teachersIsNotEmpty(){

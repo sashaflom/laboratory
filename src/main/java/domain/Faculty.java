@@ -1,12 +1,21 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.util.Objects;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Faculty {
 
     private final String id;
     private String fullName;
     private String shortName;
+    @JsonIdentityReference(alwaysAsId = true)
     private Teacher dean;
     private String contactForCommunication;
 

@@ -1,11 +1,21 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.*;
+
 import java.time.Period;
 import java.util.Objects;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Student.class, name = "student"),
+        @JsonSubTypes.Type(value = Teacher.class, name = "teacher")
+})
 public class Person {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     private final String id;
@@ -47,6 +57,7 @@ public class Person {
     public void setPhoneNumber(String phoneNumber){this.phoneNumber=phoneNumber;}
 
     // method which will be useful
+    @JsonIgnore
     public String getFullName() {
         return lastName + " " + firstName + " " + patronymic;
     }
@@ -63,6 +74,7 @@ public class Person {
                 id, lastName, firstName, patronymic, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
     }
 
+    @JsonIgnore
     public int getHowOld() {
         return Period.between(birthDate, LocalDate.now()).getYears();
     }

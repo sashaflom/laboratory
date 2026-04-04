@@ -1,10 +1,14 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Student extends Person {
+    @JsonIdentityReference(alwaysAsId = true)
     private Faculty faculty;
+    @JsonIdentityReference(alwaysAsId = true)
     private Department department;
     private String studentId;
     private int course;

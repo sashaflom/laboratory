@@ -78,6 +78,6 @@ public final class DepartmentRepository implements Repository<Department, String
 
     @Override
     public void setMap(Map<String, Department> map){
-        departments = Map.copyOf(map);
+        departments = new LinkedHashMap<>(map);
     }
 }

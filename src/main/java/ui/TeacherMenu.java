@@ -65,7 +65,7 @@ public class TeacherMenu {
         String id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
         while(true){
             try{
-                TeacherValidator.isIdValid(id);
+                PersonValidator.isIdValid(id);
                 break;
             } catch (DuplicateIdException e) {
                 System.out.println(e.getMessage());
@@ -174,7 +174,7 @@ public class TeacherMenu {
     }
 
     private static AcademicDegree getAcademicDegree(){
-        int indexOfAcademicDegree = InputReader.readInt("Виберіть науковий ступунь:" +
+        int indexOfAcademicDegree = InputReader.readInt("Виберіть науковий ступінь:" +
                 "\n0 - Без ступеня" +
                 "\n1 - Кандидат наук" +
                 "\n2 - Доктор наук", 0, 2);
