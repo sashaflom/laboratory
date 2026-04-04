@@ -64,7 +64,8 @@ public class MainMenu {
                                     "\n2 - кафедра" +
                                     "\n3 - студент" +
                                     "\n4 - викладач" +
-                                    "\n0 - повернутись на крок назад", 0, 4);
+                                    "\n5 - користувач" +
+                                    "\n0 - повернутись на крок назад", 0, 5);
                             switch (whatToWorkWith){
                                 // faculty was chosen
                                 case 1:
@@ -81,6 +82,10 @@ public class MainMenu {
                                 // teacher was chosen
                                 case 4:
                                     TeacherMenu.selectOperation();
+                                    break;
+                                // user was chosen
+                                case 5:
+                                    UserMenu.selectOperation();
                                     break;
                                 // exit was chosen
                                 case 0:

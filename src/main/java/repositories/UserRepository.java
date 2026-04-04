@@ -1,11 +1,13 @@
 package repositories;
 
 import domain.Role;
+import domain.Teacher;
 import domain.User;
+import domain.UserStatus;
 
 import java.util.*;
 
-public class UserRepository {
+public final class UserRepository implements Repository<User, String>{
 
     // static class variable that will store a reference to a single instance of the class
     private static UserRepository instance = null;
@@ -28,16 +30,29 @@ public class UserRepository {
         return instance;
     }
 
-    private User admin = new User("sashaFlom", "0123456789", Role.ADMINISTRATOR);
-    private User manager = new User("sflom", "1029384756", Role.MANAGER);
-    private User user = new User("flombik", "5647382910", Role.USER);
+    private User baseAdmin = new User("sashaFlom", "0123456789", Role.ADMINISTRATOR, UserStatus.PERMITTED);
 
-    private Map<String, User> users = Map.of(admin.login(), admin, manager.login(), manager,
-            user.login(), user);
+    private Map<String, User> users = Map.of(baseAdmin.login(), baseAdmin);
 
-    public Optional<User> findByLogin(String login){
+    @Override
+    public void add(User user){
+        users.put(user.login(), user);
+    }
+
+    @Override
+    public Optional<User> findById(String login){
         Optional<User> foundUser = Optional.ofNullable(users.get(login));
         return foundUser;
+    }
+
+    @Override
+    public List<User> getAll() {
+        return new ArrayList<>(users.values());
+    }
+
+    @Override
+    public void delete(User user){
+        users.remove(user.login());
     }
 
 }
