@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Objects;
+
 public class User {
 
     private String login;
@@ -44,5 +46,31 @@ public class User {
 
     public void setStatus(UserStatus status) {
         this.status = status;
+    }
+
+    public boolean isBlocked() {
+        return status == UserStatus.BLOCKED;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Користувач: логін: '%s', пароль: '%s', роль: '%s', статус: '%s'",
+                login, password, role, status);
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this==o) return true;
+        if (o==null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return (Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(role, user.role) &&
+                Objects.equals(status, user.status));
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(login, password, role, status);
     }
 }

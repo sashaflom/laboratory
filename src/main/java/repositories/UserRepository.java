@@ -32,11 +32,17 @@ public final class UserRepository implements Repository<User, String>{
 
     private User baseAdmin = new User("sashaFlom", "0123456789", Role.ADMINISTRATOR, UserStatus.PERMITTED);
 
-    private Map<String, User> users = Map.of(baseAdmin.getLogin(), baseAdmin);
+    private Map<String, User> users = new LinkedHashMap<>();
+    private List<User> blockedForSession = new ArrayList<>();
 
     @Override
     public void add(User user){
         users.put(user.getLogin(), user);
+    }
+
+    @Override
+    public void delete(User user){
+        users.remove(user.getLogin());
     }
 
     @Override
@@ -51,8 +57,33 @@ public final class UserRepository implements Repository<User, String>{
     }
 
     @Override
-    public void delete(User user){
-        users.remove(user.getLogin());
+    public Map<String, User> getMap(){
+        return Map.copyOf(users);
+    }
+
+    @Override
+    public void setMap(Map<String, User> map){
+        users = new LinkedHashMap<>(map);
+    }
+
+    public void addToBlocked(User user){
+        blockedForSession.add(user);
+        user.setStatus(UserStatus.BLOCKED);
+    }
+
+    public void reblock(){
+        if(!blockedForSession.isEmpty()){
+            for(User user : blockedForSession){
+                user.setStatus(UserStatus.PERMITTED);
+                blockedForSession.remove(user);
+            }
+        }
+    }
+
+    public void setBaseAdmin(){
+        if(users.isEmpty()){
+            add(baseAdmin);
+        }
     }
 
 }

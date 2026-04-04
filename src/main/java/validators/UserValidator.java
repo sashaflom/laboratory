@@ -1,10 +1,7 @@
 package validators;
 
-import domain.Student;
-import domain.Teacher;
 import domain.User;
 import exceptions.DuplicateIdException;
-import repositories.StudentRepository;
 import repositories.UserRepository;
 
 import java.util.Optional;

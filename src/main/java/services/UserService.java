@@ -41,6 +41,10 @@ public class UserService {
         return sessionRole == Role.USER;
     }
 
+    public static boolean isManager() {
+        return sessionRole == Role.MANAGER;
+    }
+
     public static void setSessionRole() {
         sessionRole = sessionUser.getRole();
     }
@@ -58,4 +62,17 @@ public class UserService {
     public static void delete(User user){
         repository.delete(user);
     }
+
+    public static void addToBlocked(User user){
+        repository.addToBlocked(user);
+    }
+
+    public static void reblockAfterSession(){
+        repository.reblock();
+    }
+
+    public static void setUpUser(){
+        repository.setBaseAdmin();
+    }
+
 }
