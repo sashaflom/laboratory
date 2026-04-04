@@ -18,6 +18,10 @@ public class Department {
         this.location = location;
     }
 
+    public Department() {
+        this.id = null;
+    }
+
     @Override
     public String toString(){
         return "Кафедра: ID: '%s', назва: '%s', факультет: '%s', завідувач: '%s', локація: '%s'.".formatted(id, name,(faculty != null ? faculty.getFullName() : "не призначено"),

@@ -33,6 +33,8 @@ public class Teacher extends Person {
        this.workload = workload;
    }
 
+    public Teacher() {}
+
     public Faculty getFaculty() {
         return faculty;
     }

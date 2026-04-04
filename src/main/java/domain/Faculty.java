@@ -18,6 +18,10 @@ public class Faculty {
         this.contactForCommunication = contactForCommunication;
     }
 
+    public Faculty() {
+        this.id = null;
+    }
+
     @Override
     public String toString(){
         return "Факультет: ID: '%s', повна назва: '%s', скорочена назва: '%s', декан: '%s', контакт: '%s'.".formatted(id, fullName, shortName, (dean != null ? dean.getFullName() : "не призначено"), contactForCommunication);

@@ -29,6 +29,8 @@ public class Student extends Person {
         this.status = status;
     }
 
+    public Student() {}
+
     public Faculty getFaculty() {
         return faculty;
     }

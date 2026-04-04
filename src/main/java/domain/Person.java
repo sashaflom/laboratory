@@ -27,6 +27,10 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
+    public Person() {
+        this.id = null;
+    }
+
     public String getId() {return id;}
     public String getLastname() { return lastName;}
     public String getFirstname() { return firstName;}
