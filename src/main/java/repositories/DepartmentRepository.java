@@ -1,6 +1,7 @@
 package repositories;
 
 import domain.Department;
+import domain.Faculty;
 
 import java.util.*;
 
@@ -69,6 +70,8 @@ public final class DepartmentRepository implements Repository<Department, String
         return new ArrayList<>(departments.values());
     }
 
-
-
+    @Override
+    public Map<String, Department> getMap(){
+        return Map.copyOf(departments);
+    }
 }

@@ -7,4 +7,5 @@ public sealed interface Repository<T, ID> permits DepartmentRepository, FacultyR
     void delete (T entity);
     Optional<T> findById (ID id);
     List<T> getAll();
+    Map<ID, T> getMap();
 }

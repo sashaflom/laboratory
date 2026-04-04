@@ -82,4 +82,9 @@ public final class FacultyRepository implements Repository<Faculty, String> {
         return new ArrayList<>(faculties.values());
     }
 
+    @Override
+    public Map<String, Faculty> getMap(){
+        return Map.copyOf(faculties);
+    }
+
 }

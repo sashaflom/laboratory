@@ -1,5 +1,6 @@
 package repositories;
 
+import domain.Faculty;
 import domain.Student;
 
 import java.util.*;
@@ -81,5 +82,10 @@ public final class StudentRepository implements Repository<Student, String> {
                 .sorted(rule)
                 .toList();
         return sorted;
+    }
+
+    @Override
+    public Map<String, Student> getMap(){
+        return Map.copyOf(students);
     }
 }
