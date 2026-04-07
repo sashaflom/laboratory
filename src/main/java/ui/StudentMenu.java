@@ -105,31 +105,26 @@ public class StudentMenu {
     }
 
     private static String getEmail(){
-        String email = InputReader.readLine("Введіть email: ", 1, 40);
-        while(true){
-            try{
-                PersonValidator.isEmailValid(email);
-                break;
-            }catch(InvalidEmailException e){
+        while (true) {
+            String email = InputReader.readLine("Введіть email: ", 1, 40);
+            try {
+                ValidationService.validateEmailValue(email);
+                return email;
+            } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
             }
-            email = InputReader.readLine("Введіть email: ", 1, 40);
         }
-        return email;
     }
-
     private static String getPhoneNumber(){
-        String phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
-        while(true){
-            try{
-                PersonValidator.isPhoneNumberValid(phoneNumber);
-                break;
-            }catch(InvalidPhoneNumber e){
+        while (true) {
+            String phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
+            try {
+                ValidationService.validatePhoneValue(phoneNumber);
+                return phoneNumber;
+            } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
             }
-            phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
         }
-        return phoneNumber;
     }
 
     private static Department getDepartment(){

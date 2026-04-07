@@ -11,10 +11,17 @@ public class TeacherService {
     private static TeacherRepository repository = TeacherRepository.getInstance();
 
     public static Teacher createNewAndAdd(String id, String lastName, String firstName, String patronymic, LocalDate birthDate,
-                                   String email, String phoneNumber, Department department, Position position,
-                                   AcademicDegree academicDegree, AcademicTitle academicTitle, LocalDate hireDate, double workload){
+                                          String email, String phoneNumber, Department department, Position position,
+                                          AcademicDegree academicDegree, AcademicTitle academicTitle, LocalDate hireDate, double workload){
         Teacher teacher = new Teacher(id, lastName, firstName, patronymic, birthDate, email, phoneNumber, department, position,
                 academicDegree, academicTitle, hireDate, workload);
+
+        try {
+            ValidationService.validate(teacher);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
         repository.add(teacher);
         return teacher;
     }

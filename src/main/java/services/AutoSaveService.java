@@ -18,7 +18,7 @@ public class AutoSaveService {
                 System.out.println("\n[AUTO-SAVE] Помилка у фоновому потоці автозбереження.");
                 e.printStackTrace();
             }
-        }, 10, 30, TimeUnit.SECONDS);
+        }, 5, 15, TimeUnit.SECONDS);
     }
 
     public void stop() {
