@@ -5,6 +5,7 @@ import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.StudentService;
+import services.ValidationService;
 import validators.PersonValidator;
 
 import java.time.LocalDate;
@@ -59,15 +60,17 @@ public class StudentRepositoryTest {
         assertTrue(foundStudent.isPresent());
     }
     @Test
-    public void isEmailValidShouldThrowException(){
+    public void validateEmailValueShouldThrowException() {
         String email = "student@gmail.com";
-        assertThrows(InvalidEmailException.class, () -> PersonValidator.isEmailValid(email));
+        assertThrows(RuntimeException.class, () -> ValidationService.validateEmailValue(email));
     }
+
     @Test
-    public void isPhoneNumberValidShouldThrowException(){
+    public void validatePhoneValueShouldThrowException() {
         String phone = "+38095594abdc";
-        assertThrows(InvalidPhoneNumber.class, () -> PersonValidator.isPhoneNumberValid(phone));
+        assertThrows(RuntimeException.class, () -> ValidationService.validatePhoneValue(phone));
     }
+
     @Test
     public void deleteStudent(){
         // Arrange

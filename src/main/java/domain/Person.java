@@ -1,5 +1,8 @@
 package domain;
 
+import annotations.NotBlank;
+import annotations.Phone;
+import annotations.UkmaEmail;
 import com.fasterxml.jackson.annotation.*;
 
 import java.time.Period;
@@ -19,11 +22,16 @@ import java.time.format.DateTimeFormatter;
 public class Person {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     private final String id;
+    @NotBlank
     private String lastName;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String patronymic;
     private LocalDate birthDate;
+    @UkmaEmail
     private String email;
+    @Phone
     private String phoneNumber;
 
     public Person(String id, String lastname, String firstname, String patronymic,

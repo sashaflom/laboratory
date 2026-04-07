@@ -17,6 +17,13 @@ public class StudentService {
                                    int group, int enrollmentYear, EducationForm educationForm, StudentStatus status){
         Student student = new Student(id, lastName, firstName, patronymic, birthDate, email, phoneNumber, department, studentId,
                 course, group, enrollmentYear, educationForm, status);
+
+        try {
+            ValidationService.validate(student);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
         repository.add(student);
         return student;
     }
