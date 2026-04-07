@@ -48,6 +48,13 @@ public class MainMenu {
 
         DataService.loadData();
 
+        AutoSaveService autoSaveService = new AutoSaveService();
+        autoSaveService.start();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            autoSaveService.stop();
+            DataService.saveData();
+        }));
+
         while (true){
             int whatToDo = InputReader.readInt("\nВиберіть, що хочете зробити:" +
                     "\n1 - операції керування даними" +
@@ -140,6 +147,7 @@ public class MainMenu {
                     break;
                 // exit was chosen
                 case 0:
+                    autoSaveService.stop();
                     DataService.saveData();
                     System.out.println("\nДякую, що прийшли!");
                     break;

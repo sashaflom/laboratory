@@ -20,7 +20,7 @@ public class DataService {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    public static void saveData(){
+    public static synchronized void saveData(){
         mapperSetUp();
         UniversityData data = new UniversityData();
         data.collectData();
@@ -28,13 +28,13 @@ public class DataService {
             try (BufferedWriter writer = Files.newBufferedWriter(in)) {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(writer, data);
             }
-            System.out.println("\nДані збережено в файл: " + in.toAbsolutePath());
         } catch (Exception e) {
+            System.out.println("\n[AUTO-SAVE] Помилка при збереженні даних.");
             e.printStackTrace();
         }
     }
 
-    public static void loadData(){
+    public static synchronized void loadData(){
         mapperSetUp();
         UniversityData data = new UniversityData();
         if (Files.notExists(in)) {
