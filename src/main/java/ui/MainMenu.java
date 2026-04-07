@@ -17,33 +17,43 @@ public class MainMenu {
         System.out.println("Вітаю в інформаційній системі Києво-Могилянської академії!");
         System.out.println("\nСтворено:" + kyivMohylaAcademy);
 
+        DataService.loadData();
+        UserService.setUpUser();
+
         System.out.println("\nАВТОРИЗАЦІЯ");
         while(true){
             String login = InputReader.readLine("Введіть логін: ", 5, 30);
             Optional<User> maybeUser = UserService.findByLogin(login);
             while(maybeUser.isEmpty()){
-                System.out.println("\nПомилка! Такого користувача не знайдено, спробуйте ще раз.");
+                System.out.println("\nПомилка! Користувача з логіном " + login + " не знайдено, спробуйте ще раз.");
                 login = InputReader.readLine("Введіть логін: ", 5, 30);
                 maybeUser = UserService.findByLogin(login);
             }
-            UserService.setSessionUser(maybeUser.get());
-            int tryPassword = 3;
-            while(tryPassword > 0){
-                String password = InputReader.readLine("Введіть пароль: ", 10, 10);
-                if(UserService.checkPassword(password)){
-                    UserService.setSessionRole();
-                    System.out.println("\nВи увійшли в акаунт " + UserService.getSessionUserLogin() + ". Ваша роль: " + UserService.getSessionRole());
-                    break;
-                }else{
-                    tryPassword--;
-                    if(tryPassword==0){
-                        System.out.println("\nНевірний пароль! Ваші спроби закінчились.");
+            User foundUser = maybeUser.get();
+            if(foundUser.isBlocked()){
+                System.out.println("\nКористувач з логіном " + login + " заблокований, Ви не можете увійти в акаунт.");
+            } else{
+                UserService.setSessionUser(maybeUser.get());
+                int tryPassword = 3;
+                while(tryPassword > 0){
+                    String password = UserMenu.getPassword();
+                    if(UserService.checkPassword(password)){
+                        UserService.setSessionRole();
+                        System.out.println("\nВи увійшли в акаунт " + UserService.getSessionUserLogin() + ". Ваша роль: " + UserService.getSessionRole());
+                        break;
                     }else{
-                        System.out.println("\nНевірний пароль! Залишилось спроб: " + tryPassword);
+                        tryPassword--;
+                        if(tryPassword==0){
+                            System.out.println("\nНевірний пароль! Ваші спроби закінчились.");
+                            UserService.addToBlocked(foundUser);
+                            System.out.println("\nКористувач з логіном " + login + " буде заблокований на цю сесію.");
+                        }else{
+                            System.out.println("\nНевірний пароль! Залишилось спроб: " + tryPassword);
+                        }
                     }
                 }
+                if(tryPassword>0) break;
             }
-            if(tryPassword>0) break;
         }
 
         DataService.loadData();
@@ -71,7 +81,8 @@ public class MainMenu {
                                     "\n2 - кафедра" +
                                     "\n3 - студент" +
                                     "\n4 - викладач" +
-                                    "\n0 - повернутись на крок назад", 0, 4);
+                                    "\n5 - користувач" +
+                                    "\n0 - повернутись на крок назад", 0, 5);
                             switch (whatToWorkWith){
                                 // faculty was chosen
                                 case 1:
@@ -88,6 +99,14 @@ public class MainMenu {
                                 // teacher was chosen
                                 case 4:
                                     TeacherMenu.selectOperation();
+                                    break;
+                                // user was chosen
+                                case 5:
+                                    if(!UserService.isManager()){
+                                        UserMenu.selectOperation();
+                                    }else{
+                                        System.out.println("\nЦя дія недоступна для ролі " + UserService.getSessionRole() + ".");
+                                    }
                                     break;
                                 // exit was chosen
                                 case 0:
@@ -148,6 +167,7 @@ public class MainMenu {
                 // exit was chosen
                 case 0:
                     autoSaveService.stop();
+                    UserService.reblockAfterSession();
                     DataService.saveData();
                     System.out.println("\nДякую, що прийшли!");
                     break;
