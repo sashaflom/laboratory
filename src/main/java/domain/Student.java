@@ -68,9 +68,9 @@ public class Student extends Person {
     @Override
     public String toString() {
         return String.format("Студент: %s, курс: '%d', факультет: '%s', кафедра: '%s', номер залікової книжки: '%s', група: '%s', рік вступу: '%d', форма навчання: '%s', статус: '%s'",
-                        super.toString(), (faculty != null ? faculty.getFullName() : "не призначено"),
+                        super.toString(), course, (faculty != null ? faculty.getFullName() : "не призначено"),
                 (department != null ? department.getName() : "не призначено"),
-                        studentId, course, group, enrollmentYear,
+                        studentId, group, enrollmentYear,
                         educationForm.getDisplayName(),
                         status.getDisplayName());
     }

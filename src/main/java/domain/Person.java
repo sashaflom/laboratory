@@ -79,7 +79,7 @@ public class Person {
                         "вік: '%s', " +
                         "email: '%s', " +
                         "телефон: '%s'",
-                id, lastName, firstName, patronymic, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
+                lastName, firstName, patronymic, id, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
     }
 
     @JsonIgnore
