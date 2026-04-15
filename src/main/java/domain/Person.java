@@ -73,8 +73,8 @@ public class Person {
     @Override
     public String toString() {
         return String.format(
-                        "ID: '%s', " +
                         "ПІБ: '%s %s %s', " +
+                        "ID: '%s', " +
                         "дата народження: '%s', " +
                         "вік: '%s', " +
                         "email: '%s', " +
