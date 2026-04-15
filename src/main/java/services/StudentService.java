@@ -57,12 +57,12 @@ public class StudentService {
     }
 
     public static List<Student> findAllByDepartment(Department department){
-        Predicate<Student> rule = student -> student.getDepartment().equals(department);
+        Predicate<Student> rule = student -> student.getDepartment() != null && student.getDepartment().equals(department);
         return repository.findAll(rule);
     }
 
     public static List<Student> findAllByFaculty(Faculty faculty){
-        Predicate<Student> rule = student -> student.getFaculty().equals(faculty);
+        Predicate<Student> rule = student -> student.getFaculty() != null && student.getFaculty().equals(faculty);
         return repository.findAll(rule);
     }
 

@@ -44,7 +44,7 @@ public class TeacherService {
     }
 
     public static List<Teacher> findAllByDepartment(Department department){
-        Predicate<Teacher> rule = teacher -> teacher.getDepartment().equals(department);
+        Predicate<Teacher> rule = teacher -> teacher.getDepartment() != null && teacher.getDepartment().equals(department);
         return repository.findAll(rule);
     }
 
@@ -54,12 +54,12 @@ public class TeacherService {
         return all;
     }
     public static List<Teacher> getAllTeachersSortedByDepartment(Department department){
-        List<Teacher> teachersList = new ArrayList<>(repository.findAll (teacher ->teacher.getDepartment().equals(department)));
+        List<Teacher> teachersList = new ArrayList<>(repository.findAll (teacher -> teacher.getDepartment() != null && teacher.getDepartment().equals(department)));
         teachersList.sort((t1,t2)-> t1.getFullName().compareTo(t2.getFullName()));
         return teachersList;
     }
     public static List<Teacher> getAllTeachersSortedByFaculty(Faculty faculty){
-        List<Teacher> teachersList1 = new ArrayList<>(repository.findAll (teacher1 ->teacher1.getFaculty().equals(faculty)));
+        List<Teacher> teachersList1 = new ArrayList<>(repository.findAll (teacher1 -> teacher1.getFaculty() != null && teacher1.getFaculty().equals(faculty)));
         teachersList1.sort((t1, t2) -> t1.getFullName().compareTo(t2.getFullName()));
         return teachersList1;
     }

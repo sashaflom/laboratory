@@ -48,7 +48,7 @@ public class DepartmentService {
     }
 
     public static List<Department> findAllByFaculty(Faculty faculty){
-        Predicate<Department> rule = department -> department.getFaculty().equals(faculty);
+        Predicate<Department> rule = department -> department.getFaculty() != null && department.getFaculty().equals(faculty);
         return repository.findAll(rule);
     }
 
