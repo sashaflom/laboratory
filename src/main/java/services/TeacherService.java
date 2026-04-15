@@ -72,4 +72,13 @@ public class TeacherService {
         return repository.teachersIsNotEmpty();
     }
 
+    public static void changeFacultyInDepartment (Department department, Faculty faculty){
+        List<Teacher> teachers = findAllByDepartment(department);
+        if (!teachers.isEmpty()){
+            for (Teacher teacher : teachers){
+                teacher.setFaculty(faculty);
+            }
+        }
+    }
+
 }

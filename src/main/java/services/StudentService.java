@@ -93,4 +93,13 @@ public class StudentService {
         Comparator<Student> rule = (s1, s2) -> s1.getFullName().compareTo(s2.getFullName());
         return repository.sortPart(rule, students);
     }
+
+    public static void changeFacultyInDepartment (Department department, Faculty faculty){
+        List<Student> students = findAllByDepartment(department);
+        if (!students.isEmpty()){
+            for (Student student : students){
+                student.setFaculty(faculty);
+            }
+        }
+    }
 }

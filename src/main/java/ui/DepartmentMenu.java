@@ -203,7 +203,10 @@ public class DepartmentMenu {
                             break;
                         // faculty to change
                         case 2:
-                            foundDepartment.setFaculty(getFaculty());
+                            Faculty newFaculty = getFaculty();
+                            foundDepartment.setFaculty(newFaculty);
+                            StudentService.changeFacultyInDepartment(foundDepartment, newFaculty);
+                            TeacherService.changeFacultyInDepartment(foundDepartment, newFaculty);
                             break;
                         // head of department to change
                         case 3:
