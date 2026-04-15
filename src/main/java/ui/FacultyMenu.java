@@ -213,9 +213,14 @@ public class FacultyMenu {
             Optional<Faculty> maybeFaculty = FacultyService.findById(id);
             if (maybeFaculty.isPresent()) {
                 Faculty foundFaculty = maybeFaculty.get();
-                FacultyService.delete(foundFaculty);
-                System.out.println("\nВи успішно видалили факультет. Оновлені дані: ");
-                printAll(FacultyService.getAll());
+                System.out.println("\nУВАГА!!!");
+                System.out.println("Після видалення факультету всі кафедри, студенти та викладачі, що приписані до цього факульетету, більше не будуть до нього приписані.");
+                int makingSure = InputReader.readInt("Введіть 1, якщо точно хочете видалити, або 0, щоби відмінити дію: ", 0, 1);
+                if(makingSure==1){
+                    FacultyService.delete(foundFaculty);
+                    System.out.println("\nВи успішно видалили факультет " + foundFaculty.getFullName() + ". Оновлені дані: ");
+                    printAll(FacultyService.getAll());
+                }
             }else{
                 System.out.println("\nФакультету з унікальним ідентифікатором " + id + " не знайдено.");
             }

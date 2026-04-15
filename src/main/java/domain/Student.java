@@ -23,7 +23,11 @@ public class Student extends Person {
                    int enrollmentYear, EducationForm educationForm,
                    StudentStatus status) {
         super(id, lastName, firstName, patronymic, birthDate, email, phone);
-        faculty = department.getFaculty();
+        if(department==null){
+            faculty = null;
+        }else{
+            faculty = department.getFaculty();
+        }
         this.department = department;
         this.studentId = studentId;
         this.course = course;

@@ -4,6 +4,7 @@ import domain.*;
 import repositories.DepartmentRepository;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class DepartmentService {
 
@@ -29,5 +30,14 @@ public class DepartmentService {
 
     public static List<Department> getAll(){
         return repository.getAll();
+    }
+
+    public static List<Department> findAllByFaculty(Faculty faculty){
+        Predicate<Department> rule = department -> department.getFaculty().equals(faculty);
+        return repository.findAll(rule);
+    }
+
+    public static void deleteFaculty (Faculty faculty){
+
     }
 }

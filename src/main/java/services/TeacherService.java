@@ -5,6 +5,7 @@ import repositories.TeacherRepository;
 
 import java.util.*;
 import java.time.LocalDate;
+import java.util.function.Predicate;
 
 public class TeacherService {
 
@@ -41,6 +42,12 @@ public class TeacherService {
     public static List<Teacher> findByFullName(String fullName){
         return repository.findAll(t -> t.getFullName().equals(fullName));
     }
+
+    public static List<Teacher> findAllByDepartment(Department department){
+        Predicate<Teacher> rule = teacher -> teacher.getDepartment().equals(department);
+        return repository.findAll(rule);
+    }
+
     public static List<Teacher> getAllTeachersSortedByAlphabet(){
         List<Teacher> all = new ArrayList<>(repository.findAll(t ->true));
         all.sort((t1, t2) -> t1.getFullName().compareTo(t2.getFullName()));
