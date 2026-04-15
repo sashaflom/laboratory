@@ -17,6 +17,7 @@ public class FacultyService {
 
     public static void delete(Faculty faculty){
         repository.delete(faculty);
+        faculty.getDean().setPosition(Position.TEACHER);
         List<Department> departments = DepartmentService.findAllByFaculty(faculty);
         if (!departments.isEmpty()){
             for (Department dep : departments) {
