@@ -18,6 +18,20 @@ public class DepartmentService {
 
     public static void delete(Department department){
         repository.delete(department);
+        List<Student> students = StudentService.findAllByDepartment(department);
+        if (!students.isEmpty()){
+            for (Student student : students){
+                student.setDepartment(null);
+                student.setFaculty(null);
+            }
+        }
+        List<Teacher> teachers = TeacherService.findAllByDepartment(department);
+        if (!teachers.isEmpty()){
+            for (Teacher teacher : teachers){
+                teacher.setDepartment(null);
+                teacher.setFaculty(null);
+            }
+        }
     }
 
     public static Optional<Department> findById(String id){
