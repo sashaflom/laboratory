@@ -1,5 +1,6 @@
 package ui;
 
+import data.DataService;
 import domain.*;
 import exceptions.*;
 import services.*;
@@ -7,7 +8,12 @@ import validators.*;
 
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FacultyMenu {
+
+    private static final Logger logger = LoggerFactory.getLogger(FacultyMenu.class);
 
     public static void selectOperation(){
         while(true){
@@ -64,8 +70,10 @@ public class FacultyMenu {
         while(true){
             try{
                 FacultyValidator.isIdValid(id);
+                logger.info("ID факультету {} валідний, він не зайнятий іншим факультетом", id);
                 break;
             }catch(DuplicateIdException e){
+                logger.error("Помилка, уже існує факультет з ID {}: {}", id, e.getMessage());
                 System.out.println(e.getMessage());
             }
             id = InputReader.readLine("Введіть унікальний ідентифікатор з 7 знаків: ", 7, 7);
@@ -78,8 +86,10 @@ public class FacultyMenu {
         while (true){
             try{
                 FacultyValidator.isFullNameValid(fullName);
+                logger.info("Повна назва факультету {} валідна, вона не зайнята іншим факультетом", fullName);
                 break;
             }catch(DuplicateNameException e){
+                logger.error("Помилка, уже існує факультет з повною назвою {}: {}", fullName, e.getMessage());
                 System.out.println(e.getMessage());
             }
             fullName = InputReader.readLine("Введіть повну назву: ", 5, 50);
@@ -92,8 +102,10 @@ public class FacultyMenu {
         while (true){
             try{
                 FacultyValidator.isShortNameValid(shortName);
+                logger.info("Скорочена назва факультету {} валідна, вона не зайнята іншим факультетом", shortName);
                 break;
             }catch(DuplicateNameException e){
+                logger.error("Помилка, уже існує факультет з скороченою назвою {}: {}", shortName, e.getMessage());
                 System.out.println(e.getMessage());
             }
             shortName = InputReader.readLine("Введіть скорочену назву: ", 1, 10);

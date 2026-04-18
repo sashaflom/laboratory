@@ -4,9 +4,16 @@ import annotations.NotBlank;
 import annotations.Phone;
 import annotations.UkmaEmail;
 
+import data.DataService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Field;
 
 public class ValidationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ValidationService.class);
+
     public static void validate(Object obj) {
         Class<?> currentClass = obj.getClass();
 
@@ -54,8 +61,9 @@ public class ValidationService {
                             }
                         }
                     }
-
+                    logger.info("Валідація успішна.");
                 } catch (IllegalAccessException e) {
+                    logger.error("Помилка доступу до поля " + field.getName(), e.getMessage());
                     throw new RuntimeException("Помилка доступу до поля " + field.getName(), e);
                 }
             }

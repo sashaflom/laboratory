@@ -7,9 +7,13 @@ import java.util.*;
 import java.time.LocalDate;
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TeacherService {
 
     private static TeacherRepository repository = TeacherRepository.getInstance();
+    private static final Logger logger = LoggerFactory.getLogger(TeacherService.class);
 
     public static Teacher createNewAndAdd(String id, String lastName, String firstName, String patronymic, LocalDate birthDate,
                                           String email, String phoneNumber, Department department, Position position,
@@ -19,7 +23,9 @@ public class TeacherService {
 
         try {
             ValidationService.validate(teacher);
+            logger.info("Викладач із валідними даними: {}", teacher);
         } catch (RuntimeException e) {
+            logger.error("Помилка, невалідні дані для викладача: {}; {}", e.getMessage(), teacher);
             System.out.println(e.getMessage());
             return null;
         }

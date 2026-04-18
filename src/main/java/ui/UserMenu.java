@@ -1,5 +1,6 @@
 package ui;
 
+import data.DataService;
 import domain.*;
 import exceptions.DuplicateIdException;
 import services.UserService;
@@ -9,7 +10,12 @@ import validators.UserValidator;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UserMenu {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserMenu.class);
 
     public static void selectOperation(){
         while(true){
@@ -82,8 +88,10 @@ public class UserMenu {
         while(true){
             try{
                 UserValidator.isLoginValid(login);
+                logger.info("Логін {} валідний, він не зайнятий іншим користувачем", login);
                 break;
             } catch (DuplicateIdException e) {
+                logger.error("Помилка, уже існує користувач з логіном {}: {}", login, e.getMessage());
                 System.out.println(e.getMessage());
             }
             login = InputReader.readLine("Введіть логін: ", 5, 30);
