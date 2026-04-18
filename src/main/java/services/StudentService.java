@@ -1,5 +1,6 @@
 package services;
 
+import data.DataService;
 import domain.*;
 import repositories.StudentRepository;
 
@@ -7,10 +8,13 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.time.LocalDate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StudentService {
 
     private static StudentRepository repository = StudentRepository.getInstance();
+    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public static Student createNewAndAdd(String id, String lastName, String firstName, String patronymic, LocalDate birthDate,
                                    String email, String phoneNumber, Department department, String studentId, int course,
@@ -20,7 +24,9 @@ public class StudentService {
 
         try {
             ValidationService.validate(student);
+            logger.info("Студент із валідними даними: {}", student);
         } catch (RuntimeException e) {
+            logger.error("Помилка, невалідні дані для студента: {}, {}", e.getMessage(), student);
             System.out.println(e.getMessage());
             return null;
         }
