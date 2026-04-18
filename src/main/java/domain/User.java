@@ -8,10 +8,10 @@ public class User {
 
     private String login;
     private String password;
-    private Role role;
+    private int role;
     private UserStatus status;
 
-    public User(String login, String password, Role role, UserStatus status){
+    public User(String login, String password, int role, UserStatus status){
         this.login = login;
         this.password = password;
         this.role = role;
@@ -28,7 +28,7 @@ public class User {
         return password;
     }
 
-    public Role getRole() {
+    public int getRole() {
         return role;
     }
 
@@ -44,7 +44,7 @@ public class User {
         this.password = password;
     }
 
-    public void setRole(Role role) {
+    public void setRole(int role) {
         this.role = role;
     }
 
@@ -60,7 +60,7 @@ public class User {
     @Override
     public String toString() {
         return String.format("Користувач: логін: '%s', пароль: '%s', роль: '%s', статус: '%s'",
-                login, password, role, status);
+                login, password, Access.roleString(role), status);
     }
 
     @Override

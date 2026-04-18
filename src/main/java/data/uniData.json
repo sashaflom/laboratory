@@ -16,20 +16,6 @@
     }
   },
   "departmentMap" : {
-    "2222" : {
-      "id" : "2222",
-      "name" : "Кафедра маркетингу та управління бізнесом",
-      "faculty" : "1111111",
-      "headOfDepartment" : "44444",
-      "location" : "6-412, +380444256042"
-    },
-    "1111" : {
-      "id" : "1111",
-      "name" : "Кафедра фінансів",
-      "faculty" : "1111111",
-      "headOfDepartment" : "33333",
-      "location" : "6-404, +380444635927"
-    },
     "4444" : {
       "id" : "4444",
       "name" : "Кафедра мережевих технологій",
@@ -43,9 +29,41 @@
       "faculty" : "2222222",
       "headOfDepartment" : "55555",
       "location" : "1-319, +380444636931"
+    },
+    "2222" : {
+      "id" : "2222",
+      "name" : "Кафедра маркетингу та управління бізнесом",
+      "faculty" : "1111111",
+      "headOfDepartment" : "44444",
+      "location" : "6-412, +380444256042"
+    },
+    "1111" : {
+      "id" : "1111",
+      "name" : "Кафедра фінансів",
+      "faculty" : "1111111",
+      "headOfDepartment" : "33333",
+      "location" : "6-404, +380444635927"
     }
   },
   "studentMap" : {
+    "ddddd" : {
+      "type" : "student",
+      "id" : "ddddd",
+      "lastName" : "Мороз",
+      "firstName" : "Владислав",
+      "patronymic" : "Дмитрович",
+      "birthDate" : "2006-02-14",
+      "email" : "moroz.v@ukma.edu.ua",
+      "phoneNumber" : "+380978881122",
+      "faculty" : "1111111",
+      "department" : "2222",
+      "studentId" : "ЕН-24088",
+      "course" : 2,
+      "group" : 3,
+      "enrollmentYear" : 2024,
+      "educationForm" : "BUDGET",
+      "status" : "STUDYING"
+    },
     "kkkkk" : {
       "type" : "student",
       "id" : "kkkkk",
@@ -243,24 +261,6 @@
       "enrollmentYear" : 2025,
       "educationForm" : "CONTRACT",
       "status" : "STUDYING"
-    },
-    "ddddd" : {
-      "type" : "student",
-      "id" : "ddddd",
-      "lastName" : "Мороз",
-      "firstName" : "Владислав",
-      "patronymic" : "Дмитрович",
-      "birthDate" : "2006-02-14",
-      "email" : "moroz.v@ukma.edu.ua",
-      "phoneNumber" : "+380978881122",
-      "faculty" : "1111111",
-      "department" : "2222",
-      "studentId" : "ЕН-24088",
-      "course" : 2,
-      "group" : 3,
-      "enrollmentYear" : 2024,
-      "educationForm" : "BUDGET",
-      "status" : "STUDYING"
     }
   },
   "teacherMap" : {
@@ -405,31 +405,31 @@
     "sManager" : {
       "login" : "sManager",
       "password" : "manager0011",
-      "role" : "MANAGER",
+      "role" : 6,
       "status" : "PERMITTED"
     },
     "sashaFlom" : {
       "login" : "sashaFlom",
       "password" : "0123456789",
-      "role" : "ADMINISTRATOR",
+      "role" : 14,
       "status" : "PERMITTED"
     },
     "blablablublu" : {
       "login" : "blablablublu",
       "password" : "00000000000000000",
-      "role" : "USER",
+      "role" : 2,
       "status" : "PERMITTED"
     },
     "sUser" : {
       "login" : "sUser",
       "password" : "user2008909",
-      "role" : "USER",
+      "role" : 2,
       "status" : "PERMITTED"
     },
     "nastiaYatsk" : {
       "login" : "nastiaYatsk",
       "password" : "1122334455",
-      "role" : "ADMINISTRATOR",
+      "role" : 14,
       "status" : "PERMITTED"
     }
   }

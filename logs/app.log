@@ -8,3 +8,37 @@
 2026-04-18 20:37:20.811 INFO  [main] services.AutoSaveService - Закриття автозбереження успішне.
 2026-04-18 20:37:20.814 INFO  [main] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
 2026-04-18 20:37:20.815 INFO  [Thread-0] services.AutoSaveService - Закриття автозбереження успішне.
+2026-04-19 00:11:52.846 INFO  [main] data.DataService - Читання з файлу src\main\java\data\uniData.json успішне.
+2026-04-19 00:12:32.234 INFO  [main] data.DataService - Читання з файлу src\main\java\data\uniData.json успішне.
+2026-04-19 00:12:37.301 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:12:37.302 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:12:52.252 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:12:52.253 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:13:07.255 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:13:07.255 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:13:22.253 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:13:22.254 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:13:37.257 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:13:37.257 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:13:39.262 INFO  [Thread-0] services.AutoSaveService - Закриття автозбереження успішне.
+2026-04-19 00:14:18.935 INFO  [main] data.DataService - Читання з файлу src\main\java\data\uniData.json успішне.
+2026-04-19 00:14:34.394 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:14:34.394 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:14:45.134 INFO  [main] ui.UserMenu - Логін nastiaYatsk валідний, він не зайнятий іншим користувачем
+2026-04-19 00:14:49.348 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:14:49.348 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:15:04.341 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:15:04.341 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:15:19.350 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:15:19.350 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:15:23.907 INFO  [Thread-0] services.AutoSaveService - Закриття автозбереження успішне.
+2026-04-19 00:18:17.197 INFO  [main] data.DataService - Читання з файлу src\main\java\data\uniData.json успішне.
+2026-04-19 00:18:33.160 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:18:33.160 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:18:39.871 INFO  [main] services.AutoSaveService - Закриття автозбереження успішне.
+2026-04-19 00:18:39.880 INFO  [main] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:18:39.881 INFO  [Thread-0] services.AutoSaveService - Закриття автозбереження успішне.
+2026-04-19 00:18:44.020 INFO  [main] data.DataService - Читання з файлу src\main\java\data\uniData.json успішне.
+2026-04-19 00:19:05.312 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 00:19:05.314 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-19 00:19:06.101 INFO  [Thread-0] services.AutoSaveService - Закриття автозбереження успішне.

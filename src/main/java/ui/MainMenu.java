@@ -56,8 +56,6 @@ public class MainMenu {
             }
         }
 
-        DataService.loadData();
-
         AutoSaveService autoSaveService = new AutoSaveService();
         autoSaveService.start();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -74,7 +72,7 @@ public class MainMenu {
             switch (whatToDo){
                 // data management operations was chosen
                 case 1:
-                    if(!UserService.isUser()){
+                    if(UserService.has(Access.WRITE_DOMAIN)){
                         while(true){
                             int whatToWorkWith = InputReader.readInt("\nВиберіть, з чим хочете працювати: " +
                                     "\n1 - факультет" +
@@ -102,7 +100,7 @@ public class MainMenu {
                                     break;
                                 // user was chosen
                                 case 5:
-                                    if(!UserService.isManager()){
+                                    if(UserService.has(Access.WRITE_ALL)){
                                         UserMenu.selectOperation();
                                     }else{
                                         System.out.println("\nЦя дія недоступна для ролі " + UserService.getSessionRole() + ".");

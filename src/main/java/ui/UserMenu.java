@@ -104,12 +104,14 @@ public class UserMenu {
         return password;
     }
 
-    private static Role getRole(){
-        int indexOfRole = InputReader.readInt("Виберіть роль:" +
+    private static int getRole(){
+        int role = InputReader.readInt("Виберіть роль:" +
                 "\n0 - Користувач" +
                 "\n1 - Менеджер" +
                 "\n2 - Адміністратор", 0, 2);
-        return Role.values()[indexOfRole];
+        if (role == 0) return Access.USER_MASK;
+        if (role == 1) return Access.MANAGER_MASK;
+        return Access.ADMIN_MASK;
     }
 
     public static boolean printAll(List<User> allUsers){

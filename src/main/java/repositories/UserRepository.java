@@ -1,9 +1,6 @@
 package repositories;
 
-import domain.Role;
-import domain.Teacher;
-import domain.User;
-import domain.UserStatus;
+import domain.*;
 
 import java.util.*;
 
@@ -30,7 +27,7 @@ public final class UserRepository implements Repository<User, String>{
         return instance;
     }
 
-    private User baseAdmin = new User("sashaFlom", "0123456789", Role.ADMINISTRATOR, UserStatus.PERMITTED);
+    private User baseAdmin = new User("sashaFlom", "0123456789", Access.ADMIN_MASK, UserStatus.PERMITTED);
 
     private Map<String, User> users = new LinkedHashMap<>();
     private List<User> blockedForSession = new ArrayList<>();
