@@ -2,6 +2,8 @@ package ui;
 
 import data.DataService;
 import domain.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import repositories.*;
 import services.*;
 import validators.InputReader;
@@ -10,6 +12,8 @@ import java.util.Optional;
 import java.time.LocalDate;
 
 public class MainMenu {
+
+    private static final Logger logger = LoggerFactory.getLogger(MainMenu.class);
 
     public static void main(String[] args){
         University kyivMohylaAcademy = new University("Національний університет 'Києво-Могилянська академія'",
@@ -33,22 +37,27 @@ public class MainMenu {
             if(foundUser.isBlocked()){
                 System.out.println("\nКористувач з логіном " + login + " заблокований, Ви не можете увійти в акаунт.");
             } else{
-                UserService.setSessionUser(maybeUser.get());
+                UserService.setSessionUser(foundUser);
                 int tryPassword = 3;
                 while(tryPassword > 0){
                     String password = UserMenu.getPassword();
-                    if(UserService.checkPassword(password)){
+                    try {
+                        UserService.checkPassword(password);
                         UserService.setSessionRole();
                         System.out.println("\nВи увійшли в акаунт " + UserService.getSessionUserLogin() + ". Ваша роль: " + UserService.getSessionRole());
+                        logger.info("Авторизація в акаунт {} успішна", foundUser);
                         break;
-                    }else{
+                    } catch (IllegalAccessException e){
                         tryPassword--;
+                        System.out.println(e.getMessage());
                         if(tryPassword==0){
-                            System.out.println("\nНевірний пароль! Ваші спроби закінчились.");
+                            logger.error("Вичерпані всі спроби увійти в акаунт {}, користувача заблоковано: {}", foundUser, e.getMessage());
+                            System.out.println("\nВаші спроби закінчились.");
                             UserService.addToBlocked(foundUser);
                             System.out.println("\nКористувач з логіном " + login + " буде заблокований на цю сесію.");
                         }else{
-                            System.out.println("\nНевірний пароль! Залишилось спроб: " + tryPassword);
+                            logger.warn("Спроба увійти в акаунт {} з некоректним паролем: {}", foundUser, e.getMessage());
+                            System.out.println("\nЗалишилось спроб: " + tryPassword);
                         }
                     }
                 }

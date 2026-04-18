@@ -17,12 +17,12 @@ public class UserService {
         return repository.findById(login);
     }
 
-    public static boolean checkPassword(String password){
+    public static void checkPassword(String password) throws IllegalAccessException{
         if(password.equals(sessionUser.getPassword())){
             sessionRole = sessionUser.getRole();
-            return true;
+        } else {
+            throw new IllegalAccessException("Помилка! Невірний пароль.");
         }
-        return false;
     }
 
     public static void setSessionUser(User sessionUser) {

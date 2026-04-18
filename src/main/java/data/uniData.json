@@ -1,18 +1,18 @@
 {
   "facultyMap" : {
-    "2222222" : {
-      "id" : "2222222",
-      "fullName" : "Факультет інформатики",
-      "shortName" : "ФІ",
-      "dean" : "22222",
-      "contactForCommunication" : "1-321, +380444256057"
-    },
     "1111111" : {
       "id" : "1111111",
       "fullName" : "Факультет економічних наук",
       "shortName" : "ФЕН",
       "dean" : "11111",
       "contactForCommunication" : "6-403, +380444256042"
+    },
+    "2222222" : {
+      "id" : "2222222",
+      "fullName" : "Факультет інформатики",
+      "shortName" : "ФІ",
+      "dean" : "22222",
+      "contactForCommunication" : "1-321, +380444256057"
     }
   },
   "departmentMap" : {
@@ -46,23 +46,23 @@
     }
   },
   "studentMap" : {
-    "bbbbb" : {
+    "eeeee" : {
       "type" : "student",
-      "id" : "bbbbb",
-      "lastName" : "Мельник",
-      "firstName" : "Анна",
-      "patronymic" : "Олександрівна",
-      "birthDate" : "2004-07-14",
-      "email" : "melnyk.a@ukma.edu.ua",
-      "phoneNumber" : "+380954445566",
-      "faculty" : "2222222",
-      "department" : "4444",
-      "studentId" : "ФІ-22105",
-      "course" : 4,
-      "group" : 2,
-      "enrollmentYear" : 2022,
-      "educationForm" : "CONTRACT",
-      "status" : "STUDYING"
+      "id" : "eeeee",
+      "lastName" : "Бойко",
+      "firstName" : "Вікторія",
+      "patronymic" : "Сергіївна",
+      "birthDate" : "2002-01-21",
+      "email" : "boiko.v@ukma.edu.ua",
+      "phoneNumber" : "+380671112233",
+      "faculty" : "1111111",
+      "department" : "1111",
+      "studentId" : "ЕН-2504М",
+      "course" : 5,
+      "group" : 1,
+      "enrollmentYear" : 2025,
+      "educationForm" : "BUDGET",
+      "status" : "ACADEMIC_LEAVE"
     },
     "99999" : {
       "type" : "student",
@@ -81,6 +81,42 @@
       "enrollmentYear" : 2021,
       "educationForm" : "CONTRACT",
       "status" : "EXPELLED"
+    },
+    "bbbbb" : {
+      "type" : "student",
+      "id" : "bbbbb",
+      "lastName" : "Мельник",
+      "firstName" : "Анна",
+      "patronymic" : "Олександрівна",
+      "birthDate" : "2004-07-14",
+      "email" : "melnyk.a@ukma.edu.ua",
+      "phoneNumber" : "+380954445566",
+      "faculty" : "2222222",
+      "department" : "4444",
+      "studentId" : "ФІ-22105",
+      "course" : 4,
+      "group" : 2,
+      "enrollmentYear" : 2022,
+      "educationForm" : "CONTRACT",
+      "status" : "STUDYING"
+    },
+    "iiiii" : {
+      "type" : "student",
+      "id" : "iiiii",
+      "lastName" : "Козак",
+      "firstName" : "Анастасія",
+      "patronymic" : "Іванівна",
+      "birthDate" : "2004-08-30",
+      "email" : "kozak.a@ukma.edu.ua",
+      "phoneNumber" : "+380634449900",
+      "faculty" : "1111111",
+      "department" : "1111",
+      "studentId" : "ЕН-22041",
+      "course" : 4,
+      "group" : 1,
+      "enrollmentYear" : 2022,
+      "educationForm" : "BUDGET",
+      "status" : "STUDYING"
     },
     "fffff" : {
       "type" : "student",
@@ -225,45 +261,43 @@
       "enrollmentYear" : 2024,
       "educationForm" : "CONTRACT",
       "status" : "EXPELLED"
-    },
-    "eeeee" : {
-      "type" : "student",
-      "id" : "eeeee",
-      "lastName" : "Бойко",
-      "firstName" : "Вікторія",
-      "patronymic" : "Сергіївна",
-      "birthDate" : "2002-01-21",
-      "email" : "boiko.v@ukma.edu.ua",
-      "phoneNumber" : "+380671112233",
-      "faculty" : "1111111",
-      "department" : "1111",
-      "studentId" : "ЕН-2504М",
-      "course" : 5,
-      "group" : 1,
-      "enrollmentYear" : 2025,
-      "educationForm" : "BUDGET",
-      "status" : "ACADEMIC_LEAVE"
-    },
-    "iiiii" : {
-      "type" : "student",
-      "id" : "iiiii",
-      "lastName" : "Козак",
-      "firstName" : "Анастасія",
-      "patronymic" : "Іванівна",
-      "birthDate" : "2004-08-30",
-      "email" : "kozak.a@ukma.edu.ua",
-      "phoneNumber" : "+380634449900",
-      "faculty" : "1111111",
-      "department" : "1111",
-      "studentId" : "ЕН-22041",
-      "course" : 4,
-      "group" : 1,
-      "enrollmentYear" : 2022,
-      "educationForm" : "BUDGET",
-      "status" : "STUDYING"
     }
   },
   "teacherMap" : {
+    "88888" : {
+      "type" : "teacher",
+      "id" : "88888",
+      "lastName" : "Трохимчук",
+      "firstName" : "Олександр",
+      "patronymic" : "Степанович",
+      "birthDate" : "1968-02-12",
+      "email" : "trokhymchuk@ukma.edu.ua",
+      "phoneNumber" : "+380671234567",
+      "faculty" : "2222222",
+      "department" : "4444",
+      "position" : "TEACHER",
+      "academicDegree" : "DOCTOR",
+      "academicTitle" : "PROFESSOR",
+      "hireDate" : "2001-08-15",
+      "workload" : 38200.0
+    },
+    "77777" : {
+      "type" : "teacher",
+      "id" : "77777",
+      "lastName" : "Пічик",
+      "firstName" : "Катерина",
+      "patronymic" : "Валеріївна",
+      "birthDate" : "1983-06-18",
+      "email" : "pichyk.kv@ukma.edu.ua",
+      "phoneNumber" : "+380679998877",
+      "faculty" : "1111111",
+      "department" : "2222",
+      "position" : "TEACHER",
+      "academicDegree" : "CANDIDATE",
+      "academicTitle" : "DOCENT",
+      "hireDate" : "2012-01-09",
+      "workload" : 31500.0
+    },
     "66666" : {
       "type" : "teacher",
       "id" : "66666",
@@ -365,43 +399,14 @@
       "academicTitle" : "PROFESSOR",
       "hireDate" : "2005-09-01",
       "workload" : 48000.0
-    },
-    "88888" : {
-      "type" : "teacher",
-      "id" : "88888",
-      "lastName" : "Трохимчук",
-      "firstName" : "Олександр",
-      "patronymic" : "Степанович",
-      "birthDate" : "1968-02-12",
-      "email" : "trokhymchuk@ukma.edu.ua",
-      "phoneNumber" : "+380671234567",
-      "faculty" : "2222222",
-      "department" : "4444",
-      "position" : "TEACHER",
-      "academicDegree" : "DOCTOR",
-      "academicTitle" : "PROFESSOR",
-      "hireDate" : "2001-08-15",
-      "workload" : 38200.0
-    },
-    "77777" : {
-      "type" : "teacher",
-      "id" : "77777",
-      "lastName" : "Пічик",
-      "firstName" : "Катерина",
-      "patronymic" : "Валеріївна",
-      "birthDate" : "1983-06-18",
-      "email" : "pichyk.kv@ukma.edu.ua",
-      "phoneNumber" : "+380679998877",
-      "faculty" : "1111111",
-      "department" : "2222",
-      "position" : "TEACHER",
-      "academicDegree" : "CANDIDATE",
-      "academicTitle" : "DOCENT",
-      "hireDate" : "2012-01-09",
-      "workload" : 31500.0
     }
   },
   "userMap" : {
+    "sashaFlom" : {
+      "login" : "sashaFlom",
+      "password" : "0123456789",
+      "role" : 14
+    },
     "blablablublu" : {
       "login" : "blablablublu",
       "password" : "00000000000000000",
@@ -421,11 +426,6 @@
       "login" : "sManager",
       "password" : "manager0011",
       "role" : 6
-    },
-    "sashaFlom" : {
-      "login" : "sashaFlom",
-      "password" : "0123456789",
-      "role" : 14
     }
   }
 }
