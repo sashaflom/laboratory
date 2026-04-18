@@ -41,8 +41,8 @@ public class UserService {
         sessionRole = sessionUser.getRole();
     }
 
-    public static User createNewAndAdd(String login, String password, int role, UserStatus status){
-        User user = new User(login, password, role, status);
+    public static User createNewAndAdd(String login, String password, int role){
+        User user = new User(login, password, role);
         repository.add(user);
         return user;
     }
@@ -61,6 +61,16 @@ public class UserService {
 
     public static void addToBlocked(User user){
         repository.addToBlocked(user);
+    }
+
+    public static void block (User user){
+        int currentRole = user.getRole();
+        user.setRole(currentRole | Access.BLOCKED);
+    }
+
+    public static void unblock (User user){
+        int currentRole = user.getRole();
+        user.setRole(currentRole & ~Access.BLOCKED);
     }
 
     public static void reblockAfterSession(){

@@ -16,20 +16,6 @@
     }
   },
   "departmentMap" : {
-    "4444" : {
-      "id" : "4444",
-      "name" : "Кафедра мережевих технологій",
-      "faculty" : "2222222",
-      "headOfDepartment" : "66666",
-      "location" : "1-315, +380444238126"
-    },
-    "3333" : {
-      "id" : "3333",
-      "name" : "Кафедра інформатики",
-      "faculty" : "2222222",
-      "headOfDepartment" : "55555",
-      "location" : "1-319, +380444636931"
-    },
     "2222" : {
       "id" : "2222",
       "name" : "Кафедра маркетингу та управління бізнесом",
@@ -43,9 +29,131 @@
       "faculty" : "1111111",
       "headOfDepartment" : "33333",
       "location" : "6-404, +380444635927"
+    },
+    "4444" : {
+      "id" : "4444",
+      "name" : "Кафедра мережевих технологій",
+      "faculty" : "2222222",
+      "headOfDepartment" : "66666",
+      "location" : "1-315, +380444238126"
+    },
+    "3333" : {
+      "id" : "3333",
+      "name" : "Кафедра інформатики",
+      "faculty" : "2222222",
+      "headOfDepartment" : "55555",
+      "location" : "1-319, +380444636931"
     }
   },
   "studentMap" : {
+    "bbbbb" : {
+      "type" : "student",
+      "id" : "bbbbb",
+      "lastName" : "Мельник",
+      "firstName" : "Анна",
+      "patronymic" : "Олександрівна",
+      "birthDate" : "2004-07-14",
+      "email" : "melnyk.a@ukma.edu.ua",
+      "phoneNumber" : "+380954445566",
+      "faculty" : "2222222",
+      "department" : "4444",
+      "studentId" : "ФІ-22105",
+      "course" : 4,
+      "group" : 2,
+      "enrollmentYear" : 2022,
+      "educationForm" : "CONTRACT",
+      "status" : "STUDYING"
+    },
+    "99999" : {
+      "type" : "student",
+      "id" : "99999",
+      "lastName" : "Кравченко",
+      "firstName" : "Юрій",
+      "patronymic" : "Петрович",
+      "birthDate" : "2003-03-11",
+      "email" : "kravchenko.yu@ukma.edu.ua",
+      "phoneNumber" : "+380937776655",
+      "faculty" : "1111111",
+      "department" : "2222",
+      "studentId" : "ЕН-21102",
+      "course" : 4,
+      "group" : 5,
+      "enrollmentYear" : 2021,
+      "educationForm" : "CONTRACT",
+      "status" : "EXPELLED"
+    },
+    "fffff" : {
+      "type" : "student",
+      "id" : "fffff",
+      "lastName" : "Бондаренко",
+      "firstName" : "Ігор",
+      "patronymic" : "Юрійович",
+      "birthDate" : "2005-05-01",
+      "email" : "bondarenko.i@ukma.edu.ua",
+      "phoneNumber" : "+380675551122",
+      "faculty" : "2222222",
+      "department" : "4444",
+      "studentId" : "ФІ-23045",
+      "course" : 3,
+      "group" : 3,
+      "enrollmentYear" : 2023,
+      "educationForm" : "BUDGET",
+      "status" : "STUDYING"
+    },
+    "ccccc" : {
+      "type" : "student",
+      "id" : "ccccc",
+      "lastName" : "Шевченко",
+      "firstName" : "Артем",
+      "patronymic" : "Віталійович",
+      "birthDate" : "2003-11-30",
+      "email" : "shevchenko.a@ukma.edu.ua",
+      "phoneNumber" : "+380997778899",
+      "faculty" : "2222222",
+      "department" : "3333",
+      "studentId" : "ФІ-2508М",
+      "course" : 5,
+      "group" : 1,
+      "enrollmentYear" : 2025,
+      "educationForm" : "BUDGET",
+      "status" : "ACADEMIC_LEAVE"
+    },
+    "jjjjj" : {
+      "type" : "student",
+      "id" : "jjjjj",
+      "lastName" : "Павленко",
+      "firstName" : "Максим",
+      "patronymic" : "Олегович",
+      "birthDate" : "2002-06-12",
+      "email" : "pavlenko.m@ukma.edu.ua",
+      "phoneNumber" : "+380931110099",
+      "faculty" : "2222222",
+      "department" : "4444",
+      "studentId" : "ФІ-21098",
+      "course" : 2,
+      "group" : 2,
+      "enrollmentYear" : 2024,
+      "educationForm" : "CONTRACT",
+      "status" : "EXPELLED"
+    },
+    "ggggg" : {
+      "type" : "student",
+      "id" : "ggggg",
+      "lastName" : "Лисенко",
+      "firstName" : "Юлія",
+      "patronymic" : "Володимирівна",
+      "birthDate" : "2007-09-19",
+      "email" : "lysenko.yu@ukma.edu.ua",
+      "phoneNumber" : "+380509993344",
+      "faculty" : "2222222",
+      "department" : "3333",
+      "studentId" : "ФІ-25011",
+      "course" : 1,
+      "group" : 5,
+      "enrollmentYear" : 2025,
+      "educationForm" : "CONTRACT",
+      "status" : "STUDYING"
+    },
     "ddddd" : {
       "type" : "student",
       "id" : "ddddd",
@@ -136,42 +244,6 @@
       "educationForm" : "BUDGET",
       "status" : "ACADEMIC_LEAVE"
     },
-    "99999" : {
-      "type" : "student",
-      "id" : "99999",
-      "lastName" : "Кравченко",
-      "firstName" : "Юрій",
-      "patronymic" : "Петрович",
-      "birthDate" : "2003-03-11",
-      "email" : "kravchenko.yu@ukma.edu.ua",
-      "phoneNumber" : "+380937776655",
-      "faculty" : "1111111",
-      "department" : "2222",
-      "studentId" : "ЕН-21102",
-      "course" : 4,
-      "group" : 5,
-      "enrollmentYear" : 2021,
-      "educationForm" : "CONTRACT",
-      "status" : "EXPELLED"
-    },
-    "bbbbb" : {
-      "type" : "student",
-      "id" : "bbbbb",
-      "lastName" : "Мельник",
-      "firstName" : "Анна",
-      "patronymic" : "Олександрівна",
-      "birthDate" : "2004-07-14",
-      "email" : "melnyk.a@ukma.edu.ua",
-      "phoneNumber" : "+380954445566",
-      "faculty" : "2222222",
-      "department" : "4444",
-      "studentId" : "ФІ-22105",
-      "course" : 4,
-      "group" : 2,
-      "enrollmentYear" : 2022,
-      "educationForm" : "CONTRACT",
-      "status" : "STUDYING"
-    },
     "iiiii" : {
       "type" : "student",
       "id" : "iiiii",
@@ -189,115 +261,9 @@
       "enrollmentYear" : 2022,
       "educationForm" : "BUDGET",
       "status" : "STUDYING"
-    },
-    "fffff" : {
-      "type" : "student",
-      "id" : "fffff",
-      "lastName" : "Бондаренко",
-      "firstName" : "Ігор",
-      "patronymic" : "Юрійович",
-      "birthDate" : "2005-05-01",
-      "email" : "bondarenko.i@ukma.edu.ua",
-      "phoneNumber" : "+380675551122",
-      "faculty" : "2222222",
-      "department" : "4444",
-      "studentId" : "ФІ-23045",
-      "course" : 3,
-      "group" : 3,
-      "enrollmentYear" : 2023,
-      "educationForm" : "BUDGET",
-      "status" : "STUDYING"
-    },
-    "ccccc" : {
-      "type" : "student",
-      "id" : "ccccc",
-      "lastName" : "Шевченко",
-      "firstName" : "Артем",
-      "patronymic" : "Віталійович",
-      "birthDate" : "2003-11-30",
-      "email" : "shevchenko.a@ukma.edu.ua",
-      "phoneNumber" : "+380997778899",
-      "faculty" : "2222222",
-      "department" : "3333",
-      "studentId" : "ФІ-2508М",
-      "course" : 5,
-      "group" : 1,
-      "enrollmentYear" : 2025,
-      "educationForm" : "BUDGET",
-      "status" : "ACADEMIC_LEAVE"
-    },
-    "jjjjj" : {
-      "type" : "student",
-      "id" : "jjjjj",
-      "lastName" : "Павленко",
-      "firstName" : "Максим",
-      "patronymic" : "Олегович",
-      "birthDate" : "2002-06-12",
-      "email" : "pavlenko.m@ukma.edu.ua",
-      "phoneNumber" : "+380931110099",
-      "faculty" : "2222222",
-      "department" : "4444",
-      "studentId" : "ФІ-21098",
-      "course" : 2,
-      "group" : 2,
-      "enrollmentYear" : 2024,
-      "educationForm" : "CONTRACT",
-      "status" : "EXPELLED"
-    },
-    "ggggg" : {
-      "type" : "student",
-      "id" : "ggggg",
-      "lastName" : "Лисенко",
-      "firstName" : "Юлія",
-      "patronymic" : "Володимирівна",
-      "birthDate" : "2007-09-19",
-      "email" : "lysenko.yu@ukma.edu.ua",
-      "phoneNumber" : "+380509993344",
-      "faculty" : "2222222",
-      "department" : "3333",
-      "studentId" : "ФІ-25011",
-      "course" : 1,
-      "group" : 5,
-      "enrollmentYear" : 2025,
-      "educationForm" : "CONTRACT",
-      "status" : "STUDYING"
     }
   },
   "teacherMap" : {
-    "88888" : {
-      "type" : "teacher",
-      "id" : "88888",
-      "lastName" : "Трохимчук",
-      "firstName" : "Олександр",
-      "patronymic" : "Степанович",
-      "birthDate" : "1968-02-12",
-      "email" : "trokhymchuk@ukma.edu.ua",
-      "phoneNumber" : "+380671234567",
-      "faculty" : "2222222",
-      "department" : "4444",
-      "position" : "TEACHER",
-      "academicDegree" : "DOCTOR",
-      "academicTitle" : "PROFESSOR",
-      "hireDate" : "2001-08-15",
-      "workload" : 38200.0
-    },
-    "77777" : {
-      "type" : "teacher",
-      "id" : "77777",
-      "lastName" : "Пічик",
-      "firstName" : "Катерина",
-      "patronymic" : "Валеріївна",
-      "birthDate" : "1983-06-18",
-      "email" : "pichyk.kv@ukma.edu.ua",
-      "phoneNumber" : "+380679998877",
-      "faculty" : "1111111",
-      "department" : "2222",
-      "position" : "TEACHER",
-      "academicDegree" : "CANDIDATE",
-      "academicTitle" : "DOCENT",
-      "hireDate" : "2012-01-09",
-      "workload" : 31500.0
-    },
     "66666" : {
       "type" : "teacher",
       "id" : "66666",
@@ -399,38 +365,67 @@
       "academicTitle" : "PROFESSOR",
       "hireDate" : "2005-09-01",
       "workload" : 48000.0
+    },
+    "88888" : {
+      "type" : "teacher",
+      "id" : "88888",
+      "lastName" : "Трохимчук",
+      "firstName" : "Олександр",
+      "patronymic" : "Степанович",
+      "birthDate" : "1968-02-12",
+      "email" : "trokhymchuk@ukma.edu.ua",
+      "phoneNumber" : "+380671234567",
+      "faculty" : "2222222",
+      "department" : "4444",
+      "position" : "TEACHER",
+      "academicDegree" : "DOCTOR",
+      "academicTitle" : "PROFESSOR",
+      "hireDate" : "2001-08-15",
+      "workload" : 38200.0
+    },
+    "77777" : {
+      "type" : "teacher",
+      "id" : "77777",
+      "lastName" : "Пічик",
+      "firstName" : "Катерина",
+      "patronymic" : "Валеріївна",
+      "birthDate" : "1983-06-18",
+      "email" : "pichyk.kv@ukma.edu.ua",
+      "phoneNumber" : "+380679998877",
+      "faculty" : "1111111",
+      "department" : "2222",
+      "position" : "TEACHER",
+      "academicDegree" : "CANDIDATE",
+      "academicTitle" : "DOCENT",
+      "hireDate" : "2012-01-09",
+      "workload" : 31500.0
     }
   },
   "userMap" : {
-    "sManager" : {
-      "login" : "sManager",
-      "password" : "manager0011",
-      "role" : 6,
-      "status" : "PERMITTED"
-    },
-    "sashaFlom" : {
-      "login" : "sashaFlom",
-      "password" : "0123456789",
-      "role" : 14,
-      "status" : "PERMITTED"
-    },
     "blablablublu" : {
       "login" : "blablablublu",
       "password" : "00000000000000000",
-      "role" : 2,
-      "status" : "PERMITTED"
+      "role" : 2
     },
     "sUser" : {
       "login" : "sUser",
       "password" : "user2008909",
-      "role" : 2,
-      "status" : "PERMITTED"
+      "role" : 2
     },
     "nastiaYatsk" : {
       "login" : "nastiaYatsk",
       "password" : "1122334455",
-      "role" : 14,
-      "status" : "PERMITTED"
+      "role" : 14
+    },
+    "sManager" : {
+      "login" : "sManager",
+      "password" : "manager0011",
+      "role" : 6
+    },
+    "sashaFlom" : {
+      "login" : "sashaFlom",
+      "password" : "0123456789",
+      "role" : 14
     }
   }
 }

@@ -27,7 +27,7 @@ public final class UserRepository implements Repository<User, String>{
         return instance;
     }
 
-    private User baseAdmin = new User("sashaFlom", "0123456789", Access.ADMIN_MASK, UserStatus.PERMITTED);
+    private User baseAdmin = new User("sashaFlom", "0123456789", Access.ADMIN_MASK);
 
     private Map<String, User> users = new LinkedHashMap<>();
     private List<User> blockedForSession = new ArrayList<>();
@@ -71,14 +71,16 @@ public final class UserRepository implements Repository<User, String>{
 
     public void addToBlocked(User user){
         blockedForSession.add(user);
-        user.setStatus(UserStatus.BLOCKED);
+        int currentRole = user.getRole();
+        user.setRole(currentRole | Access.BLOCKED);
     }
 
     public void reblock(){
         if(!blockedForSession.isEmpty()){
             for(int i=0; i<blockedForSession.size(); i++){
                 User user = blockedForSession.get(i);
-                user.setStatus(UserStatus.PERMITTED);
+                int currentRole = user.getRole();
+                user.setRole(currentRole & ~Access.BLOCKED);
                 blockedForSession.remove(user);
             }
         }
