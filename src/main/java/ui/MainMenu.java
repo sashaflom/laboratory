@@ -112,6 +112,7 @@ public class MainMenu {
                                     if(UserService.has(Access.WRITE_ALL)){
                                         UserMenu.selectOperation();
                                     }else{
+                                        logger.warn("Спроба зробити недоступну дію від користувача {}", UserService.getSessionUserLogin());
                                         System.out.println("\nЦя дія недоступна для ролі " + UserService.getSessionRole() + ".");
                                     }
                                     break;
@@ -122,6 +123,7 @@ public class MainMenu {
                             if(whatToWorkWith==0) break;
                         }
                     }else{
+                        logger.warn("Спроба зробити недоступну дію від користувача {}", UserService.getSessionUserLogin());
                         System.out.println("\nЦя дія недоступна для ролі " + UserService.getSessionRole() + ".");
                     }
                     break;
