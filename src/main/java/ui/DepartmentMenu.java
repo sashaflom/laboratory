@@ -1,5 +1,6 @@
 package ui;
 
+import data.DataService;
 import domain.*;
 import exceptions.*;
 import services.*;
@@ -7,7 +8,12 @@ import validators.*;
 
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DepartmentMenu {
+
+    private static final Logger logger = LoggerFactory.getLogger(DepartmentMenu.class);
 
     public static void selectOperation(){
         while(true){
@@ -68,8 +74,10 @@ public class DepartmentMenu {
         while(true){
             try{
                 DepartmentValidator.isIdValid(id);
+                logger.info("ID кафедри {} валідний, він не зайнятий іншою кафедрою", id);
                 break;
             }catch(DuplicateIdException e){
+                logger.error("Помилка, уже існує кафедра з ID {}: {}", id, e.getMessage());
                 System.out.println(e.getMessage());
             }
             id = InputReader.readLine("Введіть унікальний ідентифікатор кафедри: ", 4, 4);
@@ -82,8 +90,10 @@ public class DepartmentMenu {
         while(true){
             try{
                 DepartmentValidator.isNameValid(name);
+                logger.info("Назва кафедри {} валідна, вона не зайнята іншою кафедрою", name);
                 break;
             }catch(DuplicateNameException e){
+                logger.error("Помилка, уже існує кафедра з назвою {}: {}", name, e.getMessage());
                 System.out.println(e.getMessage());
             }
             name = InputReader.readLine("Введіть назву кафедри: ", 1, 100);
