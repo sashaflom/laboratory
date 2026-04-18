@@ -94,3 +94,11 @@
 2026-04-19 00:46:43.532 INFO  [main] services.AutoSaveService - Закриття автозбереження успішне.
 2026-04-19 00:46:43.534 INFO  [main] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
 2026-04-19 00:46:43.536 INFO  [Thread-0] services.AutoSaveService - Закриття автозбереження успішне.
+2026-04-19 01:05:47.005 INFO  [main] data.DataService - Читання з файлу src\main\java\data\uniData.json успішне.
+2026-04-19 01:05:52.011 WARN  [main] ui.MainMenu - Спроба увійти в акаунт sUser з некоректним паролем: Помилка! Невірний пароль.
+2026-04-19 01:05:53.337 WARN  [main] ui.MainMenu - Спроба увійти в акаунт sUser з некоректним паролем: Помилка! Невірний пароль.
+2026-04-19 01:05:54.630 ERROR [main] ui.MainMenu - Вичерпані всі спроби увійти в акаунт sUser, користувача заблоковано: Помилка! Невірний пароль.
+2026-04-19 01:06:02.271 INFO  [main] ui.MainMenu - Авторизація в акаунт sashaFlom успішна
+2026-04-19 01:06:04.551 INFO  [main] services.AutoSaveService - Закриття автозбереження успішне.
+2026-04-19 01:06:04.609 INFO  [main] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-19 01:06:04.610 INFO  [Thread-0] services.AutoSaveService - Закриття автозбереження успішне.
