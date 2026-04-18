@@ -1,5 +1,6 @@
 package ui;
 
+import data.DataService;
 import domain.*;
 import exceptions.*;
 import services.*;
@@ -8,7 +9,12 @@ import validators.*;
 import java.util.*;
 import java.time.LocalDate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class StudentMenu {
+
+    private static final Logger logger = LoggerFactory.getLogger(StudentMenu.class);
 
     public static void selectOperation(){
         while(true){
@@ -67,8 +73,10 @@ public class StudentMenu {
         while(true){
             try{
                 PersonValidator.isIdValid(id);
+                logger.info("ID людини {} валідний, він не зайнятий іншою людиною", id);
                 break;
             }catch(DuplicateIdException e){
+                logger.error("Помилка, уже існує людина з ID {}: {}", id, e.getMessage());
                 System.out.println(e.getMessage());
             }
             id = InputReader.readLine("Введіть унікальний ідентифікатор з 5 знаків: ", 5, 5);
@@ -109,8 +117,10 @@ public class StudentMenu {
             String email = InputReader.readLine("Введіть email: ", 1, 40);
             try {
                 ValidationService.validateEmailValue(email);
+                logger.info("Email людини {} валідний", email);
                 return email;
             } catch (RuntimeException e) {
+                logger.error("Помилка в форматі email {}: {}", email, e.getMessage());
                 System.out.println(e.getMessage());
             }
         }
@@ -120,8 +130,10 @@ public class StudentMenu {
             String phoneNumber = InputReader.readLine("Введіть номер телефону: ", 10, 13);
             try {
                 ValidationService.validatePhoneValue(phoneNumber);
+                logger.info("Номер телефону людини {} валідний", phoneNumber);
                 return phoneNumber;
             } catch (RuntimeException e) {
+                logger.error("Помилка в форматі номеру телефону {}: {}", phoneNumber, e.getMessage());
                 System.out.println(e.getMessage());
             }
         }
@@ -164,8 +176,10 @@ public class StudentMenu {
         while(true){
             try{
                 StudentValidator.isStudentIdValid(id);
+                logger.info("Номер заліковки {} валдіний, він не зайнятий іншим студентом", id);
                 break;
             } catch (DuplicateStudentIdException e) {
+                logger.error("Помилка, уже існує студент з номером заліковки {}: {}", id, e.getMessage());
                 System.out.println(e.getMessage());
             }
             id = InputReader.readLine("Введіть номер залікової книжки (8 знаків): ", 8, 8);
