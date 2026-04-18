@@ -45,18 +45,18 @@ public class MainMenu {
                         UserService.checkPassword(password);
                         UserService.setSessionRole();
                         System.out.println("\nВи увійшли в акаунт " + UserService.getSessionUserLogin() + ". Ваша роль: " + UserService.getSessionRole());
-                        logger.info("Авторизація в акаунт {} успішна", foundUser);
+                        logger.info("Авторизація в акаунт {} успішна", foundUser.getLogin());
                         break;
                     } catch (IllegalAccessException e){
                         tryPassword--;
                         System.out.println(e.getMessage());
                         if(tryPassword==0){
-                            logger.error("Вичерпані всі спроби увійти в акаунт {}, користувача заблоковано: {}", foundUser, e.getMessage());
+                            logger.error("Вичерпані всі спроби увійти в акаунт {}, користувача заблоковано: {}", foundUser.getLogin(), e.getMessage());
                             System.out.println("\nВаші спроби закінчились.");
                             UserService.addToBlocked(foundUser);
                             System.out.println("\nКористувач з логіном " + login + " буде заблокований на цю сесію.");
                         }else{
-                            logger.warn("Спроба увійти в акаунт {} з некоректним паролем: {}", foundUser, e.getMessage());
+                            logger.warn("Спроба увійти в акаунт {} з некоректним паролем: {}", foundUser.getLogin(), e.getMessage());
                             System.out.println("\nЗалишилось спроб: " + tryPassword);
                         }
                     }
