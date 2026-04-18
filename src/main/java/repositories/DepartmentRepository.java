@@ -2,9 +2,12 @@ package repositories;
 
 import domain.Department;
 import domain.Faculty;
+import domain.Student;
 import domain.Teacher;
+import services.DepartmentService;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public final class DepartmentRepository implements Repository<Department, String> {
 
@@ -60,6 +63,12 @@ public final class DepartmentRepository implements Repository<Department, String
             }
         }
         return foundDepartament;
+    }
+
+    public List<Department> findAll(Predicate<Department> rule) {
+        return departments.values().stream()
+                .filter(rule)
+                .toList();
     }
 
     public Department findLastAdded(){

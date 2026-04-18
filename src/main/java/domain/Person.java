@@ -73,13 +73,13 @@ public class Person {
     @Override
     public String toString() {
         return String.format(
-                        "ID: '%s', " +
                         "ПІБ: '%s %s %s', " +
+                        "ID: '%s', " +
                         "дата народження: '%s', " +
                         "вік: '%s', " +
                         "email: '%s', " +
                         "телефон: '%s'",
-                id, lastName, firstName, patronymic, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
+                lastName, firstName, patronymic, id, birthDate.format(FORMATTER), getHowOld(), email, phoneNumber);
     }
 
     @JsonIgnore

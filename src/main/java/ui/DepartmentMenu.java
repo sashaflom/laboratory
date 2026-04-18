@@ -203,7 +203,10 @@ public class DepartmentMenu {
                             break;
                         // faculty to change
                         case 2:
-                            foundDepartment.setFaculty(getFaculty());
+                            Faculty newFaculty = getFaculty();
+                            foundDepartment.setFaculty(newFaculty);
+                            StudentService.changeFacultyInDepartment(foundDepartment, newFaculty);
+                            TeacherService.changeFacultyInDepartment(foundDepartment, newFaculty);
                             break;
                         // head of department to change
                         case 3:
@@ -235,9 +238,14 @@ public class DepartmentMenu {
             Optional<Department> maybeDepartment = DepartmentService.findById(id);
             if (maybeDepartment.isPresent()) {
                 Department foundDepartment = maybeDepartment.get();
-                DepartmentService.delete(foundDepartment);
-                System.out.println("\nВи успішно видалили кафедру. Оновлені дані: ");
-                printAll(DepartmentService.getAll());
+                System.out.println("\nУВАГА!!!");
+                System.out.println("Після видалення кафедри всі студенти та викладачі, що приписані до цього факультету, більше не будуть до нього приписані.");
+                int makingSure = InputReader.readInt("Введіть 1, якщо точно хочете видалити, або 0, щоби відмінити дію: ", 0, 1);
+                if(makingSure==1){
+                    DepartmentService.delete(foundDepartment);
+                    System.out.println("\nВи успішно видалили кафедру " + foundDepartment.getName() + ". Оновлені дані: ");
+                    printAll(DepartmentService.getAll());
+                }
             }else{
                 System.out.println("\nКафедру з унікальним ідентифікатором " + id + " не знайдено.");
             }

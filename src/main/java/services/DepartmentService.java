@@ -4,6 +4,7 @@ import domain.*;
 import repositories.DepartmentRepository;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class DepartmentService {
 
@@ -17,6 +18,21 @@ public class DepartmentService {
 
     public static void delete(Department department){
         repository.delete(department);
+        department.getHeadOfDepartment().setPosition(Position.TEACHER);
+        List<Student> students = StudentService.findAllByDepartment(department);
+        if (!students.isEmpty()){
+            for (Student student : students){
+                student.setDepartment(null);
+                student.setFaculty(null);
+            }
+        }
+        List<Teacher> teachers = TeacherService.findAllByDepartment(department);
+        if (!teachers.isEmpty()){
+            for (Teacher teacher : teachers){
+                teacher.setDepartment(null);
+                teacher.setFaculty(null);
+            }
+        }
     }
 
     public static Optional<Department> findById(String id){
@@ -29,5 +45,14 @@ public class DepartmentService {
 
     public static List<Department> getAll(){
         return repository.getAll();
+    }
+
+    public static List<Department> findAllByFaculty(Faculty faculty){
+        Predicate<Department> rule = department -> department.getFaculty() != null && department.getFaculty().equals(faculty);
+        return repository.findAll(rule);
+    }
+
+    public static void deleteFaculty (Faculty faculty){
+
     }
 }

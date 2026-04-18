@@ -57,12 +57,12 @@ public class StudentService {
     }
 
     public static List<Student> findAllByDepartment(Department department){
-        Predicate<Student> rule = student -> student.getDepartment().equals(department);
+        Predicate<Student> rule = student -> student.getDepartment() != null && student.getDepartment().equals(department);
         return repository.findAll(rule);
     }
 
     public static List<Student> findAllByFaculty(Faculty faculty){
-        Predicate<Student> rule = student -> student.getFaculty().equals(faculty);
+        Predicate<Student> rule = student -> student.getFaculty() != null && student.getFaculty().equals(faculty);
         return repository.findAll(rule);
     }
 
@@ -92,5 +92,14 @@ public class StudentService {
     public static List<Student> sortPartByAlphabet(List<Student> students){
         Comparator<Student> rule = (s1, s2) -> s1.getFullName().compareTo(s2.getFullName());
         return repository.sortPart(rule, students);
+    }
+
+    public static void changeFacultyInDepartment (Department department, Faculty faculty){
+        List<Student> students = findAllByDepartment(department);
+        if (!students.isEmpty()){
+            for (Student student : students){
+                student.setFaculty(faculty);
+            }
+        }
     }
 }

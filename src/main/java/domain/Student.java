@@ -23,7 +23,11 @@ public class Student extends Person {
                    int enrollmentYear, EducationForm educationForm,
                    StudentStatus status) {
         super(id, lastName, firstName, patronymic, birthDate, email, phone);
-        faculty = department.getFaculty();
+        if(department==null){
+            faculty = null;
+        }else{
+            faculty = department.getFaculty();
+        }
         this.department = department;
         this.studentId = studentId;
         this.course = course;
@@ -63,10 +67,10 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return String.format("Студент: %s, факультет: '%s', кафедра: '%s', номер залікової книжки: '%s', курс: '%d', група: '%s', рік вступу: '%d', форма навчання: '%s', статус: '%s'",
-                        super.toString(), faculty.getFullName(),
-                        department.getName(),
-                        studentId, course, group, enrollmentYear,
+        return String.format("Студент: %s, курс: '%d', факультет: '%s', кафедра: '%s', номер залікової книжки: '%s', група: '%s', рік вступу: '%d', форма навчання: '%s', статус: '%s'",
+                        super.toString(), course, (faculty != null ? faculty.getFullName() : "не призначено"),
+                (department != null ? department.getName() : "не призначено"),
+                        studentId, group, enrollmentYear,
                         educationForm.getDisplayName(),
                         status.getDisplayName());
     }
