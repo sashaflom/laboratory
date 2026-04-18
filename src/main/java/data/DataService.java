@@ -9,10 +9,14 @@ import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DataService {
 
     private final static Path in = Path.of("src", "main", "java", "data", "uniData.json");
     private static ObjectMapper mapper = new ObjectMapper();
+    private static final Logger logger = LoggerFactory.getLogger(DataService.class);
 
     private static void mapperSetUp(){
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -28,7 +32,9 @@ public class DataService {
             try (BufferedWriter writer = Files.newBufferedWriter(in)) {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(writer, data);
             }
+            logger.info("Запис в файл {} успішний.", in);
         } catch (Exception e) {
+            logger.error("Помилка при записі у файл {}: {}.", in, e.getMessage());
             System.out.println("\n[AUTO-SAVE] Помилка при збереженні даних.");
             e.printStackTrace();
         }
@@ -44,7 +50,9 @@ public class DataService {
                 data = mapper.readValue(reader, UniversityData.class);
                 data.putData();
                 System.out.println("\nДані завантажено з файлу: " + in.toAbsolutePath());
+                logger.info("Читання з файлу {} успішний.", in);
             } catch (Exception e) {
+                logger.error("Помилка при читанні з файлу {}: {}.", in, e.getMessage());
                 e.printStackTrace();
             }
         }
