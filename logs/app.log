@@ -1,0 +1,10 @@
+2026-04-18 20:36:44.927 INFO  [main] data.DataService - Читання з файлу src\main\java\data\uniData.json успішне.
+2026-04-18 20:36:56.203 INFO  [main] data.DataService - Читання з файлу src\main\java\data\uniData.json успішне.
+2026-04-18 20:37:01.268 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-18 20:37:01.269 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-18 20:37:08.441 INFO  [main] ui.UserMenu - Логін blablablublu валідний, він не зайнятий іншим користувачем
+2026-04-18 20:37:16.225 INFO  [pool-2-thread-1] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-18 20:37:16.225 INFO  [pool-2-thread-1] services.AutoSaveService - Автозбереження в файл src\main\java\data\uniData.json успішнe.
+2026-04-18 20:37:20.811 INFO  [main] services.AutoSaveService - Закриття автозбереження успішне.
+2026-04-18 20:37:20.814 INFO  [main] data.DataService - Запис в файл src\main\java\data\uniData.json успішний.
+2026-04-18 20:37:20.815 INFO  [Thread-0] services.AutoSaveService - Закриття автозбереження успішне.

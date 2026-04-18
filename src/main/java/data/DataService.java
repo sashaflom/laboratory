@@ -50,7 +50,7 @@ public class DataService {
                 data = mapper.readValue(reader, UniversityData.class);
                 data.putData();
                 System.out.println("\nДані завантажено з файлу: " + in.toAbsolutePath());
-                logger.info("Читання з файлу {} успішний.", in);
+                logger.info("Читання з файлу {} успішне.", in);
             } catch (Exception e) {
                 logger.error("Помилка при читанні з файлу {}: {}.", in, e.getMessage());
                 e.printStackTrace();
