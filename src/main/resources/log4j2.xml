@@ -15,12 +15,8 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="com.example" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
+        <Root level="debug">
             <AppenderRef ref="File"/>
-        </Logger>
-        <Root level="info">
-            <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
 </Configuration>
