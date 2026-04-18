@@ -26,7 +26,7 @@ public class StudentService {
             ValidationService.validate(student);
             logger.info("Студент із валідними даними: {}", student);
         } catch (RuntimeException e) {
-            logger.error("Помилка, невалідні дані для студента: {}, {}", e.getMessage(), student);
+            logger.error("Помилка, невалідні дані для студента: {}; {}", e.getMessage(), student);
             System.out.println(e.getMessage());
             return null;
         }
