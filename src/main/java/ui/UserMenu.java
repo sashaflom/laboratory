@@ -80,7 +80,7 @@ public class UserMenu {
 
     public static void createForm(){
         System.out.println("\nВи успішно додали користувача: \n" + UserService.createNewAndAdd(getLogin(), getPassword(),
-                getRole(), UserStatus.PERMITTED));
+                getRole()));
     }
 
     private static String getLogin(){
@@ -104,12 +104,14 @@ public class UserMenu {
         return password;
     }
 
-    private static Role getRole(){
-        int indexOfRole = InputReader.readInt("Виберіть роль:" +
+    private static int getRole(){
+        int role = InputReader.readInt("Виберіть роль:" +
                 "\n0 - Користувач" +
                 "\n1 - Менеджер" +
                 "\n2 - Адміністратор", 0, 2);
-        return Role.values()[indexOfRole];
+        if (role == 0) return Access.USER_MASK;
+        if (role == 1) return Access.MANAGER_MASK;
+        return Access.ADMIN_MASK;
     }
 
     public static boolean printAll(List<User> allUsers){
@@ -192,10 +194,10 @@ public class UserMenu {
             Optional<User> maybeUser = UserService.findByLogin(login);
             if(maybeUser.isPresent()){
                 User foundUser = maybeUser.get();
-                if(foundUser.getStatus() == UserStatus.BLOCKED){
+                if(foundUser.isBlocked()){
                     System.out.println("\nКористувач " + login + " уже заблокований.");
                 } else{
-                    foundUser.setStatus(UserStatus.BLOCKED);
+                    UserService.block(foundUser);
                     System.out.println("\nВи успішно заблокували користувачва з логіном " + login + ".");
                 }
             }else{
@@ -212,10 +214,10 @@ public class UserMenu {
             Optional<User> maybeUser = UserService.findByLogin(login);
             if(maybeUser.isPresent()){
                 User foundUser = maybeUser.get();
-                if(foundUser.getStatus() == UserStatus.PERMITTED){
+                if(!foundUser.isBlocked()){
                     System.out.println("\nКористувач " + login + " уже розблокований.");
                 } else {
-                    foundUser.setStatus(UserStatus.PERMITTED);
+                    UserService.unblock(foundUser);
                     System.out.println("\nВи успішно розблокували користувачва з логіном " + login + ".");
                 }
             }else{

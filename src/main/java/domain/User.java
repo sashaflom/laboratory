@@ -8,14 +8,14 @@ public class User {
 
     private String login;
     private String password;
-    private Role role;
-    private UserStatus status;
+    private int role;
+    private boolean blocked;
 
-    public User(String login, String password, Role role, UserStatus status){
+    public User(String login, String password, int role){
         this.login = login;
         this.password = password;
         this.role = role;
-        this.status = status;
+        blocked = false;
     }
 
     public User(){}
@@ -28,12 +28,8 @@ public class User {
         return password;
     }
 
-    public Role getRole() {
+    public int getRole() {
         return role;
-    }
-
-    public UserStatus getStatus() {
-        return status;
     }
 
     public void setLogin(String login) {
@@ -44,23 +40,24 @@ public class User {
         this.password = password;
     }
 
-    public void setRole(Role role) {
+    public void setRole(int role) {
         this.role = role;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
+        if ((role & Access.BLOCKED) == 1) {
+            blocked = true;
+        } else {
+            blocked = false;
+        }
     }
 
     @JsonIgnore
     public boolean isBlocked() {
-        return status == UserStatus.BLOCKED;
+        return ((role & Access.BLOCKED) == 1);
     }
 
     @Override
     public String toString() {
         return String.format("Користувач: логін: '%s', пароль: '%s', роль: '%s', статус: '%s'",
-                login, password, role, status);
+                login, password, Access.roleString(role), (blocked ? "заблокований" : "дозволений"));
     }
 
     @Override
@@ -70,12 +67,11 @@ public class User {
         User user = (User) o;
         return (Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(role, user.role) &&
-                Objects.equals(status, user.status));
+                Objects.equals(role, user.role));
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(login, password, role, status);
+        return Objects.hash(login, password, role);
     }
 }
