@@ -1,8 +1,9 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Objects;
+import lombok.Getter;
+@Getter
 
 public class User {
 
@@ -19,18 +20,6 @@ public class User {
     }
 
     public User(){}
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public int getRole() {
-        return role;
-    }
 
     public void setLogin(String login) {
         this.login = login;

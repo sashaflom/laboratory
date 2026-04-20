@@ -3,13 +3,17 @@ package domain;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
+
+@Getter
+@Setter
 public class Department {
 
     private final String id;
@@ -36,33 +40,6 @@ public class Department {
     public String toString(){
         return "Кафедра: ID: '%s', назва: '%s', факультет: '%s', завідувач: '%s', локація: '%s'.".formatted(id, name,(faculty != null ? faculty.getFullName() : "не призначено"),
                 (headOfDepartment != null ? headOfDepartment.getFullName() : "не призначено"), location);
-    }
-
-    public String getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public Faculty getFaculty() {
-        return faculty;
-    }
-    public Teacher getHeadOfDepartment() {
-        return headOfDepartment;
-    }
-    public String getLocation() {return location;}
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
-    }
-    public void setHeadOfDepartment(Teacher headOfDepartment) {
-        this.headOfDepartment = headOfDepartment;
-    }
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     @Override

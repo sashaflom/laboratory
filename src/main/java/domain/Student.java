@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Student extends Person {
     @JsonIdentityReference(alwaysAsId = true)
     private Faculty faculty;
@@ -38,33 +42,6 @@ public class Student extends Person {
     }
 
     public Student() {}
-
-    public Faculty getFaculty() {
-        return faculty;
-    }
-    public Department getDepartment() {
-        return department;
-    }
-    public String getStudentId() { return studentId; }
-    public int getCourse() { return course; }
-    public int getGroup() { return group; }
-    public int getEnrollmentYear() { return enrollmentYear; }
-    public EducationForm getEducationForm() { return educationForm; }
-    public StudentStatus getStatus() { return status; }
-
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
-    }
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-    public void setStudentId(String studentId) { this.studentId = studentId; }
-    public void setCourse(int course) { this.course = course; }
-    public void setGroup(int group) { this.group = group; }
-    public void setEnrollmentYear(int enrollmentYear) { this.enrollmentYear = enrollmentYear; }
-    public void setEducationForm(EducationForm educationForm) { this.educationForm = educationForm; }
-    public void setStatus(StudentStatus status) { this.status = status; }
-
     @Override
     public String toString() {
         return String.format("Студент: %s, курс: '%d', факультет: '%s', кафедра: '%s', номер залікової книжки: '%s', група: '%s', рік вступу: '%d', форма навчання: '%s', статус: '%s'",

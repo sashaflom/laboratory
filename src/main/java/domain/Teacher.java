@@ -2,11 +2,15 @@ package domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.time.LocalDate;
+import lombok.Setter;
+import lombok.Getter;
+
+@Getter
+@Setter
 
 public class Teacher extends Person {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
@@ -39,33 +43,6 @@ public class Teacher extends Person {
    }
 
     public Teacher() {}
-
-    public Faculty getFaculty() {
-        return faculty;
-    }
-    public Department getDepartment() {
-        return department;
-    }
-    public Position getPosition() {return position;}
-    public AcademicDegree getAcademicDegree() {return academicDegree;}
-    public AcademicTitle getAcademicTitle() {return academicTitle;}
-    public LocalDate getHireDate() {return hireDate;}
-    public double getWorkload() {return workload;}
-
-
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
-    }
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-    public void setPosition(Position position) {this.position = position;}
-    public void setAcademicDegree(AcademicDegree academicDegree) { this.academicDegree = academicDegree;}
-    public void setAcademicTitle(AcademicTitle academicTitle) { this.academicTitle = academicTitle;}
-    public void setHireDate(LocalDate hireDate) {
-        this.hireDate = hireDate;
-    }
-    public void setWorkload(double workload) {this.workload = workload;}
 
     @JsonIgnore
     public int getWorkExperience() {
