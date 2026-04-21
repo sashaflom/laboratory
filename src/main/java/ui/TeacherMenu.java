@@ -156,7 +156,8 @@ public class TeacherMenu {
                 switch (howToChooseDepartment){
                     //choose from existing
                     case 1:
-                        if(DepartmentMenu.printAll(DepartmentService.getAll())){
+                        DataService.saveData();
+                        if(DepartmentMenu.printAll((List<Department>) UniversityClient.sendRequest("DEPARTMENT_getAll"))){
                             String uniqueCode = InputReader.readLine("\nВведіть унікальний код кафедри, яку хочете обрати: ", 4, 4);
                             Optional<Department> maybeDepartment = DepartmentService.findById(uniqueCode);
                             if(maybeDepartment.isPresent()){
@@ -431,7 +432,8 @@ public class TeacherMenu {
     }
 
     private static void chooseDepartment(){
-        if(DepartmentMenu.printAll(DepartmentService.getAll())){
+        DataService.saveData();
+        if(DepartmentMenu.printAll((List<Department>) UniversityClient.sendRequest("DEPARTMENT_getAll"))){
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор кафедри, " +
                     "викладачів якої ви хочете побачити: ", 4, 4);
             Optional<Department> maybeDepartment = DepartmentService.findById(id);

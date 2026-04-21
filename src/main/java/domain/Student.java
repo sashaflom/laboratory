@@ -80,21 +80,37 @@ public class Student extends Person implements Serializable {
     public boolean equals(Object o){
         if (super.equals(o)){
             Student student = (Student) o;
-            return (Objects.equals(faculty.getFullName(), student.faculty.getFullName()) &&
-                    Objects.equals(department.getName(), student.department.getName()) &&
-                    Objects.equals(studentId, student.studentId) &&
+            boolean partFields = (Objects.equals(studentId, student.studentId) &&
                     course == student.course &&
                     group == student.group &&
                     enrollmentYear == student.enrollmentYear &&
                     Objects.equals(educationForm, student.educationForm) &&
                     Objects.equals(status, student.status));
+            boolean faculties = false;
+            if ((faculty != null && student.faculty == null) || (faculty == null && student.faculty != null)){
+                faculties = false;
+            } else if(faculty == null && student.faculty == null){
+                faculties = true;
+            } else{
+                faculties = Objects.equals(faculty.getFullName(), student.faculty.getFullName());
+            }
+
+            boolean departments = false;
+            if ((department != null && student.department == null) || (department == null && student.department != null)){
+                departments = false;
+            } else if(department == null && student.department == null){
+                departments = true;
+            } else{
+                departments = Objects.equals(department.getName(), student.department.getName());
+            }
+            return partFields && faculties && departments;
         }
         return false;
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(super.hashCode(), faculty.getFullName(), department.getName(), studentId,
+        return Objects.hash(super.hashCode(), (faculty != null ? faculty.getFullName() : null), (department != null ? department.getName() : null), studentId,
                 course, group, enrollmentYear, educationForm, status);
     }
 }

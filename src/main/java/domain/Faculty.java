@@ -69,16 +69,22 @@ public class Faculty implements Serializable {
         if (this==o) return true;
         if (o==null || getClass() != o.getClass()) return false;
         Faculty faculty = (Faculty) o;
-        return (Objects.equals(id, faculty.id) &&
+        boolean partFields = (Objects.equals(id, faculty.id) &&
                 Objects.equals(fullName, faculty.fullName) &&
                 Objects.equals(shortName, faculty.shortName) &&
-                Objects.equals(dean.getId(), faculty.dean.getId()) &&
                 Objects.equals(contactForCommunication, faculty.contactForCommunication));
+        if ((dean != null && faculty.dean == null) || (dean == null && faculty.dean != null)){
+            return false;
+        }
+        if (dean == null && faculty.dean == null){
+            return partFields;
+        }
+        return partFields && Objects.equals(dean.getId(), faculty.dean.getId());
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(id, fullName, shortName, dean.getId(),
+        return Objects.hash(id, fullName, shortName, (dean != null ? dean.getId() : null),
                 contactForCommunication);
     }
 }

@@ -2,6 +2,7 @@ package services;
 
 import data.DataService;
 import domain.*;
+import network.UniversityClient;
 import repositories.TeacherRepository;
 
 import java.util.*;
@@ -46,7 +47,8 @@ public class TeacherService {
                 }
             }
         } else if (teacher.getPosition().equals(Position.HEAD)){
-            List<Department> departments = DepartmentService.getAll();
+            DataService.saveData();
+            List<Department> departments = (List<Department>) UniversityClient.sendRequest("DEPARTMENT_getAll");
             if (!departments.isEmpty()){
                 for (Department department : departments){
                     if (department.getHeadOfDepartment() != null && department.getHeadOfDepartment().equals(teacher)){

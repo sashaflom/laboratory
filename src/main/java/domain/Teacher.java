@@ -85,20 +85,36 @@ public class Teacher extends Person implements Serializable {
     public boolean equals(Object o){
         if (super.equals(o)){
             Teacher teacher = (Teacher) o;
-            return (Objects.equals(faculty.getFullName(), teacher.faculty.getFullName()) &&
-                    Objects.equals(department.getName(), teacher.department.getName()) &&
-                    Objects.equals(position, teacher.position) &&
+            boolean partFields = (Objects.equals(position, teacher.position) &&
                     Objects.equals(academicDegree, teacher.academicDegree) &&
                     Objects.equals(academicTitle, teacher.academicTitle) &&
                     Objects.equals(hireDate, teacher.hireDate) &&
                     workload == teacher.workload);
+            boolean faculties = false;
+            if ((faculty != null && teacher.faculty == null) || (faculty == null && teacher.faculty != null)){
+                faculties = false;
+            } else if(faculty == null && teacher.faculty == null){
+                faculties = true;
+            } else{
+                faculties = Objects.equals(faculty.getFullName(), teacher.faculty.getFullName());
+            }
+
+            boolean departments = false;
+            if ((department != null && teacher.department == null) || (department == null && teacher.department != null)){
+                departments = false;
+            } else if(department == null && teacher.department == null){
+                departments = true;
+            } else{
+                departments = Objects.equals(department.getName(), teacher.department.getName());
+            }
+            return partFields && faculties && departments;
         }
         return false;
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(super.hashCode(), faculty.getFullName(), department.getName(), position,
+        return Objects.hash(super.hashCode(), (faculty != null ? faculty.getFullName() : null), (department != null ? department.getName() : null),
                 academicDegree, academicTitle, hireDate, workload);
     }
 }
