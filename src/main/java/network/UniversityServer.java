@@ -37,10 +37,6 @@ public class UniversityServer {
                         DataService.loadData();
                         List<Teacher> teachers = TeacherService.getAll();
                         out.writeObject(teachers);
-                    } else if(request.equals("DEPARTMENT_getAll")){
-                        DataService.loadData();
-                        List<Department> departments = DepartmentService.getAll();
-                        out.writeObject(departments);
                     }
                     logger.info("Запит {} успішно оброблено", request);
                 } catch (Exception e){

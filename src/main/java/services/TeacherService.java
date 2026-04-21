@@ -47,8 +47,7 @@ public class TeacherService {
                 }
             }
         } else if (teacher.getPosition().equals(Position.HEAD)){
-            DataService.saveData();
-            List<Department> departments = (List<Department>) UniversityClient.sendRequest("DEPARTMENT_getAll");
+            List<Department> departments = DepartmentService.getAll();
             if (!departments.isEmpty()){
                 for (Department department : departments){
                     if (department.getHeadOfDepartment() != null && department.getHeadOfDepartment().equals(teacher)){

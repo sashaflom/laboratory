@@ -36,8 +36,7 @@ public class DepartmentMenu {
                 case 2:
                     int makingSure2 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
                     if(makingSure2==1){
-                        DataService.saveData();
-                        printAll((List<Department>) UniversityClient.sendRequest("DEPARTMENT_getAll"));
+                        printAll(DepartmentService.getAll());
                     }
                     break;
                 // change existing one was chosen
@@ -199,8 +198,7 @@ public class DepartmentMenu {
     }
 
     private static void changeForm(){
-        DataService.saveData();
-        if(printAll((List<Department>) UniversityClient.sendRequest("DEPARTMENT_getAll"))){
+        if(printAll(DepartmentService.getAll())){
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор кафедри, яку хочете змінити: ", 4, 4);
             Optional<Department> maybeDepartment = DepartmentService.findById(id);
             if(maybeDepartment.isPresent()){
@@ -251,8 +249,7 @@ public class DepartmentMenu {
     }
 
     private static void deleteForm(){
-        DataService.saveData();
-        if(printAll((List<Department>) UniversityClient.sendRequest("DEPARTMENT_getAll"))) {
+        if(printAll(DepartmentService.getAll())) {
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор кафедри, яку хочете видалити: ", 4, 4);
             Optional<Department> maybeDepartment = DepartmentService.findById(id);
             if (maybeDepartment.isPresent()) {
@@ -263,8 +260,7 @@ public class DepartmentMenu {
                 if(makingSure==1){
                     DepartmentService.delete(foundDepartment);
                     System.out.println("\nВи успішно видалили кафедру " + foundDepartment.getName() + ". Оновлені дані: ");
-                    DataService.saveData();
-                    printAll((List<Department>) UniversityClient.sendRequest("DEPARTMENT_getAll"));
+                    printAll(DepartmentService.getAll());
                 }
             }else{
                 System.out.println("\nКафедру з унікальним ідентифікатором " + id + " не знайдено.");
