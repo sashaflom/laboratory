@@ -39,7 +39,7 @@ public class TeacherService {
             List<Faculty> faculties = FacultyService.getAll();
             if (!faculties.isEmpty()){
                 for (Faculty faculty : faculties){
-                    if (faculty.getDean().equals(teacher)){
+                    if (faculty.getDean() != null && faculty.getDean().equals(teacher)){
                         faculty.setDean(null);
                         break;
                     }
@@ -49,7 +49,7 @@ public class TeacherService {
             List<Department> departments = DepartmentService.getAll();
             if (!departments.isEmpty()){
                 for (Department department : departments){
-                    if (department.getHeadOfDepartment().equals(teacher)){
+                    if (department.getHeadOfDepartment() != null && department.getHeadOfDepartment().equals(teacher)){
                         department.setHeadOfDepartment(null);
                         break;
                     }

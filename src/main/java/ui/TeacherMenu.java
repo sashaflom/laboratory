@@ -3,6 +3,7 @@ package ui;
 import data.DataService;
 import domain.*;
 import exceptions.*;
+import network.UniversityClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.*;
@@ -35,7 +36,8 @@ public class TeacherMenu {
                 case 2:
                     int makingSure2 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
                     if(makingSure2==1){
-                        printAll(TeacherService.getAll());
+                        DataService.saveData();
+                        printAll((List<Teacher>) UniversityClient.sendRequest("TEACHER_getAll"));
                     }
                     break;
                 // change existing one was chosen
@@ -230,7 +232,8 @@ public class TeacherMenu {
     }
 
     private static void changeForm(){
-        if(printAll(TeacherService.getAll())){
+        DataService.saveData();
+        if(printAll((List<Teacher>) UniversityClient.sendRequest("TEACHER_getAll"))){
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете змінити: ", 5, 5);
             Optional<Teacher> maybeTeacher = TeacherService.findById(id);
             if(maybeTeacher.isPresent()){
@@ -312,14 +315,16 @@ public class TeacherMenu {
     }
 
     private static void deleteForm(){
-        if(printAll(TeacherService.getAll())) {
+        DataService.saveData();
+        if(printAll((List<Teacher>) UniversityClient.sendRequest("TEACHER_getAll"))) {
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете видалити: ", 5, 5);
             Optional<Teacher> maybeTeacher = TeacherService.findById(id);
             if (maybeTeacher.isPresent()) {
                 Teacher foundTeacher = maybeTeacher.get();
                 TeacherService.delete(foundTeacher);
                 System.out.println("\nВи успішно видалили викладача. Оновлені дані: ");
-                printAll(TeacherService.getAll());
+                DataService.saveData();
+                printAll((List<Teacher>) UniversityClient.sendRequest("TEACHER_getAll"));
             }else{
                 System.out.println("\nВикладача з унікальним ідентифікатором " + id + " не знайдено.");
             }
