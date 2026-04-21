@@ -3,11 +3,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
-
-import java.io.Serializable;
 
 public class University implements Serializable {
 
