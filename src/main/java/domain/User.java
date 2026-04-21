@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.Getter;
+@Getter
 
 public class User implements Serializable {
 
@@ -20,18 +22,6 @@ public class User implements Serializable {
     }
 
     public User(){}
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public int getRole() {
-        return role;
-    }
 
     public void setLogin(String login) {
         this.login = login;

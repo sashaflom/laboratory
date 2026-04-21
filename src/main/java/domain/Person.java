@@ -4,6 +4,7 @@ import annotations.NotBlank;
 import annotations.Phone;
 import annotations.UkmaEmail;
 import com.fasterxml.jackson.annotation.*;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.time.Period;
