@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class Faculty {
+public class Faculty implements Serializable {
 
     private final String id;
     private String fullName;

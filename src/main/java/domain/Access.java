@@ -1,6 +1,8 @@
 package domain;
 
-public class Access {
+import java.io.Serializable;
+
+public class Access implements Serializable {
 
     public static final int BLOCKED = 1; // 0001
     public static final int READ = 1 << 1; // 0010

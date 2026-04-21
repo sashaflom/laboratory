@@ -1,6 +1,8 @@
 package domain;
 
-public enum AcademicDegree {
+import java.io.Serializable;
+
+public enum AcademicDegree implements Serializable {
     NONE("Без ступеня"),
     CANDIDATE("Кандидат наук"),
     DOCTOR("Доктор наук");

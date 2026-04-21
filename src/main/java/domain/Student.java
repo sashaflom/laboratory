@@ -2,10 +2,11 @@ package domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Student extends Person {
+public class Student extends Person implements Serializable {
     @JsonIdentityReference(alwaysAsId = true)
     private Faculty faculty;
     @JsonIdentityReference(alwaysAsId = true)

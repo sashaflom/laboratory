@@ -3,12 +3,13 @@ package domain;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.time.LocalDate;
 
-public class Teacher extends Person {
+public class Teacher extends Person implements Serializable {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     @JsonIdentityReference(alwaysAsId = true)
     private Faculty faculty;

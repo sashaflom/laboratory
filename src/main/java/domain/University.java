@@ -1,6 +1,8 @@
 package domain;
 
-public class University {
+import java.io.Serializable;
+
+public class University implements Serializable {
 
     private String fullName;
     private String shortName;
