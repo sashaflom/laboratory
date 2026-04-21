@@ -3,6 +3,7 @@ package ui;
 import data.DataService;
 import domain.*;
 import exceptions.*;
+import network.UniversityClient;
 import services.*;
 import validators.*;
 
@@ -66,7 +67,9 @@ public class DepartmentMenu {
         Department createdDepartment = DepartmentService.findLastAdded();
         Teacher head = createdDepartment.getHeadOfDepartment();
         head.setDepartment(createdDepartment);
-        head.setFaculty(createdDepartment.getFaculty());
+        if (createdDepartment.getFaculty() != null){
+            head.setFaculty(createdDepartment.getFaculty());
+        }
     }
 
     private static String getId(){
@@ -141,7 +144,8 @@ public class DepartmentMenu {
             switch (howToChooseHeadOfDepartment){
                 //choose from existing
                 case 1:
-                    if(TeacherMenu.printAll(TeacherService.getAll())){
+                    DataService.saveData();
+                    if(TeacherMenu.printAll((List<Teacher>) UniversityClient.sendRequest("TEACHER_getAll"))){
                         String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете вибрати: ", 5, 5);
                         Optional<Teacher> maybeTeacher = TeacherService.findById(id);
                         if(maybeTeacher.isPresent()){
@@ -220,7 +224,9 @@ public class DepartmentMenu {
                             break;
                         // head of department to change
                         case 3:
-                            foundDepartment.getHeadOfDepartment().setPosition(Position.TEACHER);
+                            if (foundDepartment.getHeadOfDepartment() != null){
+                                foundDepartment.getHeadOfDepartment().setPosition(Position.TEACHER);
+                            }
                             foundDepartment.setHeadOfDepartment(getHeadOfDepartment());
                             break;
                         // location to change

@@ -3,6 +3,7 @@ package ui;
 import data.DataService;
 import domain.*;
 import exceptions.*;
+import network.UniversityClient;
 import services.*;
 import validators.*;
 
@@ -36,7 +37,8 @@ public class StudentMenu {
                 case 2:
                     int makingSure2 = InputReader.readInt("Введіть 1, щоби розпочати, або 0, щоби відмінити дію: ", 0, 1);
                     if(makingSure2==1){
-                        printAll(StudentService.getAll());
+                        DataService.saveData();
+                        printAll((List<Student>) UniversityClient.sendRequest("STUDENT_getAll"));
                     }
                     break;
                 // change existing one was chosen
@@ -147,6 +149,7 @@ public class StudentMenu {
             switch (howToChooseDepartment){
                 //choose from existing
                 case 1:
+                    DataService.saveData();
                     if(DepartmentMenu.printAll(DepartmentService.getAll())){
                         String uniqueCode = InputReader.readLine("\nВведіть унікальний код кафедри, яку хочете обрати: ", 4, 4);
                         Optional<Department> maybeDepartment = DepartmentService.findById(uniqueCode);
@@ -233,7 +236,8 @@ public class StudentMenu {
     }
 
     private static void changeForm(){
-        if(printAll(StudentService.getAll())){
+        DataService.saveData();
+        if(printAll((List<Student>) UniversityClient.sendRequest("STUDENT_getAll"))){
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор студента, якого хочете змінити: ", 5, 5);
             Optional<Student> maybeStudent = StudentService.findById(id);
             if(maybeStudent.isPresent()){
@@ -325,14 +329,16 @@ public class StudentMenu {
     }
 
     private static void deleteForm(){
-        if(printAll(StudentService.getAll())) {
+        DataService.saveData();
+        if(printAll((List<Student>) UniversityClient.sendRequest("STUDENT_getAll"))) {
             String id = InputReader.readLine("\nВведіть унікальний ідентифікатор студента, якого хочете видалити: ", 5, 5);
             Optional<Student> maybeStudent = StudentService.findById(id);
             if (maybeStudent.isPresent()) {
                 Student foundStudent = maybeStudent.get();
                 StudentService.delete(foundStudent);
                 System.out.println("\nВи успішно видалили студента. Оновлені дані: ");
-                printAll(StudentService.getAll());
+                DataService.saveData();
+                printAll((List<Student>) UniversityClient.sendRequest("STUDENT_getAll"));
             }else{
                 System.out.println("\nСтудента з унікальним ідентифікатором " + id + " не знайдено.");
             }

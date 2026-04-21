@@ -1,6 +1,8 @@
 package domain;
 
-public enum Position {
+import java.io.Serializable;
+
+public enum Position implements Serializable {
     TEACHER("Викладач"),
     DEAN("Декан факультету"),
     HEAD("Завідувач кафедри");
