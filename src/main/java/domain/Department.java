@@ -3,6 +3,8 @@ package domain;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import java.io.Serializable;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +13,9 @@ import lombok.Setter;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-
 @Getter
 @Setter
-public class Department {
+public class Department implements Serializable {
 
     private final String id;
     private String name;
@@ -47,16 +48,33 @@ public class Department {
         if (this==o) return true;
         if (o==null || getClass() != o.getClass()) return false;
         Department department = (Department) o;
-        return (Objects.equals(id, department.id) &&
+        boolean partFields = (Objects.equals(id, department.id) &&
                 Objects.equals(name, department.name) &&
-                Objects.equals(faculty.getFullName(), department.faculty.getFullName()) &&
-                Objects.equals(headOfDepartment.getId(), department.headOfDepartment.getId()) &&
                 Objects.equals(location, department.location));
+        boolean faculties = false;
+        if ((faculty == null && department.faculty != null) || (faculty != null && department.faculty == null)){
+            faculties = false;
+        } else if (faculty == null && department.faculty == null){
+            faculties = true;
+        } else{
+            faculties = Objects.equals(faculty.getFullName(), department.faculty.getFullName());
+        }
+
+        boolean heads = false;
+        if ((headOfDepartment == null && department.headOfDepartment != null) || (headOfDepartment != null && department.headOfDepartment == null)){
+            heads = false;
+        } else if (headOfDepartment == null && department.headOfDepartment == null){
+            heads = true;
+        } else{
+            heads = Objects.equals(headOfDepartment.getId(), department.headOfDepartment.getId());
+        }
+
+        return partFields && faculties && heads;
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(id, name, faculty.getFullName(), headOfDepartment.getId(),
+        return Objects.hash(id, name, (faculty != null ? faculty.getFullName() : null), (headOfDepartment != null ? headOfDepartment.getId() : null),
                 location);
     }
 }

@@ -3,6 +3,7 @@ package ui;
 import data.DataService;
 import domain.*;
 import exceptions.*;
+import network.UniversityClient;
 import services.*;
 import validators.*;
 
@@ -121,7 +122,8 @@ public class FacultyMenu {
             switch (howToChooseDean){
                 //choose from existing
                 case 1:
-                    if(TeacherMenu.printAll(TeacherService.getAll())){
+                    DataService.saveData();
+                    if(TeacherMenu.printAll((List<Teacher>) UniversityClient.sendRequest("TEACHER_getAll"))){
                         String id = InputReader.readLine("\nВведіть унікальний ідентифікатор викладача, якого хочете обрати: ", 5, 5);
                         Optional<Teacher> maybeTeacher = TeacherService.findById(id);
                         if(maybeTeacher.isPresent()){
@@ -197,7 +199,9 @@ public class FacultyMenu {
                             break;
                         // dean to change
                         case 3:
-                            foundFaculty.getDean().setPosition(Position.TEACHER);
+                            if (foundFaculty.getDean() != null){
+                                foundFaculty.getDean().setPosition(Position.TEACHER);
+                            }
                             foundFaculty.setDean(getDean());
                             break;
                         // contacts for communication to change

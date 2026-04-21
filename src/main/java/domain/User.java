@@ -1,11 +1,13 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
 import java.util.Objects;
 import lombok.Getter;
 @Getter
 
-public class User {
+public class User implements Serializable {
 
     private String login;
     private String password;

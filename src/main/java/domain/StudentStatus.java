@@ -1,6 +1,8 @@
 package domain;
 
-public enum StudentStatus {
+import java.io.Serializable;
+
+public enum StudentStatus implements Serializable {
     STUDYING("Навчається"),
     ACADEMIC_LEAVE("Академічна відпустка"),
     EXPELLED("Відрахований");

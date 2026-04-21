@@ -1,6 +1,8 @@
 package domain;
 
-public enum EducationForm {
+import java.io.Serializable;
+
+public enum EducationForm implements Serializable {
     BUDGET("Бюджет"),
     CONTRACT("Контракт");
 

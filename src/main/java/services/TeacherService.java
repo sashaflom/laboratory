@@ -1,6 +1,8 @@
 package services;
 
+import data.DataService;
 import domain.*;
+import network.UniversityClient;
 import repositories.TeacherRepository;
 
 import java.util.*;
@@ -34,6 +36,27 @@ public class TeacherService {
     }
 
     public static void delete(Teacher teacher){
+        if (teacher.getPosition().equals(Position.DEAN)){
+            List<Faculty> faculties = FacultyService.getAll();
+            if (!faculties.isEmpty()){
+                for (Faculty faculty : faculties){
+                    if (faculty.getDean() != null && faculty.getDean().equals(teacher)){
+                        faculty.setDean(null);
+                        break;
+                    }
+                }
+            }
+        } else if (teacher.getPosition().equals(Position.HEAD)){
+            List<Department> departments = DepartmentService.getAll();
+            if (!departments.isEmpty()){
+                for (Department department : departments){
+                    if (department.getHeadOfDepartment() != null && department.getHeadOfDepartment().equals(teacher)){
+                        department.setHeadOfDepartment(null);
+                        break;
+                    }
+                }
+            }
+        }
         repository.delete(teacher);
     }
 

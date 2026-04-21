@@ -6,6 +6,7 @@ import annotations.UkmaEmail;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.time.Period;
 import java.util.Objects;
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ import java.time.format.DateTimeFormatter;
         @JsonSubTypes.Type(value = Student.class, name = "student"),
         @JsonSubTypes.Type(value = Teacher.class, name = "teacher")
 })
-public class Person {
+public class Person implements Serializable {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     private final String id;
     @NotBlank
